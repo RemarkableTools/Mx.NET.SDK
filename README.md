@@ -3,9 +3,9 @@
 
 ## How to install?
 The content is delivered via nuget packages:
-##### Mx.NET.SDK [![Package](https://img.shields.io/nuget/v/RemarkableTools.Mx)](https://www.nuget.org/packages/RemarkableTools.Mx/)
-##### Mx.NET.SDK.Core [![Package](https://img.shields.io/nuget/v/RemarkableTools.Mx.Core)](https://www.nuget.org/packages/RemarkableTools.Mx.Core/)
-##### Mx.NET.SDK.Wallet [![Package](https://img.shields.io/nuget/v/RemarkableTools.Mx.Wallet)](https://www.nuget.org/packages/RemarkableTools.Mx.Wallet/)
+##### RemarkableTools.Mx [![Package](https://img.shields.io/nuget/v/RemarkableTools.Mx)](https://www.nuget.org/packages/RemarkableTools.Mx/)
+##### RemarkableTools.Mx.Core [![Package](https://img.shields.io/nuget/v/RemarkableTools.Mx.Core)](https://www.nuget.org/packages/RemarkableTools.Mx.Core/)
+##### RemarkableTools.Mx.Wallet [![Package](https://img.shields.io/nuget/v/RemarkableTools.Mx.Wallet)](https://www.nuget.org/packages/RemarkableTools.Mx.Wallet/)
 
 ## Main Features
 - Querying blockchain data
