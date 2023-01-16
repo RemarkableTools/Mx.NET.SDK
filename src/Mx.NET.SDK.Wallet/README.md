@@ -8,4 +8,4 @@ The content is delivered via nuget package:
 ## Info
 This SDK depends on:
 * [Mx.NET.SDK](https://github.com/RemarkableTools/Mx.NET.SDK)
-* [Mx.NET.SDK.Core](https://github.com/RemarkableTools/Mx.NET.SDK.Core)
+* [Mx.NET.SDK.Core](https://github.com/RemarkableTools/Mx.NET.SDK/tree/main/src/Mx.NET.SDK.Core)

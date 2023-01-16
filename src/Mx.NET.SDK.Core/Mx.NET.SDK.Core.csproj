@@ -8,7 +8,7 @@
     <Product />
     <PackageTags>RemarkableTools;MultiversX;MxDotNetCore</PackageTags>
     <PackageProjectUrl></PackageProjectUrl>
-    <RepositoryUrl>https://github.com/RemarkableTools/Mx.NET.SDK.Core</RepositoryUrl>
+    <RepositoryUrl>https://github.com/RemarkableTools/Mx.NET.SDK/tree/main/src/Mx.NET.SDK.Core</RepositoryUrl>
     <RepositoryType>GitHub</RepositoryType>
     <Company>Remarkable Tools</Company>
     <Version>1.0.0</Version>

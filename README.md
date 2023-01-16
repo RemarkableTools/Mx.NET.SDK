@@ -1,5 +1,5 @@
 ## Mx.NET.SDK
-⚡ MultiversX C# SDK: Complex library for interacting with MultiversX API
+⚡ MultiversX C# SDK: Complex library for interacting with MultiversX blockchain
 
 ## How to install?
 The content is delivered via nuget packages:

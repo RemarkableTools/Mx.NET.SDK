@@ -1,9 +1,9 @@
 # Advanced usage
 
 The following examples depend on:
-* [Mx.NET.SDK](https://github.com/RemarkableTools/Mx.NET.SDK)
-* [Mx.NET.SDK.Core](https://github.com/RemarkableTools/Mx.NET.SDK.Core)
-* [Mx.NET.SDK.Wallet](https://github.com/RemarkableTools/Mx.NET.SDK.Wallet)
+* [Mx.NET.SDK](https://github.com/RemarkableTools/Mx.NET.SDK/tree/main/src/Mx.NET.SDK)
+* [Mx.NET.SDK.Core](https://github.com/RemarkableTools/Mx.NET.SDK/tree/main/src/Mx.NET.SDK.Core)
+* [Mx.NET.SDK.Wallet](https://github.com/RemarkableTools/Mx.NET.SDK/tree/main/src/Mx.NET.SDK.Wallet)
 
 *These examples are using a wallet __signer__ that should not be used in production, only in private!*
 
@@ -44,7 +44,7 @@ var transactionRequest = TokenTransactionRequest.TokenTransfer(
     token.Identifier.Value,
     ESDTAmount.ESDT("100", token.GetESDT()).Value);
 ```
-Use the [`Wallet Methods`](https://github.com/RemarkableTools/Mx.NET.SDK.Wallet/blob/master/src/Mx.NET.SDK.Wallet/WalletMethods.cs) to sign the transaction
+Use the [`Wallet Methods`](https://github.com/RemarkableTools/Mx.NET.SDK/blob/master/src/Mx.NET.SDK.Wallet/WalletMethods.cs) to sign the transaction
 ```csharp
 var signedTransaction = transactionRequest.Sign(signer);
 ```
