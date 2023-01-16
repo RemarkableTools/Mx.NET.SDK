@@ -13,5 +13,5 @@ The content is delivered via nuget package:
 - Query values stored within Smart Contracts
 
 ## Documentation
-This SDK depends on [Mx.NET.SDK.Core](https://github.com/RemarkableTools/Mx.NET.SDK.Core)
+This SDK depends on [Mx.NET.SDK.Core](https://github.com/RemarkableTools/Mx.NET.SDK/tree/main/src/Mx.NET.SDK.Core)
 #### The documentation and guides can be found [here](https://github.com/RemarkableTools/Mx.NET.SDK/blob/master/docs/index.md)
