@@ -18,6 +18,7 @@
         public string Data { get; set; }
         public string ChainID { get; set; }
         public int Version { get; set; }
+        public int? Options { get; set; }
         public string Signature { get; set; }
     }
 }

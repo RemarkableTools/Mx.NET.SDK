@@ -28,6 +28,7 @@ namespace Mx.NET.SDK.Domain
         public Address Receiver { get; private set; }
         public GasLimit GasLimit { get; private set; }
         public string Data { get; private set; }
+        public int? Options { get; private set; }
 
         private TransactionRequest(Account account, NetworkConfig networkConfig)
         {
@@ -109,6 +110,11 @@ namespace Mx.NET.SDK.Domain
         public void SetGasLimit(GasLimit gasLimit)
         {
             GasLimit = gasLimit;
+        }
+
+        public void SetOptions(int value)
+        {
+            Options = value;
         }
 
         public ESDTAmount GetEstimatedFee()
