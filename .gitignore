@@ -364,5 +364,5 @@ FodyWeavers.xsd
 
 # other
 desktop.ini
-/Console Testing
+tests/Console Testing
 TestResults
