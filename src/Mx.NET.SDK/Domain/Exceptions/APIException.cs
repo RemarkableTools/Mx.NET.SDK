@@ -17,6 +17,12 @@ namespace Mx.NET.SDK.Domain.Exceptions
         public HttpStatusCode StatusCode { get; set; }
         public string Error { get; set; }
 
+        public APIException(string message) : base(message)
+        {
+            StatusCode = HttpStatusCode.BadRequest;
+            Error = "API error";
+        }
+
         public APIException(APIExceptionResponse apiResponse) : base(apiResponse.Message)
         {
             StatusCode = apiResponse.StatusCode;
