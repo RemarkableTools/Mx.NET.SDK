@@ -2,6 +2,7 @@
 using Mx.NET.SDK.Core.Cryptography;
 using Mx.NET.SDK.Core.Domain.Exceptions;
 using Mx.NET.SDK.Core.Domain.Helper;
+using Newtonsoft.Json;
 
 namespace Mx.NET.SDK.Core.Domain.Values
 {
@@ -12,6 +13,9 @@ namespace Mx.NET.SDK.Core.Domain.Values
         private const int PubKeyLength = 32;
         private const string SmartContractHexPubKeyPrefix = "0000000000000000";
 
+        //public Address() : base(TypeValue.AddressValue) { }
+
+        [JsonConstructor]
         private Address(string hex, string bech32)
             : base(TypeValue.AddressValue)
         {

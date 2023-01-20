@@ -1,4 +1,6 @@
-﻿namespace Mx.NET.SDK.Core.Domain.Values
+﻿using Newtonsoft.Json;
+
+namespace Mx.NET.SDK.Core.Domain.Values
 {
     public class TypeValue
     {
@@ -13,6 +15,7 @@
         private readonly bool? _withSign;
         private readonly FieldDefinition[] _fieldDefinitions;
 
+        [JsonConstructor]
         public TypeValue(string binaryType, string rustType, int? sizeInBytes = null, bool? withSign = null)
         {
             BinaryType = binaryType;
