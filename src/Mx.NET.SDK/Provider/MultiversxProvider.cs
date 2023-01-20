@@ -49,7 +49,7 @@ namespace Mx.NET.SDK.Provider
             var response = await _httpAPIClient.GetAsync($"accounts/{address}");
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
-                throw new APIException(JsonWrapper.Deserialize<APIException>(content));
+                throw new APIException(JsonWrapper.Deserialize<APIExceptionResponse>(content));
 
             var result = JsonWrapper.Deserialize<AccountDto>(content);
             return result;
@@ -69,7 +69,7 @@ namespace Mx.NET.SDK.Provider
             var response = await _httpAPIClient.GetAsync($"accounts/{address}/tokens?from={from}&size={size}{args}");
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
-                throw new APIException(JsonWrapper.Deserialize<APIException>(content));
+                throw new APIException(JsonWrapper.Deserialize<APIExceptionResponse>(content));
 
             var result = JsonWrapper.Deserialize<AccountToken[]>(content);
             return result;
@@ -80,7 +80,7 @@ namespace Mx.NET.SDK.Provider
             var response = await _httpAPIClient.GetAsync($"accounts/{address}/tokens/count");
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
-                throw new APIException(JsonWrapper.Deserialize<APIException>(content));
+                throw new APIException(JsonWrapper.Deserialize<APIExceptionResponse>(content));
 
             return content;
         }
@@ -95,7 +95,7 @@ namespace Mx.NET.SDK.Provider
             var response = await _httpAPIClient.GetAsync($"accounts/{address}/tokens/{tokenIdentifier}");
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
-                throw new APIException(JsonWrapper.Deserialize<APIException>(content));
+                throw new APIException(JsonWrapper.Deserialize<APIExceptionResponse>(content));
 
             var result = JsonWrapper.Deserialize<Token>(content);
             return result;
@@ -110,7 +110,7 @@ namespace Mx.NET.SDK.Provider
             var response = await _httpAPIClient.GetAsync($"accounts/{address}/roles/collections?from={from}&size={size}{args}");
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
-                throw new APIException(JsonWrapper.Deserialize<APIException>(content));
+                throw new APIException(JsonWrapper.Deserialize<APIExceptionResponse>(content));
 
             var result = JsonWrapper.Deserialize<AccountCollectionRoleDto[]>(content);
             return result;
@@ -124,7 +124,7 @@ namespace Mx.NET.SDK.Provider
             var response = await _httpAPIClient.GetAsync($"accounts/{address}/roles/collections/count{args}");
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
-                throw new APIException(JsonWrapper.Deserialize<APIException>(content));
+                throw new APIException(JsonWrapper.Deserialize<APIExceptionResponse>(content));
 
             return content;
         }
@@ -134,7 +134,7 @@ namespace Mx.NET.SDK.Provider
             var response = await _httpAPIClient.GetAsync($"accounts/{address}/roles/collections/{collectionIdentifier}");
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
-                throw new APIException(JsonWrapper.Deserialize<APIException>(content));
+                throw new APIException(JsonWrapper.Deserialize<APIExceptionResponse>(content));
 
             var result = JsonWrapper.Deserialize<AccountCollectionRoleDto>(content);
             return result;
@@ -149,7 +149,7 @@ namespace Mx.NET.SDK.Provider
             var response = await _httpAPIClient.GetAsync($"accounts/{address}/roles/tokens?from={from}&size={size}{args}");
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
-                throw new APIException(JsonWrapper.Deserialize<APIException>(content));
+                throw new APIException(JsonWrapper.Deserialize<APIExceptionResponse>(content));
 
             var result = JsonWrapper.Deserialize<AccountTokenRoleDto[]>(content);
             return result;
@@ -163,7 +163,7 @@ namespace Mx.NET.SDK.Provider
             var response = await _httpAPIClient.GetAsync($"accounts/{address}/roles/tokens/count{args}");
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
-                throw new APIException(JsonWrapper.Deserialize<APIException>(content));
+                throw new APIException(JsonWrapper.Deserialize<APIExceptionResponse>(content));
 
             return content;
         }
@@ -173,7 +173,7 @@ namespace Mx.NET.SDK.Provider
             var response = await _httpAPIClient.GetAsync($"accounts/{address}/roles/tokens/{tokenIdentifier}");
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
-                throw new APIException(JsonWrapper.Deserialize<APIException>(content));
+                throw new APIException(JsonWrapper.Deserialize<APIExceptionResponse>(content));
 
             var result = JsonWrapper.Deserialize<AccountTokenRoleDto>(content);
             return result;
@@ -193,7 +193,7 @@ namespace Mx.NET.SDK.Provider
             var response = await _httpAPIClient.GetAsync($"accounts/{address}/nfts?type={ESDTTokenType.NonFungibleESDT},{ESDTTokenType.SemiFungibleESDT}&from={from}&size={size}{args}");
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
-                throw new APIException(JsonWrapper.Deserialize<APIException>(content));
+                throw new APIException(JsonWrapper.Deserialize<APIExceptionResponse>(content));
 
             var result = JsonWrapper.Deserialize<NFT[]>(content);
             return result;
@@ -207,7 +207,7 @@ namespace Mx.NET.SDK.Provider
             var response = await _httpAPIClient.GetAsync($"accounts/{address}/nfts/count?type={ESDTTokenType.NonFungibleESDT},{ESDTTokenType.SemiFungibleESDT}{args}");
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
-                throw new APIException(JsonWrapper.Deserialize<APIException>(content));
+                throw new APIException(JsonWrapper.Deserialize<APIExceptionResponse>(content));
 
             return content;
         }
@@ -222,7 +222,7 @@ namespace Mx.NET.SDK.Provider
             var response = await _httpAPIClient.GetAsync($"accounts/{address}/nfts/{nft}");
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
-                throw new APIException(JsonWrapper.Deserialize<APIException>(content));
+                throw new APIException(JsonWrapper.Deserialize<APIExceptionResponse>(content));
 
             var result = JsonWrapper.Deserialize<NFT>(content);
             return result;
@@ -242,7 +242,7 @@ namespace Mx.NET.SDK.Provider
             var response = await _httpAPIClient.GetAsync($"accounts/{address}/nfts?type={ESDTTokenType.MetaESDT}&from={from}&size={size}{args}");
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
-                throw new APIException(JsonWrapper.Deserialize<APIException>(content));
+                throw new APIException(JsonWrapper.Deserialize<APIExceptionResponse>(content));
 
             var result = JsonWrapper.Deserialize<MetaESDT[]>(content);
             return result;
@@ -256,7 +256,7 @@ namespace Mx.NET.SDK.Provider
             var response = await _httpAPIClient.GetAsync($"accounts/{address}/nfts/count?type={ESDTTokenType.MetaESDT}{args}");
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
-                throw new APIException(JsonWrapper.Deserialize<APIException>(content));
+                throw new APIException(JsonWrapper.Deserialize<APIExceptionResponse>(content));
 
             return content;
         }
@@ -271,7 +271,7 @@ namespace Mx.NET.SDK.Provider
             var response = await _httpAPIClient.GetAsync($"accounts/{address}/nfts/{nft}");
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
-                throw new APIException(JsonWrapper.Deserialize<APIException>(content));
+                throw new APIException(JsonWrapper.Deserialize<APIExceptionResponse>(content));
 
             var result = JsonWrapper.Deserialize<MetaESDT>(content);
             return result;
@@ -282,7 +282,7 @@ namespace Mx.NET.SDK.Provider
             var response = await _httpAPIClient.GetAsync($"accounts/{address}/stake");
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
-                throw new APIException(JsonWrapper.Deserialize<APIException>(content));
+                throw new APIException(JsonWrapper.Deserialize<APIExceptionResponse>(content));
 
             var result = JsonWrapper.Deserialize<AccountSCStakeDto[]>(content);
             return result;
@@ -293,7 +293,7 @@ namespace Mx.NET.SDK.Provider
             var response = await _httpAPIClient.GetAsync($"accounts/{address}/contracts");
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
-                throw new APIException(JsonWrapper.Deserialize<APIException>(content));
+                throw new APIException(JsonWrapper.Deserialize<APIExceptionResponse>(content));
 
             var result = JsonWrapper.Deserialize<AccountContractDto[]>(content);
             return result;
@@ -304,7 +304,7 @@ namespace Mx.NET.SDK.Provider
             var response = await _httpAPIClient.GetAsync($"accounts/{address}/contracts/count");
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
-                throw new APIException(JsonWrapper.Deserialize<APIException>(content));
+                throw new APIException(JsonWrapper.Deserialize<APIExceptionResponse>(content));
 
             return content;
         }
@@ -315,7 +315,7 @@ namespace Mx.NET.SDK.Provider
             var response = await _httpAPIClient.GetAsync($"accounts/{address}/history?from={from}&size={size}");
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
-                throw new APIException(JsonWrapper.Deserialize<APIException>(content));
+                throw new APIException(JsonWrapper.Deserialize<APIExceptionResponse>(content));
 
             var result = JsonWrapper.Deserialize<AccountHistoryDto[]>(content);
             return result;
@@ -327,7 +327,7 @@ namespace Mx.NET.SDK.Provider
             var response = await _httpAPIClient.GetAsync($"accounts/{address}/history/{tokenIdentifier}?from={from}&size={size}");
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
-                throw new APIException(JsonWrapper.Deserialize<APIException>(content));
+                throw new APIException(JsonWrapper.Deserialize<APIExceptionResponse>(content));
 
             var result = JsonWrapper.Deserialize<AccountHistoryTokenDto[]>(content);
             return result;
@@ -351,7 +351,7 @@ namespace Mx.NET.SDK.Provider
             var response = await _httpAPIClient.GetAsync($"collections?from={from}&size={size}{args}");
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
-                throw new APIException(JsonWrapper.Deserialize<APIException>(content));
+                throw new APIException(JsonWrapper.Deserialize<APIExceptionResponse>(content));
 
             var result = JsonWrapper.Deserialize<Collection[]>(content);
             return result;
@@ -365,7 +365,7 @@ namespace Mx.NET.SDK.Provider
             var response = await _httpAPIClient.GetAsync($"collections/count{args}");
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
-                throw new APIException(JsonWrapper.Deserialize<APIException>(content));
+                throw new APIException(JsonWrapper.Deserialize<APIExceptionResponse>(content));
 
             return content;
         }
@@ -380,7 +380,7 @@ namespace Mx.NET.SDK.Provider
             var response = await _httpAPIClient.GetAsync($"collections/{collectionIdentifier}");
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
-                throw new APIException(JsonWrapper.Deserialize<APIException>(content));
+                throw new APIException(JsonWrapper.Deserialize<APIExceptionResponse>(content));
 
             var result = JsonWrapper.Deserialize<Collection>(content);
             return result;
@@ -395,7 +395,7 @@ namespace Mx.NET.SDK.Provider
             var response = await _httpGatewayClient.GetAsync("network/config");
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
-                throw new APIException(JsonWrapper.Deserialize<APIException>(content));
+                throw new APIException(JsonWrapper.Deserialize<APIExceptionResponse>(content));
 
             var result = JsonWrapper.Deserialize<GatewayResponseDto<GatewayNetworkConfigDataDto>>(content);
             result.EnsureSuccessStatusCode();
@@ -407,7 +407,7 @@ namespace Mx.NET.SDK.Provider
             var response = await _httpGatewayClient.GetAsync("network/economics");
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
-                throw new APIException(JsonWrapper.Deserialize<APIException>(content));
+                throw new APIException(JsonWrapper.Deserialize<APIExceptionResponse>(content));
 
             var result = JsonWrapper.Deserialize<GatewayResponseDto<GatewayNetworkEconomicsDataDto>>(content);
             result.EnsureSuccessStatusCode();
@@ -419,7 +419,7 @@ namespace Mx.NET.SDK.Provider
             var response = await _httpAPIClient.GetAsync("economics");
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
-                throw new APIException(JsonWrapper.Deserialize<APIException>(content));
+                throw new APIException(JsonWrapper.Deserialize<APIExceptionResponse>(content));
 
             var result = JsonWrapper.Deserialize<NetworkEconomicsDto>(content);
             return result;
@@ -430,7 +430,7 @@ namespace Mx.NET.SDK.Provider
             var response = await _httpAPIClient.GetAsync("stats");
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
-                throw new APIException(JsonWrapper.Deserialize<APIException>(content));
+                throw new APIException(JsonWrapper.Deserialize<APIExceptionResponse>(content));
 
             var result = JsonWrapper.Deserialize<NetworkStatsDto>(content);
             return result;
@@ -454,7 +454,7 @@ namespace Mx.NET.SDK.Provider
             var response = await _httpAPIClient.GetAsync($"nfts?type={ESDTTokenType.NonFungibleESDT},{ESDTTokenType.SemiFungibleESDT}&from={from}&size={size}{args}");
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
-                throw new APIException(JsonWrapper.Deserialize<APIException>(content));
+                throw new APIException(JsonWrapper.Deserialize<APIExceptionResponse>(content));
 
             var result = JsonWrapper.Deserialize<NFT[]>(content);
             return result;
@@ -468,7 +468,7 @@ namespace Mx.NET.SDK.Provider
             var response = await _httpAPIClient.GetAsync($"nfts/count?type={ESDTTokenType.NonFungibleESDT},{ESDTTokenType.SemiFungibleESDT}{args}");
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
-                throw new APIException(JsonWrapper.Deserialize<APIException>(content));
+                throw new APIException(JsonWrapper.Deserialize<APIExceptionResponse>(content));
 
             return content;
         }
@@ -487,7 +487,7 @@ namespace Mx.NET.SDK.Provider
             var response = await _httpAPIClient.GetAsync($"nfts?type={ESDTTokenType.MetaESDT}&from={from}&size={size}{args}");
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
-                throw new APIException(JsonWrapper.Deserialize<APIException>(content));
+                throw new APIException(JsonWrapper.Deserialize<APIExceptionResponse>(content));
 
             var result = JsonWrapper.Deserialize<MetaESDT[]>(content);
             return result;
@@ -501,7 +501,7 @@ namespace Mx.NET.SDK.Provider
             var response = await _httpAPIClient.GetAsync($"nfts/count?type={ESDTTokenType.MetaESDT}{args}");
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
-                throw new APIException(JsonWrapper.Deserialize<APIException>(content));
+                throw new APIException(JsonWrapper.Deserialize<APIExceptionResponse>(content));
 
             return content;
         }
@@ -516,7 +516,7 @@ namespace Mx.NET.SDK.Provider
             var response = await _httpAPIClient.GetAsync($"nfts/{nftIdentifier}");
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
-                throw new APIException(JsonWrapper.Deserialize<APIException>(content));
+                throw new APIException(JsonWrapper.Deserialize<APIExceptionResponse>(content));
 
             var result = JsonWrapper.Deserialize<NFT>(content);
             return result;
@@ -532,7 +532,7 @@ namespace Mx.NET.SDK.Provider
             var response = await _httpAPIClient.GetAsync($"nfts/{nftIdentifier}");
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
-                throw new APIException(JsonWrapper.Deserialize<APIException>(content));
+                throw new APIException(JsonWrapper.Deserialize<APIExceptionResponse>(content));
 
             var result = JsonWrapper.Deserialize<MetaESDT>(content);
             return result;
@@ -544,7 +544,7 @@ namespace Mx.NET.SDK.Provider
             var response = await _httpAPIClient.GetAsync($"nfts/{identifier}/accounts?from={from}&size={size}");
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
-                throw new APIException(JsonWrapper.Deserialize<APIException>(content));
+                throw new APIException(JsonWrapper.Deserialize<APIExceptionResponse>(content));
 
             var result = JsonWrapper.Deserialize<AddressBalanceDto[]>(content);
             return result;
@@ -555,7 +555,7 @@ namespace Mx.NET.SDK.Provider
             var response = await _httpAPIClient.GetAsync($"nfts/{identifier}/accounts/count");
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
-                throw new APIException(JsonWrapper.Deserialize<APIException>(content));
+                throw new APIException(JsonWrapper.Deserialize<APIExceptionResponse>(content));
 
             return content;
         }
@@ -566,7 +566,7 @@ namespace Mx.NET.SDK.Provider
             var response = await _httpAPIClient.GetAsync($"nfts/{identifier}/accounts?from={from}&size={size}");
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
-                throw new APIException(JsonWrapper.Deserialize<APIException>(content));
+                throw new APIException(JsonWrapper.Deserialize<APIExceptionResponse>(content));
 
             var result = JsonWrapper.Deserialize<AddressBalanceDto[]>(content);
             return result;
@@ -577,7 +577,7 @@ namespace Mx.NET.SDK.Provider
             var response = await _httpAPIClient.GetAsync($"nfts/{identifier}/accounts/count");
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
-                throw new APIException(JsonWrapper.Deserialize<APIException>(content));
+                throw new APIException(JsonWrapper.Deserialize<APIExceptionResponse>(content));
 
             return content;
         }
@@ -600,7 +600,7 @@ namespace Mx.NET.SDK.Provider
             var response = await _httpAPIClient.GetAsync($"tokens?from={from}&size={size}{args}");
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
-                throw new APIException(JsonWrapper.Deserialize<APIException>(content));
+                throw new APIException(JsonWrapper.Deserialize<APIExceptionResponse>(content));
 
             var result = JsonWrapper.Deserialize<Token[]>(content);
             return result;
@@ -614,7 +614,7 @@ namespace Mx.NET.SDK.Provider
             var response = await _httpAPIClient.GetAsync($"tokens/count{args}");
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
-                throw new APIException(JsonWrapper.Deserialize<APIException>(content));
+                throw new APIException(JsonWrapper.Deserialize<APIExceptionResponse>(content));
 
             return content;
         }
@@ -629,7 +629,7 @@ namespace Mx.NET.SDK.Provider
             var response = await _httpAPIClient.GetAsync($"tokens/{tokenIdentifier}");
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
-                throw new APIException(JsonWrapper.Deserialize<APIException>(content));
+                throw new APIException(JsonWrapper.Deserialize<APIExceptionResponse>(content));
 
             var result = JsonWrapper.Deserialize<Token>(content);
             return result;
@@ -641,7 +641,7 @@ namespace Mx.NET.SDK.Provider
             var response = await _httpAPIClient.GetAsync($"tokens/{tokenIdentifier}/accounts?from={from}&size={size}");
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
-                throw new APIException(JsonWrapper.Deserialize<APIException>(content));
+                throw new APIException(JsonWrapper.Deserialize<APIExceptionResponse>(content));
 
             var result = JsonWrapper.Deserialize<AddressBalanceDto[]>(content);
             return result;
@@ -652,7 +652,7 @@ namespace Mx.NET.SDK.Provider
             var response = await _httpAPIClient.GetAsync($"tokens/{tokenIdentifier}/accounts/count");
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
-                throw new APIException(JsonWrapper.Deserialize<APIException>(content));
+                throw new APIException(JsonWrapper.Deserialize<APIExceptionResponse>(content));
 
             return content;
         }
@@ -675,7 +675,7 @@ namespace Mx.NET.SDK.Provider
             var response = await _httpAPIClient.GetAsync($"transactions?from={from}&size={size}{args}");
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
-                throw new APIException(JsonWrapper.Deserialize<APIException>(content));
+                throw new APIException(JsonWrapper.Deserialize<APIExceptionResponse>(content));
 
             var result = JsonWrapper.Deserialize<Transaction[]>(content);
             return result;
@@ -688,7 +688,7 @@ namespace Mx.NET.SDK.Provider
             var response = await _httpAPIClient.PostAsync("transactions", payload);
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
-                throw new APIException(JsonWrapper.Deserialize<APIException>(content));
+                throw new APIException(JsonWrapper.Deserialize<APIExceptionResponse>(content));
 
             var result = JsonWrapper.Deserialize<TransactionResponseDto>(content);
             return result;
@@ -701,7 +701,7 @@ namespace Mx.NET.SDK.Provider
             var response = await _httpAPIClient.PostAsync("transaction/send-multiple", payload);
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
-                throw new APIException(JsonWrapper.Deserialize<APIException>(content));
+                throw new APIException(JsonWrapper.Deserialize<APIExceptionResponse>(content));
 
             var result = JsonWrapper.Deserialize<GatewayResponseDto<MultipleTransactionsResponseDto>>(content);
             result.EnsureSuccessStatusCode();
@@ -716,7 +716,7 @@ namespace Mx.NET.SDK.Provider
             var response = await _httpAPIClient.GetAsync($"transactions/count{args}");
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
-                throw new APIException(JsonWrapper.Deserialize<APIException>(content));
+                throw new APIException(JsonWrapper.Deserialize<APIExceptionResponse>(content));
 
             return content;
         }
@@ -731,7 +731,7 @@ namespace Mx.NET.SDK.Provider
             var response = await _httpAPIClient.GetAsync($"transactions/{txHash}");
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
-                throw new APIException(JsonWrapper.Deserialize<APIException>(content));
+                throw new APIException(JsonWrapper.Deserialize<APIExceptionResponse>(content));
 
             var result = JsonWrapper.Deserialize<Transaction>(content);
             return result;
@@ -746,7 +746,7 @@ namespace Mx.NET.SDK.Provider
             var response = await _httpAPIClient.GetAsync($"usernames/{username}");
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
-                throw new APIException(JsonWrapper.Deserialize<APIException>(content));
+                throw new APIException(JsonWrapper.Deserialize<APIExceptionResponse>(content));
 
             var result = JsonWrapper.Deserialize<AccountDto>(content);
             return result;
@@ -763,7 +763,7 @@ namespace Mx.NET.SDK.Provider
         //    var response = await _httpGatewayClient.PostAsync("vm-values/query", payload);
         //    var content = await response.Content.ReadAsStringAsync();
         //    if (!response.IsSuccessStatusCode)
-        //        throw new APIException(JsonWrapper.Deserialize<APIException>(content));
+        //        throw new APIException(JsonWrapper.Deserialize<APIExceptionResponse>(content));
 
         //    var result = JsonWrapper.Deserialize<GatewayResponseDto<QueryVmResultDataDto>>(content);
         //    return result;
@@ -776,7 +776,7 @@ namespace Mx.NET.SDK.Provider
             var response = await _httpAPIClient.PostAsync("query", payload);
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
-                throw new APIException(JsonWrapper.Deserialize<APIException>(content));
+                throw new APIException(JsonWrapper.Deserialize<APIExceptionResponse>(content));
 
             var result = JsonWrapper.Deserialize<QueryResponseDto>(content);
             return result;
@@ -791,7 +791,7 @@ namespace Mx.NET.SDK.Provider
             var response = await _httpAPIClient.GetAsync("mex/economics");
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
-                throw new APIException(JsonWrapper.Deserialize<APIException>(content));
+                throw new APIException(JsonWrapper.Deserialize<APIExceptionResponse>(content));
 
             var result = JsonWrapper.Deserialize<MexEconomicsDto>(content);
             return result;

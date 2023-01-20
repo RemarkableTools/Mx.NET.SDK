@@ -1,24 +1,26 @@
 ﻿using System;
+using System.Net;
 
 namespace Mx.NET.SDK.Domain.Exceptions
 {
+    public class APIExceptionResponse
+    {
+        public HttpStatusCode StatusCode { get; set; }
+        public string Message { get; set; } = "";
+        public string Error { get; set; } = "";
+
+        public APIExceptionResponse() { }
+    }
+
     public class APIException : Exception
     {
-        public int StatusCode { get; set; }
-        public new string Message { get; set; }
+        public HttpStatusCode StatusCode { get; set; }
+        public string Error { get; set; }
 
-        public APIException() { }
-
-        public APIException(string content)
-            : base(content) { }
-
-        public APIException(string errorMessage, string code)
-            : base($"Error when calling API : {errorMessage} with smartContractCode : {code}") { }
-
-        public APIException(APIException apiException)
+        public APIException(APIExceptionResponse apiResponse) : base(apiResponse.Message)
         {
-            StatusCode = apiException.StatusCode;
-            Message = apiException.Message;
+            StatusCode = apiResponse.StatusCode;
+            Error = apiResponse.Error;
         }
     }
 }

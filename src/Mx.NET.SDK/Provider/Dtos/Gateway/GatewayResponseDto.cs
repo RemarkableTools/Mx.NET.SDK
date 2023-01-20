@@ -28,7 +28,7 @@ namespace Mx.NET.SDK.Provider.Dtos.Gateway
             if (string.IsNullOrEmpty(Error) && Code == "successful")
                 return;
 
-            throw new APIException(Error, Code);
+            throw new GatewayException(Error, Code);
         }
     }
 }
