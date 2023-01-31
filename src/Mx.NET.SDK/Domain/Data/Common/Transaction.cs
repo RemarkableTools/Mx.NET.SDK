@@ -85,7 +85,7 @@ namespace Mx.NET.SDK.Domain.Data.Common
                 Decimals = transfer.Decimals,
                 Identifier = transfer.Identifier is null ? null : ESDTIdentifierValue.From(transfer.Identifier),
                 Value = ESDTAmount.From(transfer.Value,
-                                        ESDT.ESDT_TOKEN(transfer.Type, transfer.Name, transfer.Identifier, transfer.Decimals ?? 0))
+                                        ESDT.ESDT_TOKEN(transfer.Type, transfer.Name, transfer.Identifier ?? transfer.Token, transfer.Decimals ?? 0))
             }).ToArray();
         }
     }
