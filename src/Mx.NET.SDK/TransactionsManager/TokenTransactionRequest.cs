@@ -236,7 +236,7 @@ namespace Mx.NET.SDK.TransactionsManager
         {
             var transaction = TransactionRequest.CreateCallSmartContractTransactionRequest(networkConfig,
                                                                                            account,
-                                                                                           SYSTEM_SMART_CONTRACT_ADDRESS,
+                                                                                           account.Address,
                                                                                            ESDTAmount.Zero(),
                                                                                            ESDT_LOCAL_MINT,
                                                                                            ESDTIdentifierValue.From(tokenIdentifier),
@@ -264,7 +264,7 @@ namespace Mx.NET.SDK.TransactionsManager
         {
             var transaction = TransactionRequest.CreateCallSmartContractTransactionRequest(networkConfig,
                                                                                            account,
-                                                                                           SYSTEM_SMART_CONTRACT_ADDRESS,
+                                                                                           account.Address,
                                                                                            ESDTAmount.Zero(),
                                                                                            ESDT_LOCAL_BURN,
                                                                                            ESDTIdentifierValue.From(tokenIdentifier),
@@ -294,7 +294,7 @@ namespace Mx.NET.SDK.TransactionsManager
                                                                                            PAUSE,
                                                                                            ESDTIdentifierValue.From(tokenIdentifier));
 
-            transaction.SetGasLimit(new GasLimit(500000));
+            transaction.SetGasLimit(new GasLimit(60000000));
 
             return transaction;
         }
@@ -318,7 +318,7 @@ namespace Mx.NET.SDK.TransactionsManager
                                                                                            UNPAUSE,
                                                                                            ESDTIdentifierValue.From(tokenIdentifier));
 
-            transaction.SetGasLimit(new GasLimit(500000));
+            transaction.SetGasLimit(new GasLimit(60000000));
 
             return transaction;
         }
@@ -345,7 +345,7 @@ namespace Mx.NET.SDK.TransactionsManager
                                                                                            ESDTIdentifierValue.From(tokenIdentifier),
                                                                                            receiver);
 
-            transaction.SetGasLimit(new GasLimit(500000));
+            transaction.SetGasLimit(new GasLimit(60000000));
 
             return transaction;
         }
@@ -372,7 +372,7 @@ namespace Mx.NET.SDK.TransactionsManager
                                                                                            ESDTIdentifierValue.From(tokenIdentifier),
                                                                                            receiver);
 
-            transaction.SetGasLimit(new GasLimit(500000));
+            transaction.SetGasLimit(new GasLimit(60000000));
 
             return transaction;
         }
@@ -400,7 +400,7 @@ namespace Mx.NET.SDK.TransactionsManager
                                                                                            ESDTIdentifierValue.From(tokenIdentifier),
                                                                                            receiver);
 
-            transaction.SetGasLimit(new GasLimit(500000));
+            transaction.SetGasLimit(new GasLimit(60000000));
 
             return transaction;
         }
