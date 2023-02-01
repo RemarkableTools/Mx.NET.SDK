@@ -57,18 +57,18 @@ namespace Mx.NET.SDK.TransactionsManager
             NetworkConfig networkConfig,
             Account account,
             Address receiver,
-            string collectionIdentifier,
+            ESDTIdentifierValue collectionIdentifier,
             ulong nftNonce,
-            BigInteger quantity)
+            ESDTAmount quantity)
         {
             var transaction = TransactionRequest.CreateCallSmartContractTransactionRequest(networkConfig,
                                                                                            account,
                                                                                            account.Address,
                                                                                            ESDTAmount.Zero(),
                                                                                            ESDT_NFT_TRANSFER,
-                                                                                           ESDTIdentifierValue.From(collectionIdentifier),
+                                                                                           collectionIdentifier,
                                                                                            NumericValue.U64Value(nftNonce),
-                                                                                           NumericValue.BigUintValue(quantity),
+                                                                                           NumericValue.BigUintValue(quantity.Value),
                                                                                            receiver);
 
             //GasLimit: 1000000 + length of Data field in bytes * erd_gas_per_data_byte
@@ -89,7 +89,7 @@ namespace Mx.NET.SDK.TransactionsManager
             NetworkConfig networkConfig,
             Account account,
             Address receiver,
-            params Tuple<ESDTIdentifierValue, ulong, BigInteger>[] args)
+            params Tuple<ESDTIdentifierValue, ulong, ESDTAmount>[] args)
         {
             var arguments = new List<IBinaryType>
             {
@@ -100,7 +100,7 @@ namespace Mx.NET.SDK.TransactionsManager
             {
                 arguments.Add(arg.Item1);
                 arguments.Add(NumericValue.U64Value(arg.Item2));
-                arguments.Add(NumericValue.BigUintValue(arg.Item3));
+                arguments.Add(NumericValue.BigUintValue(arg.Item3.Value));
             }
 
             var transaction = TransactionRequest.CreateCallSmartContractTransactionRequest(networkConfig,
@@ -131,17 +131,17 @@ namespace Mx.NET.SDK.TransactionsManager
             NetworkConfig networkConfig,
             Account account,
             Address smartContract,
-            string collectionIdentifier,
+            ESDTIdentifierValue collectionIdentifier,
             ulong nftNonce,
-            BigInteger quantity,
+            ESDTAmount quantity,
             string methodName,
             params IBinaryType[] methodArgs)
         {
             var arguments = new List<IBinaryType>
             {
-                ESDTIdentifierValue.From(collectionIdentifier),
+                collectionIdentifier,
                 NumericValue.U64Value(nftNonce),
-                NumericValue.BigUintValue(quantity),
+                NumericValue.BigUintValue(quantity.Value),
                 smartContract,
                 BytesValue.FromUtf8(methodName)
             };
@@ -174,7 +174,7 @@ namespace Mx.NET.SDK.TransactionsManager
             NetworkConfig networkConfig,
             Account account,
             Address smartContract,
-            Tuple<ESDTIdentifierValue, ulong, BigInteger>[] args,
+            Tuple<ESDTIdentifierValue, ulong, ESDTAmount>[] args,
             string methodName,
             params IBinaryType[] methodArgs)
         {
@@ -187,7 +187,7 @@ namespace Mx.NET.SDK.TransactionsManager
             {
                 arguments.Add(arg.Item1);
                 arguments.Add(NumericValue.U64Value(arg.Item2));
-                arguments.Add(NumericValue.BigUintValue(arg.Item3));
+                arguments.Add(NumericValue.BigUintValue(arg.Item3.Value));
             }
             arguments.Add(BytesValue.FromUtf8(methodName));
             arguments.AddRange(methodArgs);
@@ -222,17 +222,17 @@ namespace Mx.NET.SDK.TransactionsManager
             Account account,
             Address smartContract,
             GasLimit gasLimit,
-            string collectionIdentifier,
+            ESDTIdentifierValue collectionIdentifier,
             ulong nftNonce,
-            BigInteger quantity,
+            ESDTAmount quantity,
             string methodName,
             params IBinaryType[] methodArgs)
         {
             var arguments = new List<IBinaryType>
             {
-                ESDTIdentifierValue.From(collectionIdentifier),
+                collectionIdentifier,
                 NumericValue.U64Value(nftNonce),
-                NumericValue.BigUintValue(quantity),
+                NumericValue.BigUintValue(quantity.Value),
                 smartContract,
                 BytesValue.FromUtf8(methodName)
             };
@@ -265,7 +265,7 @@ namespace Mx.NET.SDK.TransactionsManager
             Account account,
             Address smartContract,
             GasLimit gasLimit,
-            Tuple<ESDTIdentifierValue, ulong, BigInteger>[] args,
+            Tuple<ESDTIdentifierValue, ulong, ESDTAmount>[] args,
             string methodName,
             params IBinaryType[] methodArgs)
         {
@@ -278,7 +278,7 @@ namespace Mx.NET.SDK.TransactionsManager
             {
                 arguments.Add(arg.Item1);
                 arguments.Add(NumericValue.U64Value(arg.Item2));
-                arguments.Add(NumericValue.BigUintValue(arg.Item3));
+                arguments.Add(NumericValue.BigUintValue(arg.Item3.Value));
             }
             arguments.Add(BytesValue.FromUtf8(methodName));
             arguments.AddRange(methodArgs);
@@ -495,7 +495,7 @@ namespace Mx.NET.SDK.TransactionsManager
         public static TransactionRequest ConvertSFTIntoMetaEESDT(
             NetworkConfig networkConfig,
             Account account,
-            string collectionIdentifier,
+            ESDTIdentifierValue collectionIdentifier,
             int numberOfDecimals)
         {
             if (!_decimalsValidation.IsMatch(numberOfDecimals.ToString()))
@@ -506,7 +506,7 @@ namespace Mx.NET.SDK.TransactionsManager
                                                                                            SYSTEM_SMART_CONTRACT_ADDRESS,
                                                                                            ESDTAmount.Zero(),
                                                                                            CHANGE_SFT_INTO_META_ESDT,
-                                                                                           BytesValue.FromUtf8(collectionIdentifier),
+                                                                                           collectionIdentifier,
                                                                                            NumericValue.I32Value(numberOfDecimals));
 
             transaction.SetGasLimit(new GasLimit(60000000));
@@ -531,7 +531,7 @@ namespace Mx.NET.SDK.TransactionsManager
         public static TransactionRequest CreateNFT(
             NetworkConfig networkConfig,
             Account account,
-            string collectionIdentifier,
+            ESDTIdentifierValue collectionIdentifier,
             BigInteger quantity,
             string name,
             ushort royalties,
@@ -552,11 +552,11 @@ namespace Mx.NET.SDK.TransactionsManager
 
             var arguments = new List<IBinaryType>
             {
-                ESDTIdentifierValue.From(collectionIdentifier),
+                collectionIdentifier,
                 NumericValue.BigUintValue(quantity),
                 ESDTIdentifierValue.From(name),
                 NumericValue.U16Value(royalties),
-                BytesValue.FromBuffer(hash ?? new byte[0]),
+                BytesValue.FromBuffer(hash ?? Array.Empty<byte>()),
                 BytesValue.FromUtf8(attributeValue)
             };
             arguments.AddRange(urisValue);
@@ -593,13 +593,13 @@ namespace Mx.NET.SDK.TransactionsManager
         public static TransactionRequest CreateMetaESDT(
             NetworkConfig networkConfig,
             Account account,
-            string collectionIdentifier,
+            ESDTIdentifierValue collectionIdentifier,
             BigInteger quantity,
             string name)
         {
             var arguments = new List<IBinaryType>
             {
-                ESDTIdentifierValue.From(collectionIdentifier),
+                collectionIdentifier,
                 NumericValue.BigUintValue(quantity),
                 ESDTIdentifierValue.From(name),
                 BytesValue.FromUtf8("0"), //royalties
@@ -632,7 +632,7 @@ namespace Mx.NET.SDK.TransactionsManager
         public static TransactionRequest TransferNFTCreateRole(
             NetworkConfig networkConfig,
             Account account,
-            string collectionIdentifier,
+            ESDTIdentifierValue collectionIdentifier,
             Address fromAddress,
             Address toAddress)
         {
@@ -641,7 +641,7 @@ namespace Mx.NET.SDK.TransactionsManager
                                                                                            SYSTEM_SMART_CONTRACT_ADDRESS,
                                                                                            ESDTAmount.Zero(),
                                                                                            TRANSFER_NFT_CREATE_ROLE,
-                                                                                           ESDTIdentifierValue.From(collectionIdentifier),
+                                                                                           collectionIdentifier,
                                                                                            fromAddress,
                                                                                            toAddress);
 
@@ -660,14 +660,14 @@ namespace Mx.NET.SDK.TransactionsManager
         public static TransactionRequest StopNFTCreate(
             NetworkConfig networkConfig,
             Account account,
-            string collectionIdentifier)
+            ESDTIdentifierValue collectionIdentifier)
         {
             var transaction = TransactionRequest.CreateCallSmartContractTransactionRequest(networkConfig,
                                                                                            account,
                                                                                            SYSTEM_SMART_CONTRACT_ADDRESS,
                                                                                            ESDTAmount.Zero(),
                                                                                            STOP_NFT_CREATE,
-                                                                                           ESDTIdentifierValue.From(collectionIdentifier));
+                                                                                           collectionIdentifier);
 
             transaction.SetGasLimit(new GasLimit(60000000));
 
@@ -687,7 +687,7 @@ namespace Mx.NET.SDK.TransactionsManager
         public static TransactionRequest NFTUpdateAttributes(
             NetworkConfig networkConfig,
             Account account,
-            string collectionIdentifier,
+            ESDTIdentifierValue collectionIdentifier,
             ulong nftNonce,
             Dictionary<string, string> attributes)
         {
@@ -698,7 +698,7 @@ namespace Mx.NET.SDK.TransactionsManager
                                                                                            account.Address,
                                                                                            ESDTAmount.Zero(),
                                                                                            ESDT_NFT_UPDATE_ATTRIBUTES,
-                                                                                           ESDTIdentifierValue.From(collectionIdentifier),
+                                                                                           collectionIdentifier,
                                                                                            NumericValue.U64Value(nftNonce),
                                                                                            BytesValue.FromUtf8(attributeValue));
 
@@ -720,7 +720,7 @@ namespace Mx.NET.SDK.TransactionsManager
         public static TransactionRequest NFTAddUri(
             NetworkConfig networkConfig,
             Account account,
-            string collectionIdentifier,
+            ESDTIdentifierValue collectionIdentifier,
             ulong nftNonce,
             Uri[] uris)
         {
@@ -728,7 +728,7 @@ namespace Mx.NET.SDK.TransactionsManager
 
             var arguments = new List<IBinaryType>
             {
-                ESDTIdentifierValue.From(collectionIdentifier),
+                collectionIdentifier,
                 NumericValue.U64Value(nftNonce)
             };
             arguments.AddRange(urisValue);
@@ -758,7 +758,7 @@ namespace Mx.NET.SDK.TransactionsManager
         public static TransactionRequest SFTAddQuantity(
             NetworkConfig networkConfig,
             Account account,
-            string collectionIdentifier,
+            ESDTIdentifierValue collectionIdentifier,
             ulong sftNonce,
             BigInteger quantity)
         {
@@ -768,7 +768,7 @@ namespace Mx.NET.SDK.TransactionsManager
                                                                                            account.Address,
                                                                                            ESDTAmount.Zero(),
                                                                                            ESDT_NFT_ADD_QUANTITY,
-                                                                                           ESDTIdentifierValue.From(collectionIdentifier),
+                                                                                           collectionIdentifier,
                                                                                            NumericValue.U64Value(sftNonce),
                                                                                            NumericValue.BigUintValue(quantity));
 
@@ -790,7 +790,7 @@ namespace Mx.NET.SDK.TransactionsManager
         public static TransactionRequest NFTBurn(
             NetworkConfig networkConfig,
             Account account,
-            string collectionIdentifier,
+            ESDTIdentifierValue collectionIdentifier,
             ulong nftNonce,
             BigInteger quantity)
         {
@@ -800,7 +800,7 @@ namespace Mx.NET.SDK.TransactionsManager
                                                                                            account.Address,
                                                                                            ESDTAmount.Zero(),
                                                                                            ESDT_NFT_BURN,
-                                                                                           ESDTIdentifierValue.From(collectionIdentifier),
+                                                                                           collectionIdentifier,
                                                                                            NumericValue.U64Value(nftNonce),
                                                                                            NumericValue.BigUintValue(quantity));
 
@@ -821,7 +821,7 @@ namespace Mx.NET.SDK.TransactionsManager
         public static TransactionRequest FreezeSingleNFT(
             NetworkConfig networkConfig,
             Account account,
-            string collectionIdentifier,
+            ESDTIdentifierValue collectionIdentifier,
             ulong nftNonce,
             Address receiver)
         {
@@ -830,7 +830,7 @@ namespace Mx.NET.SDK.TransactionsManager
                                                                                            SYSTEM_SMART_CONTRACT_ADDRESS,
                                                                                            ESDTAmount.Zero(),
                                                                                            FREEZE_SINGLE_NFT,
-                                                                                           ESDTIdentifierValue.From(collectionIdentifier),
+                                                                                           collectionIdentifier,
                                                                                            NumericValue.U64Value(nftNonce),
                                                                                            receiver);
 
@@ -851,7 +851,7 @@ namespace Mx.NET.SDK.TransactionsManager
         public static TransactionRequest UnfreezeSingleNFT(
             NetworkConfig networkConfig,
             Account account,
-            string collectionIdentifier,
+            ESDTIdentifierValue collectionIdentifier,
             ulong nftNonce,
             Address receiver)
         {
@@ -860,7 +860,7 @@ namespace Mx.NET.SDK.TransactionsManager
                                                                                            SYSTEM_SMART_CONTRACT_ADDRESS,
                                                                                            ESDTAmount.Zero(),
                                                                                            UNFREEZE_SINGLE_NFT,
-                                                                                           ESDTIdentifierValue.From(collectionIdentifier),
+                                                                                           collectionIdentifier,
                                                                                            NumericValue.U64Value(nftNonce),
                                                                                            receiver);
 
@@ -882,7 +882,7 @@ namespace Mx.NET.SDK.TransactionsManager
         public static TransactionRequest WipeSingleNFT(
             NetworkConfig networkConfig,
             Account account,
-            string collectionIdentifier,
+            ESDTIdentifierValue collectionIdentifier,
             ulong nftNonce,
             Address receiver)
         {
@@ -891,7 +891,7 @@ namespace Mx.NET.SDK.TransactionsManager
                                                                                            SYSTEM_SMART_CONTRACT_ADDRESS,
                                                                                            ESDTAmount.Zero(),
                                                                                            WIPE_SINGLE_NFT,
-                                                                                           ESDTIdentifierValue.From(collectionIdentifier),
+                                                                                           collectionIdentifier,
                                                                                            NumericValue.U64Value(nftNonce),
                                                                                            receiver);
 
@@ -913,7 +913,7 @@ namespace Mx.NET.SDK.TransactionsManager
         public static TransactionRequest SetSpecialRole(
             NetworkConfig networkConfig,
             Account account,
-            string collectionIdentifier,
+            ESDTIdentifierValue collectionIdentifier,
             Address receiver,
             params string[] roles)
         {
@@ -921,7 +921,7 @@ namespace Mx.NET.SDK.TransactionsManager
 
             var arguments = new List<IBinaryType>
             {
-                ESDTIdentifierValue.From(collectionIdentifier),
+                collectionIdentifier,
                 receiver
             };
             arguments.AddRange(rolesValue);
@@ -952,7 +952,7 @@ namespace Mx.NET.SDK.TransactionsManager
         public static TransactionRequest UnsetSpecialRole(
             NetworkConfig networkConfig,
             Account account,
-            string collectionIdentifier,
+            ESDTIdentifierValue collectionIdentifier,
             Address receiver,
             params string[] roles)
         {
@@ -960,7 +960,7 @@ namespace Mx.NET.SDK.TransactionsManager
 
             var arguments = new List<IBinaryType>
             {
-                ESDTIdentifierValue.From(collectionIdentifier),
+                collectionIdentifier,
                 receiver
             };
             arguments.AddRange(rolesValue);
@@ -990,7 +990,7 @@ namespace Mx.NET.SDK.TransactionsManager
         public static TransactionRequest TransferOwnership(
             NetworkConfig networkConfig,
             Account account,
-            string collectionIdentifier,
+            ESDTIdentifierValue collectionIdentifier,
             Address receiver)
         {
             var transaction = TransactionRequest.CreateCallSmartContractTransactionRequest(networkConfig,
@@ -998,7 +998,7 @@ namespace Mx.NET.SDK.TransactionsManager
                                                                                            SYSTEM_SMART_CONTRACT_ADDRESS,
                                                                                            ESDTAmount.Zero(),
                                                                                            TRANSFER_OWNERSHIP,
-                                                                                           ESDTIdentifierValue.From(collectionIdentifier),
+                                                                                           collectionIdentifier,
                                                                                            receiver);
 
             transaction.SetGasLimit(new GasLimit(60000000));
@@ -1017,13 +1017,13 @@ namespace Mx.NET.SDK.TransactionsManager
         public static TransactionRequest ChangeProperties(
             NetworkConfig networkConfig,
             Account account,
-            string collectionIdentifier,
+            ESDTIdentifierValue collectionIdentifier,
             CollectionProperties properties,
             params IBinaryType[] args)
         {
             var arguments = new List<IBinaryType>
             {
-                ESDTIdentifierValue.From(collectionIdentifier),
+                collectionIdentifier,
                 BytesValue.FromUtf8(ESDTCollectionProperties.CanFreeze),
                 BooleanValue.From(properties.CanFreeze),
                 BytesValue.FromUtf8(ESDTCollectionProperties.CanWipe),
