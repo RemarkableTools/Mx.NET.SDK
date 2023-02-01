@@ -32,7 +32,7 @@ namespace Mx.NET.SDK.TransactionsManager
         }
 
         /// <summary>
-        /// Create transaction request - EGLD Transfer to Smart Contract with default gas limit
+        /// Create transaction request - EGLD Transfer to Smart Contract without gas limit
         /// </summary>
         /// <param name="networkConfig">MultiversX Network Configuration</param>
         /// <param name="account">Sender Account</param>

@@ -23,6 +23,7 @@ namespace Mx.NET.SDK.TransactionsManager
         private static readonly Address SYSTEM_SMART_CONTRACT_ADDRESS = Address.FromBech32(ESDT_SMART_CONTRACT);
 
         private const string ESDT_TRANSFER = "ESDTTransfer";
+        private const string ESDT_MULTI_TRANSFER = "MultiESDTNFTTransfer";
         private const string ISSUE = "issue";
         private const string ESDT_LOCAL_MINT = "ESDTLocalMint";
         private const string ESDT_LOCAL_BURN = "ESDTLocalBurn";
@@ -66,7 +67,45 @@ namespace Mx.NET.SDK.TransactionsManager
         }
 
         /// <summary>
-        /// Create transaction request - FungibleESDT Transfer to Smart Contract with default gas limit
+        /// Create transaction request - Multiple FungibleESDTs Transfer
+        /// </summary>
+        /// <param name="networkConfig">MultiversX Network Configuration</param>
+        /// <param name="account">Sender Account</param>
+        /// <param name="receiver">Receiver address</param>
+        /// <param name="args">Tuple of ESDTIdentifierValue and ESDTAmount value</param>
+        /// <returns></returns>
+        public static TransactionRequest MultiTokensTransfer(
+            NetworkConfig networkConfig,
+            Account account,
+            Address receiver,
+            params Tuple<ESDTIdentifierValue, BigInteger>[] args)
+        {
+            var arguments = new List<IBinaryType>
+            {
+                receiver,
+                NumericValue.I32Value(args.Length)
+            };
+            foreach (var arg in args)
+            {
+                arguments.Add(arg.Item1);
+                arguments.Add(BytesValue.FromHex("00"));
+                arguments.Add(NumericValue.BigUintValue(arg.Item2));
+            }
+
+            var transaction = TransactionRequest.CreateCallSmartContractTransactionRequest(networkConfig,
+                                                                                           account,
+                                                                                           account.Address,
+                                                                                           ESDTAmount.Zero(),
+                                                                                           ESDT_MULTI_TRANSFER,
+                                                                                           arguments.ToArray());
+
+            transaction.SetGasLimit(new GasLimit(1100000 * args.Length));
+
+            return transaction;
+        }
+
+        /// <summary>
+        /// Create transaction request - FungibleESDT Transfer to Smart Contract without gas limit
         /// </summary>
         /// <param name="networkConfig">MultiversX Network Configuration</param>
         /// <param name="account">Sender Account</param>
@@ -106,6 +145,50 @@ namespace Mx.NET.SDK.TransactionsManager
         }
 
         /// <summary>
+        /// Create transaction request - Multiple FungibleESDTs Transfer to Smart Contract without gas limit
+        /// </summary>
+        /// <param name="networkConfig">MultiversX Network Configuration</param>
+        /// <param name="account">Sender Account</param>
+        /// <param name="smartContract">Smart Contract destination address</param>
+        /// <param name="args">Tuple of ESDTIdentifierValue and ESDTAmount value</param>
+        /// <param name="methodName">Smart Contract method to call</param>
+        /// <param name="methodArgs">Smart Contract method arguments</param>
+        /// <returns></returns>
+        public static TransactionRequest MultiTokensTransferToSmartContract(
+            NetworkConfig networkConfig,
+            Account account,
+            Address smartContract,
+            Tuple<ESDTIdentifierValue, BigInteger>[] args,
+            string methodName,
+            params IBinaryType[] methodArgs)
+        {
+            var arguments = new List<IBinaryType>
+            {
+                smartContract,
+                NumericValue.I32Value(args.Length)
+            };
+            foreach (var arg in args)
+            {
+                arguments.Add(arg.Item1);
+                arguments.Add(BytesValue.FromHex("00"));
+                arguments.Add(NumericValue.BigUintValue(arg.Item2));
+            }
+            arguments.Add(BytesValue.FromUtf8(methodName));
+            arguments.AddRange(methodArgs);
+
+            var transaction = TransactionRequest.CreateCallSmartContractTransactionRequest(networkConfig,
+                                                                                           account,
+                                                                                           account.Address,
+                                                                                           ESDTAmount.Zero(),
+                                                                                           ESDT_MULTI_TRANSFER,
+                                                                                           arguments.ToArray());
+
+            transaction.SetGasLimit(new GasLimit(1100000 * args.Length));
+
+            return transaction;
+        }
+
+        /// <summary>
         /// Create transaction request - FungibleESDT Transfer to Smart Contract
         /// </summary>
         /// <param name="networkConfig">MultiversX Network Configuration</param>
@@ -140,6 +223,51 @@ namespace Mx.NET.SDK.TransactionsManager
                                                                                            smartContract,
                                                                                            ESDTAmount.Zero(),
                                                                                            ESDT_TRANSFER,
+                                                                                           arguments.ToArray());
+
+            transaction.SetGasLimit(gasLimit);
+
+            return transaction;
+        }
+
+        /// <summary>
+        /// Create transaction request - Multiple FungibleESDTs Transfer to Smart Contract
+        /// </summary>
+        /// <param name="networkConfig">MultiversX Network Configuration</param>
+        /// <param name="account">Sender Account</param>
+        /// <param name="smartContract">Smart Contract destination address</param>
+        /// <param name="args">Tuple of ESDTIdentifierValue and ESDTAmount value</param>
+        /// <param name="methodName">Smart Contract method to call</param>
+        /// <param name="methodArgs">Smart Contract method arguments</param>
+        /// <returns></returns>
+        public static TransactionRequest MultiTokensTransferToSmartContract(
+            NetworkConfig networkConfig,
+            Account account,
+            Address smartContract,
+            GasLimit gasLimit,
+            Tuple<ESDTIdentifierValue, BigInteger>[] args,
+            string methodName,
+            params IBinaryType[] methodArgs)
+        {
+            var arguments = new List<IBinaryType>
+            {
+                smartContract,
+                NumericValue.I32Value(args.Length)
+            };
+            foreach (var arg in args)
+            {
+                arguments.Add(arg.Item1);
+                arguments.Add(BytesValue.FromHex("00"));
+                arguments.Add(NumericValue.BigUintValue(arg.Item2));
+            }
+            arguments.Add(BytesValue.FromUtf8(methodName));
+            arguments.AddRange(methodArgs);
+
+            var transaction = TransactionRequest.CreateCallSmartContractTransactionRequest(networkConfig,
+                                                                                           account,
+                                                                                           account.Address,
+                                                                                           ESDTAmount.Zero(),
+                                                                                           ESDT_MULTI_TRANSFER,
                                                                                            arguments.ToArray());
 
             transaction.SetGasLimit(gasLimit);

@@ -23,6 +23,7 @@ namespace Mx.NET.SDK.TransactionsManager
         private static readonly Address SYSTEM_SMART_CONTRACT_ADDRESS = Address.FromBech32(ESDT_SMART_CONTRACT);
 
         private const string ESDT_NFT_TRANSFER = "ESDTNFTTransfer";
+        private const string ESDT_MULTI_TRANSFER = "MultiESDTNFTTransfer";
         private const string ISSUE_NON_FUNGIBLE = "issueNonFungible";
         private const string ISSUE_SEMI_FUNGIBLE = "issueSemiFungible";
         private const string REGISTER_META_ESDT = "registerMetaESDT";
@@ -57,7 +58,7 @@ namespace Mx.NET.SDK.TransactionsManager
             Account account,
             Address receiver,
             string collectionIdentifier,
-            long nftNonce,
+            ulong nftNonce,
             BigInteger quantity)
         {
             var transaction = TransactionRequest.CreateCallSmartContractTransactionRequest(networkConfig,
@@ -66,7 +67,7 @@ namespace Mx.NET.SDK.TransactionsManager
                                                                                            ESDTAmount.Zero(),
                                                                                            ESDT_NFT_TRANSFER,
                                                                                            ESDTIdentifierValue.From(collectionIdentifier),
-                                                                                           NumericValue.I64Value(nftNonce),
+                                                                                           NumericValue.U64Value(nftNonce),
                                                                                            NumericValue.BigUintValue(quantity),
                                                                                            receiver);
 
@@ -77,7 +78,45 @@ namespace Mx.NET.SDK.TransactionsManager
         }
 
         /// <summary>
-        /// Create transaction request - ESDT NFT Transfer to a Smart Contract with default gas limit
+        /// Create transaction request - Multiple NFTs/SFTs/MetaESDTs Transfer
+        /// </summary>
+        /// <param name="networkConfig">MultiversX Network Configuration</param>
+        /// <param name="account">Sender Account</param>
+        /// <param name="receiver">Receiver address</param>
+        /// <param name="args">Tuple of ESDTIdentifierValue, nonce and amount</param>
+        /// <returns></returns>
+        public static TransactionRequest MultiNFTTransfer(
+            NetworkConfig networkConfig,
+            Account account,
+            Address receiver,
+            params Tuple<ESDTIdentifierValue, ulong, BigInteger>[] args)
+        {
+            var arguments = new List<IBinaryType>
+            {
+                receiver,
+                NumericValue.I32Value(args.Length)
+            };
+            foreach (var arg in args)
+            {
+                arguments.Add(arg.Item1);
+                arguments.Add(NumericValue.U64Value(arg.Item2));
+                arguments.Add(NumericValue.BigUintValue(arg.Item3));
+            }
+
+            var transaction = TransactionRequest.CreateCallSmartContractTransactionRequest(networkConfig,
+                                                                                           account,
+                                                                                           account.Address,
+                                                                                           ESDTAmount.Zero(),
+                                                                                           ESDT_MULTI_TRANSFER,
+                                                                                           arguments.ToArray());
+
+            transaction.SetGasLimit(new GasLimit(1100000 * args.Length));
+
+            return transaction;
+        }
+
+        /// <summary>
+        /// Create transaction request - ESDT NFT Transfer to a Smart Contract without gas limit
         /// </summary>
         /// <param name="networkConfig">MultiversX Network Configuration</param>
         /// <param name="account">Sender Account</param>
@@ -93,7 +132,7 @@ namespace Mx.NET.SDK.TransactionsManager
             Account account,
             Address smartContract,
             string collectionIdentifier,
-            long nftNonce,
+            ulong nftNonce,
             BigInteger quantity,
             string methodName,
             params IBinaryType[] methodArgs)
@@ -101,7 +140,7 @@ namespace Mx.NET.SDK.TransactionsManager
             var arguments = new List<IBinaryType>
             {
                 ESDTIdentifierValue.From(collectionIdentifier),
-                NumericValue.I64Value(nftNonce),
+                NumericValue.U64Value(nftNonce),
                 NumericValue.BigUintValue(quantity),
                 smartContract,
                 BytesValue.FromUtf8(methodName)
@@ -117,6 +156,50 @@ namespace Mx.NET.SDK.TransactionsManager
 
             //GasLimit: 1000000 + Extra for SC call
             transaction.SetGasLimit(1000000 + GasLimit.FromData(networkConfig, transaction.Data));
+
+            return transaction;
+        }
+
+        /// <summary>
+        /// Create transaction request - Multiple ESDT NFTs Transfer to a Smart Contract without gas limit
+        /// </summary>
+        /// <param name="networkConfig">MultiversX Network Configuration</param>
+        /// <param name="account">Sender Account</param>
+        /// <param name="smartContract">Smart Contract destination address</param>
+        /// <param name="args">Tuple of ESDTIdentifierValue, nonce and amount</param>
+        /// <param name="methodName">Smart Contract method to call</param>
+        /// <param name="methodArgs">Smart Contract method arguments</param>
+        /// <returns></returns>
+        public static TransactionRequest MultiNFTTransferToSmartContract(
+            NetworkConfig networkConfig,
+            Account account,
+            Address smartContract,
+            Tuple<ESDTIdentifierValue, ulong, BigInteger>[] args,
+            string methodName,
+            params IBinaryType[] methodArgs)
+        {
+            var arguments = new List<IBinaryType>
+            {
+                smartContract,
+                NumericValue.I32Value(args.Length)
+            };
+            foreach (var arg in args)
+            {
+                arguments.Add(arg.Item1);
+                arguments.Add(NumericValue.U64Value(arg.Item2));
+                arguments.Add(NumericValue.BigUintValue(arg.Item3));
+            }
+            arguments.Add(BytesValue.FromUtf8(methodName));
+            arguments.AddRange(methodArgs);
+
+            var transaction = TransactionRequest.CreateCallSmartContractTransactionRequest(networkConfig,
+                                                                                           account,
+                                                                                           account.Address,
+                                                                                           ESDTAmount.Zero(),
+                                                                                           ESDT_MULTI_TRANSFER,
+                                                                                           arguments.ToArray());
+
+            transaction.SetGasLimit(new GasLimit(1100000 * args.Length));
 
             return transaction;
         }
@@ -140,7 +223,7 @@ namespace Mx.NET.SDK.TransactionsManager
             Address smartContract,
             GasLimit gasLimit,
             string collectionIdentifier,
-            long nftNonce,
+            ulong nftNonce,
             BigInteger quantity,
             string methodName,
             params IBinaryType[] methodArgs)
@@ -148,7 +231,7 @@ namespace Mx.NET.SDK.TransactionsManager
             var arguments = new List<IBinaryType>
             {
                 ESDTIdentifierValue.From(collectionIdentifier),
-                NumericValue.I64Value(nftNonce),
+                NumericValue.U64Value(nftNonce),
                 NumericValue.BigUintValue(quantity),
                 smartContract,
                 BytesValue.FromUtf8(methodName)
@@ -160,6 +243,51 @@ namespace Mx.NET.SDK.TransactionsManager
                                                                                            account.Address,
                                                                                            ESDTAmount.Zero(),
                                                                                            ESDT_NFT_TRANSFER,
+                                                                                           arguments.ToArray());
+
+            transaction.SetGasLimit(gasLimit);
+
+            return transaction;
+        }
+
+        /// <summary>
+        /// Create transaction request - Multi ESDT NFTs Transfer to a Smart Contract
+        /// </summary>
+        /// <param name="networkConfig">MultiversX Network Configuration</param>
+        /// <param name="account">Sender Account</param>
+        /// <param name="smartContract">Smart Contract destination address</param>
+        /// <param name="args">Tuple of ESDTIdentifierValue, nonce and amount</param>
+        /// <param name="methodName">Smart Contract method to call</param>
+        /// <param name="methodArgs">Smart Contract method arguments</param>
+        /// <returns></returns>
+        public static TransactionRequest MultiNFTTransferToSmartContract(
+            NetworkConfig networkConfig,
+            Account account,
+            Address smartContract,
+            GasLimit gasLimit,
+            Tuple<ESDTIdentifierValue, ulong, BigInteger>[] args,
+            string methodName,
+            params IBinaryType[] methodArgs)
+        {
+            var arguments = new List<IBinaryType>
+            {
+                smartContract,
+                NumericValue.I32Value(args.Length)
+            };
+            foreach (var arg in args)
+            {
+                arguments.Add(arg.Item1);
+                arguments.Add(NumericValue.U64Value(arg.Item2));
+                arguments.Add(NumericValue.BigUintValue(arg.Item3));
+            }
+            arguments.Add(BytesValue.FromUtf8(methodName));
+            arguments.AddRange(methodArgs);
+
+            var transaction = TransactionRequest.CreateCallSmartContractTransactionRequest(networkConfig,
+                                                                                           account,
+                                                                                           account.Address,
+                                                                                           ESDTAmount.Zero(),
+                                                                                           ESDT_MULTI_TRANSFER,
                                                                                            arguments.ToArray());
 
             transaction.SetGasLimit(gasLimit);
@@ -560,7 +688,7 @@ namespace Mx.NET.SDK.TransactionsManager
             NetworkConfig networkConfig,
             Account account,
             string collectionIdentifier,
-            long nftNonce,
+            ulong nftNonce,
             Dictionary<string, string> attributes)
         {
             var attributeValue = string.Join(";", attributes.Select(x => x.Key + ":" + x.Value).ToArray());
@@ -571,7 +699,7 @@ namespace Mx.NET.SDK.TransactionsManager
                                                                                            ESDTAmount.Zero(),
                                                                                            ESDT_NFT_UPDATE_ATTRIBUTES,
                                                                                            ESDTIdentifierValue.From(collectionIdentifier),
-                                                                                           NumericValue.I64Value(nftNonce),
+                                                                                           NumericValue.U64Value(nftNonce),
                                                                                            BytesValue.FromUtf8(attributeValue));
 
             transaction.SetGasLimit(new GasLimit(1000000));
@@ -593,7 +721,7 @@ namespace Mx.NET.SDK.TransactionsManager
             NetworkConfig networkConfig,
             Account account,
             string collectionIdentifier,
-            long nftNonce,
+            ulong nftNonce,
             Uri[] uris)
         {
             var urisValue = uris.Select(u => (IBinaryType)BytesValue.FromUtf8(u.AbsoluteUri)).ToArray();
@@ -601,7 +729,7 @@ namespace Mx.NET.SDK.TransactionsManager
             var arguments = new List<IBinaryType>
             {
                 ESDTIdentifierValue.From(collectionIdentifier),
-                NumericValue.I64Value(nftNonce)
+                NumericValue.U64Value(nftNonce)
             };
             arguments.AddRange(urisValue);
 
@@ -631,7 +759,7 @@ namespace Mx.NET.SDK.TransactionsManager
             NetworkConfig networkConfig,
             Account account,
             string collectionIdentifier,
-            long sftNonce,
+            ulong sftNonce,
             BigInteger quantity)
         {
 
@@ -641,7 +769,7 @@ namespace Mx.NET.SDK.TransactionsManager
                                                                                            ESDTAmount.Zero(),
                                                                                            ESDT_NFT_ADD_QUANTITY,
                                                                                            ESDTIdentifierValue.From(collectionIdentifier),
-                                                                                           NumericValue.I64Value(sftNonce),
+                                                                                           NumericValue.U64Value(sftNonce),
                                                                                            NumericValue.BigUintValue(quantity));
 
             transaction.SetGasLimit(new GasLimit(500000));
@@ -663,7 +791,7 @@ namespace Mx.NET.SDK.TransactionsManager
             NetworkConfig networkConfig,
             Account account,
             string collectionIdentifier,
-            long nftNonce,
+            ulong nftNonce,
             BigInteger quantity)
         {
 
@@ -673,7 +801,7 @@ namespace Mx.NET.SDK.TransactionsManager
                                                                                            ESDTAmount.Zero(),
                                                                                            ESDT_NFT_BURN,
                                                                                            ESDTIdentifierValue.From(collectionIdentifier),
-                                                                                           NumericValue.I64Value(nftNonce),
+                                                                                           NumericValue.U64Value(nftNonce),
                                                                                            NumericValue.BigUintValue(quantity));
 
             transaction.SetGasLimit(new GasLimit(60000000));
@@ -694,7 +822,7 @@ namespace Mx.NET.SDK.TransactionsManager
             NetworkConfig networkConfig,
             Account account,
             string collectionIdentifier,
-            long nftNonce,
+            ulong nftNonce,
             Address receiver)
         {
             var transaction = TransactionRequest.CreateCallSmartContractTransactionRequest(networkConfig,
@@ -703,7 +831,7 @@ namespace Mx.NET.SDK.TransactionsManager
                                                                                            ESDTAmount.Zero(),
                                                                                            FREEZE_SINGLE_NFT,
                                                                                            ESDTIdentifierValue.From(collectionIdentifier),
-                                                                                           NumericValue.I64Value(nftNonce),
+                                                                                           NumericValue.U64Value(nftNonce),
                                                                                            receiver);
 
             transaction.SetGasLimit(new GasLimit(60000000));
@@ -724,7 +852,7 @@ namespace Mx.NET.SDK.TransactionsManager
             NetworkConfig networkConfig,
             Account account,
             string collectionIdentifier,
-            long nftNonce,
+            ulong nftNonce,
             Address receiver)
         {
             var transaction = TransactionRequest.CreateCallSmartContractTransactionRequest(networkConfig,
@@ -733,7 +861,7 @@ namespace Mx.NET.SDK.TransactionsManager
                                                                                            ESDTAmount.Zero(),
                                                                                            UNFREEZE_SINGLE_NFT,
                                                                                            ESDTIdentifierValue.From(collectionIdentifier),
-                                                                                           NumericValue.I64Value(nftNonce),
+                                                                                           NumericValue.U64Value(nftNonce),
                                                                                            receiver);
 
             transaction.SetGasLimit(new GasLimit(60000000));
@@ -755,7 +883,7 @@ namespace Mx.NET.SDK.TransactionsManager
             NetworkConfig networkConfig,
             Account account,
             string collectionIdentifier,
-            long nftNonce,
+            ulong nftNonce,
             Address receiver)
         {
             var transaction = TransactionRequest.CreateCallSmartContractTransactionRequest(networkConfig,
@@ -764,7 +892,7 @@ namespace Mx.NET.SDK.TransactionsManager
                                                                                            ESDTAmount.Zero(),
                                                                                            WIPE_SINGLE_NFT,
                                                                                            ESDTIdentifierValue.From(collectionIdentifier),
-                                                                                           NumericValue.I64Value(nftNonce),
+                                                                                           NumericValue.U64Value(nftNonce),
                                                                                            receiver);
 
             transaction.SetGasLimit(new GasLimit(60000000));
