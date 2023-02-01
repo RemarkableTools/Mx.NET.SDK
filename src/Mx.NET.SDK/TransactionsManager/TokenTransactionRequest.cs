@@ -50,16 +50,16 @@ namespace Mx.NET.SDK.TransactionsManager
             NetworkConfig networkConfig,
             Account account,
             Address receiver,
-            string tokenIdentifier,
-            BigInteger quantity)
+            ESDTIdentifierValue tokenIdentifier,
+            ESDTAmount quantity)
         {
             var transaction = TransactionRequest.CreateCallSmartContractTransactionRequest(networkConfig,
                                                                                            account,
                                                                                            receiver,
                                                                                            ESDTAmount.Zero(),
                                                                                            ESDT_TRANSFER,
-                                                                                           ESDTIdentifierValue.From(tokenIdentifier),
-                                                                                           NumericValue.BigUintValue(quantity));
+                                                                                           tokenIdentifier,
+                                                                                           NumericValue.BigUintValue(quantity.Value));
 
             transaction.SetGasLimit(new GasLimit(500000));
 
@@ -78,7 +78,7 @@ namespace Mx.NET.SDK.TransactionsManager
             NetworkConfig networkConfig,
             Account account,
             Address receiver,
-            params Tuple<ESDTIdentifierValue, BigInteger>[] args)
+            params Tuple<ESDTIdentifierValue, ESDTAmount>[] args)
         {
             var arguments = new List<IBinaryType>
             {
@@ -89,7 +89,7 @@ namespace Mx.NET.SDK.TransactionsManager
             {
                 arguments.Add(arg.Item1);
                 arguments.Add(BytesValue.FromHex("00"));
-                arguments.Add(NumericValue.BigUintValue(arg.Item2));
+                arguments.Add(NumericValue.BigUintValue(arg.Item2.Value));
             }
 
             var transaction = TransactionRequest.CreateCallSmartContractTransactionRequest(networkConfig,
@@ -119,15 +119,15 @@ namespace Mx.NET.SDK.TransactionsManager
             NetworkConfig networkConfig,
             Account account,
             Address smartContract,
-            string tokenIdentifier,
-            BigInteger quantity,
+            ESDTIdentifierValue tokenIdentifier,
+            ESDTAmount quantity,
             string methodName,
             params IBinaryType[] methodArgs)
         {
             var arguments = new List<IBinaryType>
             {
-                ESDTIdentifierValue.From(tokenIdentifier),
-                NumericValue.BigUintValue(quantity),
+                tokenIdentifier,
+                NumericValue.BigUintValue(quantity.Value),
                 BytesValue.FromUtf8(methodName)
             };
             arguments.AddRange(methodArgs);
@@ -158,7 +158,7 @@ namespace Mx.NET.SDK.TransactionsManager
             NetworkConfig networkConfig,
             Account account,
             Address smartContract,
-            Tuple<ESDTIdentifierValue, BigInteger>[] args,
+            Tuple<ESDTIdentifierValue, ESDTAmount>[] args,
             string methodName,
             params IBinaryType[] methodArgs)
         {
@@ -171,7 +171,7 @@ namespace Mx.NET.SDK.TransactionsManager
             {
                 arguments.Add(arg.Item1);
                 arguments.Add(BytesValue.FromHex("00"));
-                arguments.Add(NumericValue.BigUintValue(arg.Item2));
+                arguments.Add(NumericValue.BigUintValue(arg.Item2.Value));
             }
             arguments.Add(BytesValue.FromUtf8(methodName));
             arguments.AddRange(methodArgs);
@@ -205,15 +205,15 @@ namespace Mx.NET.SDK.TransactionsManager
             Account account,
             Address smartContract,
             GasLimit gasLimit,
-            string tokenIdentifier,
-            BigInteger quantity,
+            ESDTIdentifierValue tokenIdentifier,
+            ESDTAmount quantity,
             string methodName,
             params IBinaryType[] methodArgs)
         {
             var arguments = new List<IBinaryType>
             {
-                ESDTIdentifierValue.From(tokenIdentifier),
-                NumericValue.BigUintValue(quantity),
+                tokenIdentifier,
+                NumericValue.BigUintValue(quantity.Value),
                 BytesValue.FromUtf8(methodName)
             };
             arguments.AddRange(methodArgs);
@@ -245,7 +245,7 @@ namespace Mx.NET.SDK.TransactionsManager
             Account account,
             Address smartContract,
             GasLimit gasLimit,
-            Tuple<ESDTIdentifierValue, BigInteger>[] args,
+            Tuple<ESDTIdentifierValue, ESDTAmount>[] args,
             string methodName,
             params IBinaryType[] methodArgs)
         {
@@ -258,7 +258,7 @@ namespace Mx.NET.SDK.TransactionsManager
             {
                 arguments.Add(arg.Item1);
                 arguments.Add(BytesValue.FromHex("00"));
-                arguments.Add(NumericValue.BigUintValue(arg.Item2));
+                arguments.Add(NumericValue.BigUintValue(arg.Item2.Value));
             }
             arguments.Add(BytesValue.FromUtf8(methodName));
             arguments.AddRange(methodArgs);
@@ -359,16 +359,16 @@ namespace Mx.NET.SDK.TransactionsManager
         public static TransactionRequest LocalMint(
             NetworkConfig networkConfig,
             Account account,
-            string tokenIdentifier,
-            BigInteger supplyToMint)
+            ESDTIdentifierValue tokenIdentifier,
+            ESDTAmount supplyToMint)
         {
             var transaction = TransactionRequest.CreateCallSmartContractTransactionRequest(networkConfig,
                                                                                            account,
                                                                                            account.Address,
                                                                                            ESDTAmount.Zero(),
                                                                                            ESDT_LOCAL_MINT,
-                                                                                           ESDTIdentifierValue.From(tokenIdentifier),
-                                                                                           NumericValue.BigUintValue(supplyToMint));
+                                                                                           tokenIdentifier,
+                                                                                           NumericValue.BigUintValue(supplyToMint.Value));
 
             transaction.SetGasLimit(new GasLimit(500000));
 
@@ -387,16 +387,16 @@ namespace Mx.NET.SDK.TransactionsManager
         public static TransactionRequest LocalBurn(
             NetworkConfig networkConfig,
             Account account,
-            string tokenIdentifier,
-            BigInteger supplyToBurn)
+            ESDTIdentifierValue tokenIdentifier,
+            ESDTAmount supplyToBurn)
         {
             var transaction = TransactionRequest.CreateCallSmartContractTransactionRequest(networkConfig,
                                                                                            account,
                                                                                            account.Address,
                                                                                            ESDTAmount.Zero(),
                                                                                            ESDT_LOCAL_BURN,
-                                                                                           ESDTIdentifierValue.From(tokenIdentifier),
-                                                                                           NumericValue.BigUintValue(supplyToBurn));
+                                                                                           tokenIdentifier,
+                                                                                           NumericValue.BigUintValue(supplyToBurn.Value));
 
             transaction.SetGasLimit(new GasLimit(500000));
 
@@ -413,14 +413,14 @@ namespace Mx.NET.SDK.TransactionsManager
         public static TransactionRequest Pause(
             NetworkConfig networkConfig,
             Account account,
-            string tokenIdentifier)
+            ESDTIdentifierValue tokenIdentifier)
         {
             var transaction = TransactionRequest.CreateCallSmartContractTransactionRequest(networkConfig,
                                                                                            account,
                                                                                            SYSTEM_SMART_CONTRACT_ADDRESS,
                                                                                            ESDTAmount.Zero(),
                                                                                            PAUSE,
-                                                                                           ESDTIdentifierValue.From(tokenIdentifier));
+                                                                                           tokenIdentifier);
 
             transaction.SetGasLimit(new GasLimit(60000000));
 
@@ -437,14 +437,14 @@ namespace Mx.NET.SDK.TransactionsManager
         public static TransactionRequest Unpause(
             NetworkConfig networkConfig,
             Account account,
-            string tokenIdentifier)
+            ESDTIdentifierValue tokenIdentifier)
         {
             var transaction = TransactionRequest.CreateCallSmartContractTransactionRequest(networkConfig,
                                                                                            account,
                                                                                            SYSTEM_SMART_CONTRACT_ADDRESS,
                                                                                            ESDTAmount.Zero(),
                                                                                            UNPAUSE,
-                                                                                           ESDTIdentifierValue.From(tokenIdentifier));
+                                                                                           tokenIdentifier);
 
             transaction.SetGasLimit(new GasLimit(60000000));
 
@@ -462,15 +462,15 @@ namespace Mx.NET.SDK.TransactionsManager
         public static TransactionRequest Freeze(
             NetworkConfig networkConfig,
             Account account,
-            string tokenIdentifier,
-            Address receiver)
+            Address receiver,
+            ESDTIdentifierValue tokenIdentifier)
         {
             var transaction = TransactionRequest.CreateCallSmartContractTransactionRequest(networkConfig,
                                                                                            account,
                                                                                            SYSTEM_SMART_CONTRACT_ADDRESS,
                                                                                            ESDTAmount.Zero(),
                                                                                            FREEZE,
-                                                                                           ESDTIdentifierValue.From(tokenIdentifier),
+                                                                                           tokenIdentifier,
                                                                                            receiver);
 
             transaction.SetGasLimit(new GasLimit(60000000));
@@ -489,15 +489,15 @@ namespace Mx.NET.SDK.TransactionsManager
         public static TransactionRequest Unfreeze(
             NetworkConfig networkConfig,
             Account account,
-            string tokenIdentifier,
-            Address receiver)
+            Address receiver,
+            ESDTIdentifierValue tokenIdentifier)
         {
             var transaction = TransactionRequest.CreateCallSmartContractTransactionRequest(networkConfig,
                                                                                            account,
                                                                                            SYSTEM_SMART_CONTRACT_ADDRESS,
                                                                                            ESDTAmount.Zero(),
                                                                                            UNFREEZE,
-                                                                                           ESDTIdentifierValue.From(tokenIdentifier),
+                                                                                           tokenIdentifier,
                                                                                            receiver);
 
             transaction.SetGasLimit(new GasLimit(60000000));
@@ -517,15 +517,15 @@ namespace Mx.NET.SDK.TransactionsManager
         public static TransactionRequest Wipe(
             NetworkConfig networkConfig,
             Account account,
-            string tokenIdentifier,
-            Address receiver)
+            Address receiver,
+            ESDTIdentifierValue tokenIdentifier)
         {
             var transaction = TransactionRequest.CreateCallSmartContractTransactionRequest(networkConfig,
                                                                                            account,
                                                                                            SYSTEM_SMART_CONTRACT_ADDRESS,
                                                                                            ESDTAmount.Zero(),
                                                                                            WIPE,
-                                                                                           ESDTIdentifierValue.From(tokenIdentifier),
+                                                                                           tokenIdentifier,
                                                                                            receiver);
 
             transaction.SetGasLimit(new GasLimit(60000000));
@@ -546,15 +546,15 @@ namespace Mx.NET.SDK.TransactionsManager
         public static TransactionRequest SetSpecialRole(
             NetworkConfig networkConfig,
             Account account,
-            string tokenIdentifier,
             Address receiver,
+            ESDTIdentifierValue tokenIdentifier,
             params string[] roles)
         {
             var rolesValue = roles.Select(r => (IBinaryType)BytesValue.FromUtf8(r)).ToArray();
 
             var arguments = new List<IBinaryType>
             {
-                ESDTIdentifierValue.From(tokenIdentifier),
+                tokenIdentifier,
                 receiver
             };
             arguments.AddRange(rolesValue);
@@ -585,15 +585,15 @@ namespace Mx.NET.SDK.TransactionsManager
         public static TransactionRequest UnsetSpecialRole(
             NetworkConfig networkConfig,
             Account account,
-            string tokenIdentifier,
             Address receiver,
+            ESDTIdentifierValue tokenIdentifier,
             params string[] roles)
         {
             var rolesValue = roles.Select(r => (IBinaryType)BytesValue.FromUtf8(r)).ToArray();
 
             var arguments = new List<IBinaryType>
             {
-                ESDTIdentifierValue.From(tokenIdentifier),
+                tokenIdentifier,
                 receiver
             };
             arguments.AddRange(rolesValue);
@@ -623,15 +623,15 @@ namespace Mx.NET.SDK.TransactionsManager
         public static TransactionRequest TransferOwnership(
             NetworkConfig networkConfig,
             Account account,
-            string tokenIdentifier,
-            Address receiver)
+            Address receiver,
+            ESDTIdentifierValue tokenIdentifier)
         {
             var transaction = TransactionRequest.CreateCallSmartContractTransactionRequest(networkConfig,
                                                                                            account,
                                                                                            SYSTEM_SMART_CONTRACT_ADDRESS,
                                                                                            ESDTAmount.Zero(),
                                                                                            TRANSFER_OWNERSHIP,
-                                                                                           ESDTIdentifierValue.From(tokenIdentifier),
+                                                                                           tokenIdentifier,
                                                                                            receiver);
 
             transaction.SetGasLimit(new GasLimit(60000000));
@@ -650,13 +650,13 @@ namespace Mx.NET.SDK.TransactionsManager
         public static TransactionRequest ChangeProperties(
             NetworkConfig networkConfig,
             Account account,
-            string tokenIdentifier,
+            ESDTIdentifierValue tokenIdentifier,
             TokenProperties properties,
             params IBinaryType[] args)
         {
             var arguments = new List<IBinaryType>
             {
-                ESDTIdentifierValue.From(tokenIdentifier),
+                tokenIdentifier,
                 BytesValue.FromUtf8(ESDTTokenProperties.CanFreeze),
                 BooleanValue.From(properties.CanFreeze),
                 BytesValue.FromUtf8(ESDTTokenProperties.CanWipe),
