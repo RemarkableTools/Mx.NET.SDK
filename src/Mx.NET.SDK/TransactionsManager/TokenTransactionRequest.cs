@@ -462,8 +462,8 @@ namespace Mx.NET.SDK.TransactionsManager
         public static TransactionRequest Freeze(
             NetworkConfig networkConfig,
             Account account,
-            Address receiver,
-            ESDTIdentifierValue tokenIdentifier)
+            ESDTIdentifierValue tokenIdentifier,
+            Address receiver)
         {
             var transaction = TransactionRequest.CreateCallSmartContractTransactionRequest(networkConfig,
                                                                                            account,
@@ -489,8 +489,8 @@ namespace Mx.NET.SDK.TransactionsManager
         public static TransactionRequest Unfreeze(
             NetworkConfig networkConfig,
             Account account,
-            Address receiver,
-            ESDTIdentifierValue tokenIdentifier)
+            ESDTIdentifierValue tokenIdentifier,
+            Address receiver)
         {
             var transaction = TransactionRequest.CreateCallSmartContractTransactionRequest(networkConfig,
                                                                                            account,
@@ -517,8 +517,8 @@ namespace Mx.NET.SDK.TransactionsManager
         public static TransactionRequest Wipe(
             NetworkConfig networkConfig,
             Account account,
-            Address receiver,
-            ESDTIdentifierValue tokenIdentifier)
+            ESDTIdentifierValue tokenIdentifier,
+            Address receiver)
         {
             var transaction = TransactionRequest.CreateCallSmartContractTransactionRequest(networkConfig,
                                                                                            account,
@@ -546,8 +546,8 @@ namespace Mx.NET.SDK.TransactionsManager
         public static TransactionRequest SetSpecialRole(
             NetworkConfig networkConfig,
             Account account,
-            Address receiver,
             ESDTIdentifierValue tokenIdentifier,
+            Address receiver,
             params string[] roles)
         {
             var rolesValue = roles.Select(r => (IBinaryType)BytesValue.FromUtf8(r)).ToArray();
@@ -585,8 +585,8 @@ namespace Mx.NET.SDK.TransactionsManager
         public static TransactionRequest UnsetSpecialRole(
             NetworkConfig networkConfig,
             Account account,
-            Address receiver,
             ESDTIdentifierValue tokenIdentifier,
+            Address receiver,
             params string[] roles)
         {
             var rolesValue = roles.Select(r => (IBinaryType)BytesValue.FromUtf8(r)).ToArray();
@@ -623,8 +623,8 @@ namespace Mx.NET.SDK.TransactionsManager
         public static TransactionRequest TransferOwnership(
             NetworkConfig networkConfig,
             Account account,
-            Address receiver,
-            ESDTIdentifierValue tokenIdentifier)
+            ESDTIdentifierValue tokenIdentifier,
+            Address receiver)
         {
             var transaction = TransactionRequest.CreateCallSmartContractTransactionRequest(networkConfig,
                                                                                            account,
