@@ -285,6 +285,7 @@ namespace Mx.NET.SDK.TransactionsManager
         /// <param name="initialSupply">The initial supply</param>
         /// <param name="numberOfDecimals">The number of decimals, should be a numerical value between 0 and 18</param>
         /// <param name="properties">The Token properties</param>
+        /// <param name="args">Other arguments for future use</param>
         /// <returns></returns>
         public static TransactionRequest IssueToken(
             NetworkConfig networkConfig,
@@ -539,8 +540,8 @@ namespace Mx.NET.SDK.TransactionsManager
         /// </summary>
         /// <param name="networkConfig">MultiversX Network Configuration</param>
         /// <param name="account">Sender Account</param>
-        /// <param name="receiver">Receiver address</param>
         /// <param name="tokenIdentifier">Token Identifier</param>
+        /// <param name="receiver">Receiver address</param>
         /// <param name="roles">Roles to assign to receiver address</param>
         /// <returns></returns>
         public static TransactionRequest SetSpecialRole(
@@ -578,8 +579,8 @@ namespace Mx.NET.SDK.TransactionsManager
         /// </summary>
         /// <param name="networkConfig">MultiversX Network Configuration</param>
         /// <param name="account">Sender Account</param>
-        /// <param name="receiver">Receiver address</param>
         /// <param name="tokenIdentifier">Token identifier</param>
+        /// <param name="receiver">Receiver address</param>
         /// <param name="roles">Roles to unassign for receiver address</param>
         /// <returns></returns>
         public static TransactionRequest UnsetSpecialRole(
@@ -646,6 +647,7 @@ namespace Mx.NET.SDK.TransactionsManager
         /// <param name="account">Sender Account</param>
         /// <param name="tokenIdentifier">Token identifier</param>
         /// <param name="properties">Token properties</param>
+        /// <param name="args">Other args for future use</param>
         /// <returns></returns>
         public static TransactionRequest ChangeProperties(
             NetworkConfig networkConfig,

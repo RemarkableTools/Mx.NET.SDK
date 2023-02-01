@@ -303,6 +303,7 @@ namespace Mx.NET.SDK.TransactionsManager
         /// <param name="collectionName">The token name, length between 3 and 20 characters (alphanumeric characters only)</param>
         /// <param name="collectionTicker">The token ticker, length between 3 and 10 characters (alphanumeric UPPERCASE only)</param>
         /// <param name="properties">The Collection properties</param>
+        /// <param name="args">Other args for future use</param>
         /// <returns></returns>
         public static TransactionRequest IssueNFT(
             NetworkConfig networkConfig,
@@ -364,6 +365,7 @@ namespace Mx.NET.SDK.TransactionsManager
         /// <param name="collectionName">The token name, length between 3 and 20 characters (alphanumeric characters only)</param>
         /// <param name="collectionTicker">The token ticker, length between 3 and 10 characters (alphanumeric UPPERCASE only)</param>
         /// <param name="properties">The Collection properties</param>
+        /// <param name="args">Other args for future use</param>
         /// <returns></returns>
         public static TransactionRequest IssueSFT(
             NetworkConfig networkConfig,
@@ -426,6 +428,7 @@ namespace Mx.NET.SDK.TransactionsManager
         /// <param name="collectionTicker">The token ticker, length between 3 and 10 characters (alphanumeric UPPERCASE only)</param>
         /// <param name="numberOfDecimals">Number of decimals, should be a numerical value between 0 and 18</param>
         /// <param name="properties">The Collection properties</param>
+        /// <param name="args">Other args for future use</param>
         /// <returns></returns>
         public static TransactionRequest IssueMetaESDT(
             NetworkConfig networkConfig,
@@ -1013,6 +1016,7 @@ namespace Mx.NET.SDK.TransactionsManager
         /// <param name="account">Sender Account</param>
         /// <param name="collectionIdentifier">Collection identifier</param>
         /// <param name="properties">Nft properties object</param>
+        /// <param name="args">Other args for future use</param>
         /// <returns></returns>
         public static TransactionRequest ChangeProperties(
             NetworkConfig networkConfig,
