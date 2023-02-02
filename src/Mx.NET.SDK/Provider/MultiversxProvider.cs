@@ -181,7 +181,7 @@ namespace Mx.NET.SDK.Provider
 
         public async Task<AccountNftDto[]> GetAccountNFTs(string address, int size = 100, int from = 0, Dictionary<string, string> parameters = null)
         {
-            return await GetAccountNFTsCustom<NFTDto>(address, size, from, parameters);
+            return await GetAccountNFTsCustom<AccountNftDto>(address, size, from, parameters);
         }
 
         public async Task<NFT[]> GetAccountNFTsCustom<NFT>(string address, int size = 100, int from = 0, Dictionary<string, string> parameters = null)
@@ -214,7 +214,7 @@ namespace Mx.NET.SDK.Provider
 
         public async Task<AccountNftDto> GetAccountNFT(string address, string nft)
         {
-            return await GetAccountNFTCustom<NFTDto>(address, nft);
+            return await GetAccountNFTCustom<AccountNftDto>(address, nft);
         }
 
         public async Task<NFT> GetAccountNFTCustom<NFT>(string address, string nft)
@@ -230,7 +230,7 @@ namespace Mx.NET.SDK.Provider
 
         public async Task<AccountMetaESDTDto[]> GetAccountMetaESDTs(string address, int size = 100, int from = 0, Dictionary<string, string> parameters = null)
         {
-            return await GetAccountMetaESDTsCustom<MetaESDTDto>(address, size, from, parameters);
+            return await GetAccountMetaESDTsCustom<AccountMetaESDTDto>(address, size, from, parameters);
         }
 
         public async Task<MetaESDT[]> GetAccountMetaESDTsCustom<MetaESDT>(string address, int size = 100, int from = 0, Dictionary<string, string> parameters = null)
@@ -263,7 +263,7 @@ namespace Mx.NET.SDK.Provider
 
         public async Task<AccountMetaESDTDto> GetAccountMetaESDT(string address, string nft)
         {
-            return await GetAccountMetaESDTCustom<MetaESDTDto>(address, nft);
+            return await GetAccountMetaESDTCustom<AccountMetaESDTDto>(address, nft);
         }
 
         public async Task<MetaESDT> GetAccountMetaESDTCustom<MetaESDT>(string address, string nft)
