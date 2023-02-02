@@ -212,14 +212,14 @@ namespace Mx.NET.SDK.Provider
             return content;
         }
 
-        public async Task<AccountNftDto> GetAccountNFT(string address, string nft)
+        public async Task<AccountNftDto> GetAccountNFT(string address, string nftIdentifier)
         {
-            return await GetAccountNFTCustom<AccountNftDto>(address, nft);
+            return await GetAccountNFTCustom<AccountNftDto>(address, nftIdentifier);
         }
 
-        public async Task<NFT> GetAccountNFTCustom<NFT>(string address, string nft)
+        public async Task<NFT> GetAccountNFTCustom<NFT>(string address, string nftIdentifier)
         {
-            var response = await _httpAPIClient.GetAsync($"accounts/{address}/nfts/{nft}");
+            var response = await _httpAPIClient.GetAsync($"accounts/{address}/nfts/{nftIdentifier}");
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
                 throw new APIException(JsonWrapper.Deserialize<APIExceptionResponse>(content));
@@ -261,14 +261,14 @@ namespace Mx.NET.SDK.Provider
             return content;
         }
 
-        public async Task<AccountMetaESDTDto> GetAccountMetaESDT(string address, string nft)
+        public async Task<AccountMetaESDTDto> GetAccountMetaESDT(string address, string metaEsdtIdentifier)
         {
-            return await GetAccountMetaESDTCustom<AccountMetaESDTDto>(address, nft);
+            return await GetAccountMetaESDTCustom<AccountMetaESDTDto>(address, metaEsdtIdentifier);
         }
 
-        public async Task<MetaESDT> GetAccountMetaESDTCustom<MetaESDT>(string address, string nft)
+        public async Task<MetaESDT> GetAccountMetaESDTCustom<MetaESDT>(string address, string metaEsdtIdentifier)
         {
-            var response = await _httpAPIClient.GetAsync($"accounts/{address}/nfts/{nft}");
+            var response = await _httpAPIClient.GetAsync($"accounts/{address}/nfts/{metaEsdtIdentifier}");
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
                 throw new APIException(JsonWrapper.Deserialize<APIExceptionResponse>(content));
@@ -522,14 +522,14 @@ namespace Mx.NET.SDK.Provider
             return result;
         }
 
-        public async Task<MetaESDTDto> GetMetaESDT(string nftIdentifier)
+        public async Task<MetaESDTDto> GetMetaESDT(string metaEsdtIdentifier)
         {
-            return await GetMetaESDTCustom<MetaESDTDto>(nftIdentifier);
+            return await GetMetaESDTCustom<MetaESDTDto>(metaEsdtIdentifier);
         }
 
-        public async Task<MetaESDT> GetMetaESDTCustom<MetaESDT>(string nftIdentifier)
+        public async Task<MetaESDT> GetMetaESDTCustom<MetaESDT>(string metaEsdtIdentifier)
         {
-            var response = await _httpAPIClient.GetAsync($"nfts/{nftIdentifier}");
+            var response = await _httpAPIClient.GetAsync($"nfts/{metaEsdtIdentifier}");
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
                 throw new APIException(JsonWrapper.Deserialize<APIExceptionResponse>(content));
@@ -538,10 +538,10 @@ namespace Mx.NET.SDK.Provider
             return result;
         }
 
-        public async Task<AddressBalanceDto[]> GetNFTAccounts(string identifier, int size = 100, int from = 0)
+        public async Task<AddressBalanceDto[]> GetNFTAccounts(string nftIdentifier, int size = 100, int from = 0)
         {
             size = size > 10000 ? 10000 : size;
-            var response = await _httpAPIClient.GetAsync($"nfts/{identifier}/accounts?from={from}&size={size}");
+            var response = await _httpAPIClient.GetAsync($"nfts/{nftIdentifier}/accounts?from={from}&size={size}");
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
                 throw new APIException(JsonWrapper.Deserialize<APIExceptionResponse>(content));
@@ -550,9 +550,9 @@ namespace Mx.NET.SDK.Provider
             return result;
         }
 
-        public async Task<string> GetNFTAccountsCounter(string identifier)
+        public async Task<string> GetNFTAccountsCounter(string nftIdentifier)
         {
-            var response = await _httpAPIClient.GetAsync($"nfts/{identifier}/accounts/count");
+            var response = await _httpAPIClient.GetAsync($"nfts/{nftIdentifier}/accounts/count");
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
                 throw new APIException(JsonWrapper.Deserialize<APIExceptionResponse>(content));
@@ -560,10 +560,10 @@ namespace Mx.NET.SDK.Provider
             return content;
         }
 
-        public async Task<AddressBalanceDto[]> GetMetaESDTAccounts(string identifier, int size = 100, int from = 0)
+        public async Task<AddressBalanceDto[]> GetMetaESDTAccounts(string metaEsdtIdentifier, int size = 100, int from = 0)
         {
             size = size > 10000 ? 10000 : size;
-            var response = await _httpAPIClient.GetAsync($"nfts/{identifier}/accounts?from={from}&size={size}");
+            var response = await _httpAPIClient.GetAsync($"nfts/{metaEsdtIdentifier}/accounts?from={from}&size={size}");
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
                 throw new APIException(JsonWrapper.Deserialize<APIExceptionResponse>(content));
@@ -572,9 +572,9 @@ namespace Mx.NET.SDK.Provider
             return result;
         }
 
-        public async Task<string> GetMetaESDTAccountsCounter(string identifier)
+        public async Task<string> GetMetaESDTAccountsCounter(string metaEsdtIdentifier)
         {
-            var response = await _httpAPIClient.GetAsync($"nfts/{identifier}/accounts/count");
+            var response = await _httpAPIClient.GetAsync($"nfts/{metaEsdtIdentifier}/accounts/count");
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
                 throw new APIException(JsonWrapper.Deserialize<APIExceptionResponse>(content));
