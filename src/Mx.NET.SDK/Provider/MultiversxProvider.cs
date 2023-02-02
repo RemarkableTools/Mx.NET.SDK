@@ -190,7 +190,7 @@ namespace Mx.NET.SDK.Provider
             string args = "";
             if (parameters != null)
                 args = $"&{string.Join("&", parameters.Select(e => $"{e.Key}={e.Value}"))}";
-            var response = await _httpAPIClient.GetAsync($"accounts/{address}/nfts?type={ESDTTokenType.NonFungibleESDT},{ESDTTokenType.SemiFungibleESDT}&from={from}&size={size}{args}");
+            var response = await _httpAPIClient.GetAsync($"accounts/{address}/nfts?excludeMetaESDT=true&from={from}&size={size}{args}");
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
                 throw new APIException(JsonWrapper.Deserialize<APIExceptionResponse>(content));
@@ -204,7 +204,7 @@ namespace Mx.NET.SDK.Provider
             string args = "";
             if (parameters != null)
                 args = $"&{string.Join("&", parameters.Select(e => $"{e.Key}={e.Value}"))}";
-            var response = await _httpAPIClient.GetAsync($"accounts/{address}/nfts/count?type={ESDTTokenType.NonFungibleESDT},{ESDTTokenType.SemiFungibleESDT}{args}");
+            var response = await _httpAPIClient.GetAsync($"accounts/{address}/nfts/count?excludeMetaESDT=true{args}");
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
                 throw new APIException(JsonWrapper.Deserialize<APIExceptionResponse>(content));
