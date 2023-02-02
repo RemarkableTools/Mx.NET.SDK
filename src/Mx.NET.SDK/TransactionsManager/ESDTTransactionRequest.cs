@@ -16,9 +16,9 @@ namespace Mx.NET.SDK.TransactionsManager
 {
     public class ESDTTransactionRequest
     {
-        private static readonly Regex _nameValidation = new("^[a-zA-Z0-9]{3,20}$");
-        private static readonly Regex _tickerValidation = new("^[A-Z0-9]{3,10}$");
-        private static readonly Regex _decimalsValidation = new("^([0-9]|1[0-8])$");
+        private static readonly Regex _nameValidation = new Regex("^[a-zA-Z0-9]{3,20}$");
+        private static readonly Regex _tickerValidation = new Regex("^[A-Z0-9]{3,10}$");
+        private static readonly Regex _decimalsValidation = new Regex("^([0-9]|1[0-8])$");
 
         private static readonly Address SYSTEM_SMART_CONTRACT_ADDRESS = Address.FromBech32(ESDT_SMART_CONTRACT);
 
