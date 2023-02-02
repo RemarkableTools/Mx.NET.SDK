@@ -129,7 +129,7 @@ namespace Mx.NET.SDK.Provider
         /// <param name="from">Number of items to skip for the result set</param>
         /// <param name="parameters">Parameters for query</param>
         /// <returns><see cref="NFTDto"/></returns>
-        Task<NFTDto[]> GetAccountNFTs(string address, int size = 100, int from = 0, Dictionary<string, string> parameters = null);
+        Task<AccountNftDto[]> GetAccountNFTs(string address, int size = 100, int from = 0, Dictionary<string, string> parameters = null);
 
         /// <summary>
         /// Returns an array of owned NFTs/SFTs for a given address
@@ -156,7 +156,7 @@ namespace Mx.NET.SDK.Provider
         /// <param name="address">Wallet address in bech32 format</param>
         /// <param name="nftIdentifier">Token identifier</param>
         /// <returns><see cref="NFTDto"/></returns>
-        Task<NFTDto> GetAccountNFT(string address, string nftIdentifier);
+        Task<AccountNftDto> GetAccountNFT(string address, string nftIdentifier);
 
         /// <summary>
         /// Returns details about a specific NFT/SFT owned by a given address
@@ -174,7 +174,7 @@ namespace Mx.NET.SDK.Provider
         /// <param name="from">Number of items to skip for the result set</param>
         /// <param name="parameters">Parameters for query</param>
         /// <returns><see cref="MetaESDTDto"/></returns>
-        Task<MetaESDTDto[]> GetAccountMetaESDTs(string address, int size = 100, int from = 0, Dictionary<string, string> parameters = null);
+        Task<AccountMetaESDTDto[]> GetAccountMetaESDTs(string address, int size = 100, int from = 0, Dictionary<string, string> parameters = null);
 
         /// <summary>
         /// Returns an array of owned MetaESDTs for a given address
@@ -201,7 +201,7 @@ namespace Mx.NET.SDK.Provider
         /// <param name="address">Wallet address in bech32 format</param>
         /// <param name="metaEsdtIdentifier">Token identifier</param>
         /// <returns><see cref="MetaESDTDto"/></returns>
-        Task<MetaESDTDto> GetAccountMetaESDT(string address, string metaEsdtIdentifier);
+        Task<AccountMetaESDTDto> GetAccountMetaESDT(string address, string metaEsdtIdentifier);
 
         /// <summary>
         /// Returns details about a specific MetaESDT owned by a given address
