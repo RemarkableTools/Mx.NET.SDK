@@ -19,15 +19,15 @@ namespace Mx.NET.SDK.Core.Domain
 
         public ESDT(string name, string identifier, string collection, string ticker, int decimalPrecision)
         {
-            if (!_nameValidation.IsMatch(name))
-                throw new ArgumentException("Length should be between 3 and 20 characters, alphanumeric characters only", nameof(name));
+            //if (!_nameValidation.IsMatch(name))
+            //throw new ArgumentException("Length should be between 3 and 20 characters, alphanumeric characters only", nameof(name));
             Name = name;
 
             Identifier = identifier;
             Collection = collection;
 
-            if (!_tickerValidation.IsMatch(ticker))
-                throw new ArgumentException("Length should be between 3 and 10 characters, alphanumeric UPPERCASE characters only", nameof(ticker));
+            //if (!_tickerValidation.IsMatch(ticker))
+            //throw new ArgumentException("Length should be between 3 and 10 characters, alphanumeric UPPERCASE characters only", nameof(ticker));
             Ticker = ticker;
 
             if (decimalPrecision < 0 || decimalPrecision > 18)
@@ -47,7 +47,7 @@ namespace Mx.NET.SDK.Core.Domain
 
         public static ESDT ESDT_TOKEN(string esdtType, string name, string identifier, int decimalPrecision)
         {
-            switch(esdtType)
+            switch (esdtType)
             {
                 case ESDTTokenType.FungibleESDT:
                     return TOKEN(name, identifier, decimalPrecision);
