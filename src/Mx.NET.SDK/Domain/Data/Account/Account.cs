@@ -115,7 +115,7 @@ namespace Mx.NET.SDK.Domain.Data.Account
                 Nonce = account.Nonce,
                 Shard = account.Shard,
                 Assets = account.Assets,
-                RootHash = Encoding.UTF8.GetString(Convert.FromBase64String(account.RootHash)),
+                RootHash = account.RootHash == null ? null : Encoding.UTF8.GetString(Convert.FromBase64String(account.RootHash)),
                 TxCount = account.TxCount,
                 SrcCount = account.ScrCount,
                 UserName = account.UserName,
