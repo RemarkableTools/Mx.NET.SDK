@@ -1,5 +1,6 @@
 ## Mx.NET.SDK
-⚡ MultiversX C# SDK: Complex library for interacting with MultiversX blockchain
+### ⚡ MultiversX C# SDK: Complex library for interacting with MultiversX blockchain
+_*The starting point for these SDKs is the MultiversX's official [C# repository](https://github.com/multiversx/mx-sdk-csharp)._
 
 <br>
 
