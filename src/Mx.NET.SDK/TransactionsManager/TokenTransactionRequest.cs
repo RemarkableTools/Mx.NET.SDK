@@ -292,13 +292,11 @@ namespace Mx.NET.SDK.TransactionsManager
             Account account,
             string tokenName,
             string tokenTicker,
-            BigInteger initialSupply,
+            ESDTAmount initialSupply,
             int numberOfDecimals,
             TokenProperties properties = null,
             params IBinaryType[] args)
         {
-            var cost = networkConfig.ChainId == "T" ? ESDTAmount.EGLD("5") : ESDTAmount.EGLD("0.05");
-
             if (!_nameValidation.IsMatch(tokenName))
                 throw new ArgumentException("Length should be between 3 and 20 characters, alphanumeric characters only", nameof(tokenName));
 
@@ -312,34 +310,34 @@ namespace Mx.NET.SDK.TransactionsManager
             {
                 BytesValue.FromUtf8(tokenName),
                 ESDTIdentifierValue.From(tokenTicker),
-                NumericValue.BigUintValue(initialSupply),
+                NumericValue.BigUintValue(initialSupply.Value),
                 NumericValue.I32Value(numberOfDecimals)
             };
 
             if (properties != null)
             {
                 arguments.Add(BytesValue.FromUtf8(ESDTTokenProperties.CanFreeze));
-                arguments.Add(BooleanValue.From(properties.CanFreeze));
+                arguments.Add(BytesValue.FromUtf8(properties.CanFreeze.ToString().ToLower()));
                 arguments.Add(BytesValue.FromUtf8(ESDTTokenProperties.CanWipe));
-                arguments.Add(BooleanValue.From(properties.CanWipe));
+                arguments.Add(BytesValue.FromUtf8(properties.CanWipe.ToString().ToLower()));
                 arguments.Add(BytesValue.FromUtf8(ESDTTokenProperties.CanPause));
-                arguments.Add(BooleanValue.From(properties.CanPause));
+                arguments.Add(BytesValue.FromUtf8(properties.CanPause.ToString().ToLower()));
                 arguments.Add(BytesValue.FromUtf8(ESDTTokenProperties.CanMint));
-                arguments.Add(BooleanValue.From(properties.CanMint));
+                arguments.Add(BytesValue.FromUtf8(properties.CanMint.ToString().ToLower()));
                 arguments.Add(BytesValue.FromUtf8(ESDTTokenProperties.CanBurn));
-                arguments.Add(BooleanValue.From(properties.CanBurn));
+                arguments.Add(BytesValue.FromUtf8(properties.CanBurn.ToString().ToLower()));
                 arguments.Add(BytesValue.FromUtf8(ESDTTokenProperties.CanChangeOwner));
-                arguments.Add(BooleanValue.From(properties.CanChangeOwner));
+                arguments.Add(BytesValue.FromUtf8(properties.CanChangeOwner.ToString().ToLower()));
                 arguments.Add(BytesValue.FromUtf8(ESDTTokenProperties.CanUpgrade));
-                arguments.Add(BooleanValue.From(properties.CanUpgrade));
+                arguments.Add(BytesValue.FromUtf8(properties.CanUpgrade.ToString().ToLower()));
                 arguments.Add(BytesValue.FromUtf8(ESDTTokenProperties.CanAddSpecialRoles));
-                arguments.Add(BooleanValue.From(properties.CanAddSpecialRoles ?? true));
+                arguments.Add(BytesValue.FromUtf8((properties.CanAddSpecialRoles ?? true).ToString().ToLower()));
                 arguments.AddRange(args);
             }
             var transaction = TransactionRequest.CreateCallSmartContractTransactionRequest(networkConfig,
                                                                                            account,
                                                                                            SYSTEM_SMART_CONTRACT_ADDRESS,
-                                                                                           cost,
+                                                                                           ESDTAmount.EGLD("0.05"),
                                                                                            ISSUE,
                                                                                            arguments.ToArray());
 
@@ -660,21 +658,21 @@ namespace Mx.NET.SDK.TransactionsManager
             {
                 tokenIdentifier,
                 BytesValue.FromUtf8(ESDTTokenProperties.CanFreeze),
-                BooleanValue.From(properties.CanFreeze),
+                BytesValue.FromUtf8(properties.CanFreeze.ToString().ToLower()),
                 BytesValue.FromUtf8(ESDTTokenProperties.CanWipe),
-                BooleanValue.From(properties.CanWipe),
+                BytesValue.FromUtf8(properties.CanWipe.ToString().ToLower()),
                 BytesValue.FromUtf8(ESDTTokenProperties.CanPause),
-                BooleanValue.From(properties.CanPause),
+                BytesValue.FromUtf8(properties.CanPause.ToString().ToLower()),
                 BytesValue.FromUtf8(ESDTTokenProperties.CanMint),
-                BooleanValue.From(properties.CanMint),
+                BytesValue.FromUtf8(properties.CanMint.ToString().ToLower()),
                 BytesValue.FromUtf8(ESDTTokenProperties.CanBurn),
-                BooleanValue.From(properties.CanBurn),
+                BytesValue.FromUtf8(properties.CanBurn.ToString().ToLower()),
                 BytesValue.FromUtf8(ESDTTokenProperties.CanChangeOwner),
-                BooleanValue.From(properties.CanChangeOwner),
+                BytesValue.FromUtf8(properties.CanChangeOwner.ToString().ToLower()),
                 BytesValue.FromUtf8(ESDTTokenProperties.CanUpgrade),
-                BooleanValue.From(properties.CanUpgrade),
+                BytesValue.FromUtf8(properties.CanUpgrade.ToString().ToLower()),
                 BytesValue.FromUtf8(ESDTTokenProperties.CanAddSpecialRoles),
-                BooleanValue.From(properties.CanAddSpecialRoles ?? true)
+                BytesValue.FromUtf8((properties.CanAddSpecialRoles ?? true).ToString().ToLower())
             };
             arguments.AddRange(args);
 

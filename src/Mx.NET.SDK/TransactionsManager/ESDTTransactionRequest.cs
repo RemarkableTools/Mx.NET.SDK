@@ -313,8 +313,6 @@ namespace Mx.NET.SDK.TransactionsManager
             CollectionProperties properties = null,
             params IBinaryType[] args)
         {
-            var cost = networkConfig.ChainId == "T" ? ESDTAmount.EGLD("5") : ESDTAmount.EGLD("0.05");
-
             if (!_nameValidation.IsMatch(collectionName))
                 throw new ArgumentException("Length should be between 3 and 20 characters, alphanumeric characters only", nameof(collectionName));
 
@@ -329,26 +327,26 @@ namespace Mx.NET.SDK.TransactionsManager
             if (properties != null)
             {
                 arguments.Add(BytesValue.FromUtf8(ESDTCollectionProperties.CanFreeze));
-                arguments.Add(BooleanValue.From(properties.CanFreeze));
+                arguments.Add(BytesValue.FromUtf8(properties.CanFreeze.ToString().ToLower()));
                 arguments.Add(BytesValue.FromUtf8(ESDTCollectionProperties.CanWipe));
-                arguments.Add(BooleanValue.From(properties.CanWipe));
+                arguments.Add(BytesValue.FromUtf8(properties.CanWipe.ToString().ToLower()));
                 arguments.Add(BytesValue.FromUtf8(ESDTCollectionProperties.CanPause));
-                arguments.Add(BooleanValue.From(properties.CanPause));
+                arguments.Add(BytesValue.FromUtf8(properties.CanPause.ToString().ToLower()));
                 arguments.Add(BytesValue.FromUtf8(ESDTCollectionProperties.CanTransferNftCreateRole));
-                arguments.Add(BooleanValue.From(properties.CanTransferNFTCreateRole));
+                arguments.Add(BytesValue.FromUtf8(properties.CanTransferNFTCreateRole.ToString().ToLower()));
                 arguments.Add(BytesValue.FromUtf8(ESDTCollectionProperties.CanChangeOwner));
-                arguments.Add(BooleanValue.From(properties.CanChangeOwner));
+                arguments.Add(BytesValue.FromUtf8(properties.CanChangeOwner.ToString().ToLower()));
                 arguments.Add(BytesValue.FromUtf8(ESDTCollectionProperties.CanUpgrade));
-                arguments.Add(BooleanValue.From(properties.CanUpgrade));
+                arguments.Add(BytesValue.FromUtf8(properties.CanUpgrade.ToString().ToLower()));
                 arguments.Add(BytesValue.FromUtf8(ESDTCollectionProperties.CanAddSpecialRoles));
-                arguments.Add(BooleanValue.From(properties.CanAddSpecialRoles));
+                arguments.Add(BytesValue.FromUtf8(properties.CanAddSpecialRoles.ToString().ToLower()));
                 arguments.AddRange(args);
             }
 
             var transaction = TransactionRequest.CreateCallSmartContractTransactionRequest(networkConfig,
                                                                                            account,
                                                                                            SYSTEM_SMART_CONTRACT_ADDRESS,
-                                                                                           cost,
+                                                                                           ESDTAmount.EGLD("0.05"),
                                                                                            ISSUE_NON_FUNGIBLE,
                                                                                            arguments.ToArray());
 
@@ -391,19 +389,19 @@ namespace Mx.NET.SDK.TransactionsManager
             if (properties != null)
             {
                 arguments.Add(BytesValue.FromUtf8(ESDTCollectionProperties.CanFreeze));
-                arguments.Add(BooleanValue.From(properties.CanFreeze));
+                arguments.Add(BytesValue.FromUtf8(properties.CanFreeze.ToString().ToLower()));
                 arguments.Add(BytesValue.FromUtf8(ESDTCollectionProperties.CanWipe));
-                arguments.Add(BooleanValue.From(properties.CanWipe));
+                arguments.Add(BytesValue.FromUtf8(properties.CanWipe.ToString().ToLower()));
                 arguments.Add(BytesValue.FromUtf8(ESDTCollectionProperties.CanPause));
-                arguments.Add(BooleanValue.From(properties.CanPause));
+                arguments.Add(BytesValue.FromUtf8(properties.CanPause.ToString().ToLower()));
                 arguments.Add(BytesValue.FromUtf8(ESDTCollectionProperties.CanTransferNftCreateRole));
-                arguments.Add(BooleanValue.From(properties.CanTransferNFTCreateRole));
+                arguments.Add(BytesValue.FromUtf8(properties.CanTransferNFTCreateRole.ToString().ToLower()));
                 arguments.Add(BytesValue.FromUtf8(ESDTCollectionProperties.CanChangeOwner));
-                arguments.Add(BooleanValue.From(properties.CanChangeOwner));
+                arguments.Add(BytesValue.FromUtf8(properties.CanChangeOwner.ToString().ToLower()));
                 arguments.Add(BytesValue.FromUtf8(ESDTCollectionProperties.CanUpgrade));
-                arguments.Add(BooleanValue.From(properties.CanUpgrade));
+                arguments.Add(BytesValue.FromUtf8(properties.CanUpgrade.ToString().ToLower()));
                 arguments.Add(BytesValue.FromUtf8(ESDTCollectionProperties.CanAddSpecialRoles));
-                arguments.Add(BooleanValue.From(properties.CanAddSpecialRoles));
+                arguments.Add(BytesValue.FromUtf8(properties.CanAddSpecialRoles.ToString().ToLower()));
                 arguments.AddRange(args);
             }
 
@@ -459,19 +457,19 @@ namespace Mx.NET.SDK.TransactionsManager
             if (properties != null)
             {
                 arguments.Add(BytesValue.FromUtf8(ESDTCollectionProperties.CanFreeze));
-                arguments.Add(BooleanValue.From(properties.CanFreeze));
+                arguments.Add(BytesValue.FromUtf8(properties.CanFreeze.ToString().ToLower()));
                 arguments.Add(BytesValue.FromUtf8(ESDTCollectionProperties.CanWipe));
-                arguments.Add(BooleanValue.From(properties.CanWipe));
+                arguments.Add(BytesValue.FromUtf8(properties.CanWipe.ToString().ToLower()));
                 arguments.Add(BytesValue.FromUtf8(ESDTCollectionProperties.CanPause));
-                arguments.Add(BooleanValue.From(properties.CanPause));
+                arguments.Add(BytesValue.FromUtf8(properties.CanPause.ToString().ToLower()));
                 arguments.Add(BytesValue.FromUtf8(ESDTCollectionProperties.CanTransferNftCreateRole));
-                arguments.Add(BooleanValue.From(properties.CanTransferNFTCreateRole));
+                arguments.Add(BytesValue.FromUtf8(properties.CanTransferNFTCreateRole.ToString().ToLower()));
                 arguments.Add(BytesValue.FromUtf8(ESDTCollectionProperties.CanChangeOwner));
-                arguments.Add(BooleanValue.From(properties.CanChangeOwner));
+                arguments.Add(BytesValue.FromUtf8(properties.CanChangeOwner.ToString().ToLower()));
                 arguments.Add(BytesValue.FromUtf8(ESDTCollectionProperties.CanUpgrade));
-                arguments.Add(BooleanValue.From(properties.CanUpgrade));
+                arguments.Add(BytesValue.FromUtf8(properties.CanUpgrade.ToString().ToLower()));
                 arguments.Add(BytesValue.FromUtf8(ESDTCollectionProperties.CanAddSpecialRoles));
-                arguments.Add(BooleanValue.From(properties.CanAddSpecialRoles));
+                arguments.Add(BytesValue.FromUtf8(properties.CanAddSpecialRoles.ToString().ToLower()));
                 arguments.AddRange(args);
             }
 
@@ -1029,19 +1027,19 @@ namespace Mx.NET.SDK.TransactionsManager
             {
                 collectionIdentifier,
                 BytesValue.FromUtf8(ESDTCollectionProperties.CanFreeze),
-                BooleanValue.From(properties.CanFreeze),
+                BytesValue.FromUtf8(properties.CanFreeze.ToString().ToLower()),
                 BytesValue.FromUtf8(ESDTCollectionProperties.CanWipe),
-                BooleanValue.From(properties.CanWipe),
+                BytesValue.FromUtf8(properties.CanWipe.ToString().ToLower()),
                 BytesValue.FromUtf8(ESDTCollectionProperties.CanPause),
-                BooleanValue.From(properties.CanPause),
+                BytesValue.FromUtf8(properties.CanPause.ToString().ToLower()),
                 BytesValue.FromUtf8(ESDTCollectionProperties.CanTransferNftCreateRole),
-                BooleanValue.From(properties.CanTransferNFTCreateRole),
+                BytesValue.FromUtf8(properties.CanTransferNFTCreateRole.ToString().ToLower()),
                 BytesValue.FromUtf8(ESDTCollectionProperties.CanChangeOwner),
-                BooleanValue.From(properties.CanChangeOwner),
+                BytesValue.FromUtf8(properties.CanChangeOwner.ToString().ToLower()),
                 BytesValue.FromUtf8(ESDTCollectionProperties.CanUpgrade),
-                BooleanValue.From(properties.CanUpgrade),
+                BytesValue.FromUtf8(properties.CanUpgrade.ToString().ToLower()),
                 BytesValue.FromUtf8(ESDTCollectionProperties.CanAddSpecialRoles),
-                BooleanValue.From(properties.CanAddSpecialRoles)
+                BytesValue.FromUtf8(properties.CanAddSpecialRoles.ToString().ToLower())
             };
             arguments.AddRange(args);
 
