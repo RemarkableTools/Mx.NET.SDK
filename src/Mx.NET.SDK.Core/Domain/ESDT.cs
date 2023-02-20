@@ -49,6 +49,8 @@ namespace Mx.NET.SDK.Core.Domain
         {
             switch (esdtType)
             {
+                case ESDTTokenType.EGLD:
+                    return EGLD();
                 case ESDTTokenType.FungibleESDT:
                     return TOKEN(name, identifier, decimalPrecision);
                 case ESDTTokenType.NonFungibleESDT:

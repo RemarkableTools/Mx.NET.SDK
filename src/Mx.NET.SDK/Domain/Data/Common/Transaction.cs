@@ -222,7 +222,7 @@ namespace Mx.NET.SDK.Domain.Data.Common
                 Receiver = Address.FromBech32(operation.Receiver),
                 Data = operation.Data,
                 Value = operation.Value is null ? null : ESDTAmount.ESDT(operation.Value,
-                                                                         ESDT.ESDT_TOKEN(operation.EsdtType, operation.Name, operation.Identifier, operation.Decimals ?? 0)),
+                                                                         ESDT.ESDT_TOKEN(operation.EsdtType ?? operation.Type, operation.Name, operation.Identifier, operation.Decimals ?? 0)),
                 Decimals = operation.Decimals,
                 SvgUrl = operation.SvgUrl,
                 SenderAssets = Assets.From(operation.SenderAssets),

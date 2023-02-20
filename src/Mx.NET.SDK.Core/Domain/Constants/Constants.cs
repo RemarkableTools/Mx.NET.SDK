@@ -22,6 +22,7 @@
 
     public static class ESDTTokenType
     {
+        public const string EGLD = "egld";
         public const string FungibleESDT = "FungibleESDT";
         public const string NonFungibleESDT = "NonFungibleESDT";
         public const string SemiFungibleESDT = "SemiFungibleESDT";
