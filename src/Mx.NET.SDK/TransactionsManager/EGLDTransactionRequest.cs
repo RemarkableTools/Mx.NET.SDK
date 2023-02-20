@@ -67,8 +67,8 @@ namespace Mx.NET.SDK.TransactionsManager
         /// <param name="networkConfig">MultiversX Network Configuration</param>
         /// <param name="account">Sender Account</param>
         /// <param name="smartContract">Smart Contract destination address</param>
-        /// <param name="egldValue">EGLD amount to send</param>
         /// <param name="gasLimit">Gas limit for transaction</param>
+        /// <param name="egldValue">EGLD amount to send</param>
         /// <param name="methodName">Smart Contract method to call</param>
         /// <param name="methodArgs">Smart Contract method arguments</param>
         /// <returns></returns>
@@ -76,8 +76,8 @@ namespace Mx.NET.SDK.TransactionsManager
             NetworkConfig networkConfig,
             Account account,
             Address smartContract,
-            ESDTAmount egldValue,
             GasLimit gasLimit,
+            ESDTAmount egldValue,
             string methodName,
             params IBinaryType[] methodArgs)
         {
