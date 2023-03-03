@@ -19,7 +19,7 @@ namespace Mx.NET.SDK.Domain
         private readonly NetworkConfig networkConfig;
 
         public readonly string ChainId;
-        public readonly int TransactionVersion = 4;
+        public readonly int Version = 1;
         public Account Account { get; }
         public Address Sender { get; }
         public ulong Nonce { get; }
@@ -166,7 +166,7 @@ namespace Mx.NET.SDK.Domain
                 Sender = Sender.Bech32,
                 Signature = null,
                 Value = Value.ToString(),
-                Version = TransactionVersion
+                Version = Version
             };
         }
     }
