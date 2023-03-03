@@ -42,6 +42,62 @@ namespace Mx.NET.SDK.Provider
             };
         }
 
+        #region generic
+
+        public async Task<TR> Get<TR>(string requestUri)
+        {
+            var uri = requestUri.StartsWith("/") ? requestUri.Substring(1) : requestUri;
+            var response = await _httpAPIClient.GetAsync($"{uri}");
+            var content = await response.Content.ReadAsStringAsync();
+            if (!response.IsSuccessStatusCode)
+                throw new APIException(JsonWrapper.Deserialize<APIExceptionResponse>(content));
+
+            var result = JsonWrapper.Deserialize<TR>(content);
+            return result;
+        }
+
+        public async Task<TR> Post<TR>(string requestUri, object requestContent)
+        {
+            var uri = requestUri.StartsWith("/") ? requestUri.Substring(1) : requestUri;
+            var raw = JsonWrapper.Serialize(requestContent);
+            var payload = new StringContent(raw, Encoding.UTF8, "application/json");
+            var response = await _httpAPIClient.PostAsync(uri, payload);
+            var content = await response.Content.ReadAsStringAsync();
+            if (!response.IsSuccessStatusCode)
+                throw new APIException(JsonWrapper.Deserialize<APIExceptionResponse>(content));
+
+            var result = JsonWrapper.Deserialize<TR>(content);
+            return result;
+        }
+
+        public async Task<TR> GetGW<TR>(string requestUri)
+        {
+            var uri = requestUri.StartsWith("/") ? requestUri.Substring(1) : requestUri;
+            var response = await _httpGatewayClient.GetAsync($"{uri}");
+            var content = await response.Content.ReadAsStringAsync();
+            if (!response.IsSuccessStatusCode)
+                throw new APIException(JsonWrapper.Deserialize<APIExceptionResponse>(content));
+
+            var result = JsonWrapper.Deserialize<TR>(content);
+            return result;
+        }
+
+        public async Task<TR> PostGW<TR>(string requestUri, object requestContent)
+        {
+            var uri = requestUri.StartsWith("/") ? requestUri.Substring(1) : requestUri;
+            var raw = JsonWrapper.Serialize(requestContent);
+            var payload = new StringContent(raw, Encoding.UTF8, "application/json");
+            var response = await _httpGatewayClient.PostAsync(uri, payload);
+            var content = await response.Content.ReadAsStringAsync();
+            if (!response.IsSuccessStatusCode)
+                throw new APIException(JsonWrapper.Deserialize<APIExceptionResponse>(content));
+
+            var result = JsonWrapper.Deserialize<TR>(content);
+            return result;
+        }
+
+        #endregion region
+
         #region accounts
 
         public async Task<AccountDto> GetAccount(string address)
