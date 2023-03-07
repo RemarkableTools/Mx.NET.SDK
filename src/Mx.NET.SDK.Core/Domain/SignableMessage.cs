@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Text;
+using Mx.NET.SDK.Core.Domain.Values;
 using Org.BouncyCastle.Crypto.Digests;
 
 namespace Mx.NET.SDK.Core.Domain
@@ -10,8 +11,14 @@ namespace Mx.NET.SDK.Core.Domain
 
         public string Message { get; set; }
         public string Signature { get; set; }
+        public Address Address { get; set; }
 
         public SignableMessage() { }
+
+        public SignableMessage(string message)
+        {
+            Message = message;
+        }
 
         public SignableMessage(string message, string signature)
         {
