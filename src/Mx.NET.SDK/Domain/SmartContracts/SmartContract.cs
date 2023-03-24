@@ -8,7 +8,7 @@ using Mx.NET.SDK.Core.Domain.Codec;
 using Mx.NET.SDK.Core.Domain.Helper;
 using Mx.NET.SDK.Core.Domain.Values;
 using Mx.NET.SDK.Provider;
-using Mx.NET.SDK.Provider.Dtos.API.Query;
+using Mx.NET.SDK.Provider.Dtos.Gateway.Query;
 using Org.BouncyCastle.Crypto.Digests;
 using static Mx.NET.SDK.Core.Domain.Constants.Constants;
 
@@ -104,10 +104,10 @@ namespace Mx.NET.SDK.Domain.SmartContracts
                            .Select(typeValue => Converter.ToHexString(BinaryCoder.EncodeTopLevel(typeValue)))
                            .ToArray();
 
-            var query = new QueryRequestDto { FuncName = endpoint, Args = arguments, ScAddress = address.Bech32, Caller = caller?.Bech32 };
+            var query = new QueryVmRequestDto { FuncName = endpoint, Args = arguments, ScAddress = address.Bech32, Caller = caller?.Bech32 };
 
-            var response = await provider.Query(query);
-            var data = response;
+            var response = await provider.QueryVm(query);
+            var data = response.Data;
 
             if (data.ReturnData[0] == "")
                 return BooleanValue.From(false);
@@ -139,10 +139,10 @@ namespace Mx.NET.SDK.Domain.SmartContracts
                            .Select(typeValue => Converter.ToHexString(BinaryCoder.EncodeTopLevel(typeValue)))
                            .ToArray();
 
-            var query = new QueryRequestDto { FuncName = endpoint, Args = arguments, ScAddress = address.Bech32, Caller = caller?.Bech32 };
+            var query = new QueryVmRequestDto { FuncName = endpoint, Args = arguments, ScAddress = address.Bech32, Caller = caller?.Bech32 };
 
-            var response = await provider.Query(query);
-            var data = response;
+            var response = await provider.QueryVm(query);
+            var data = response.Data;
             if (data.ReturnData.Length > 1)
             {
                 var multiTypes = outputTypeValue.MultiTypes;
@@ -194,10 +194,10 @@ namespace Mx.NET.SDK.Domain.SmartContracts
                            .Select(typeValue => Converter.ToHexString(BinaryCoder.EncodeTopLevel(typeValue)))
                            .ToArray();
 
-            var query = new QueryRequestDto { FuncName = endpoint, Args = arguments, ScAddress = address.Bech32, Caller = caller?.Bech32 };
-
-            var response = await provider.Query(query);
-            var data = response;
+            var query = new QueryVmRequestDto { FuncName = endpoint, Args = arguments, ScAddress = address.Bech32, Caller = caller?.Bech32 };
+            
+            var response = await provider.QueryVm(query);
+            var data = response.Data;
 
             if (data.ReturnData is null || data.ReturnData.Length == 0)
                 return null;

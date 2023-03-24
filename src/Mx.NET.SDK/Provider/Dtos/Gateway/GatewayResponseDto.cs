@@ -1,4 +1,5 @@
 ﻿using Mx.NET.SDK.Domain.Exceptions;
+using System.Net;
 
 namespace Mx.NET.SDK.Provider.Dtos.Gateway
 {
@@ -28,7 +29,7 @@ namespace Mx.NET.SDK.Provider.Dtos.Gateway
             if (string.IsNullOrEmpty(Error) && Code == "successful")
                 return;
 
-            throw new GatewayException(Error, Code);
+            throw new APIException($"{Error} | code: {Code}");
         }
     }
 }

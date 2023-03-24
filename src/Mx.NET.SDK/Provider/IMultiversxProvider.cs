@@ -4,10 +4,10 @@ using Mx.NET.SDK.Provider.Dtos.API.Common;
 using Mx.NET.SDK.Provider.Dtos.API.Exchange;
 using Mx.NET.SDK.Provider.Dtos.API.Network;
 using Mx.NET.SDK.Provider.Dtos.API.NFT;
-using Mx.NET.SDK.Provider.Dtos.API.Query;
 using Mx.NET.SDK.Provider.Dtos.API.Token;
 using Mx.NET.SDK.Provider.Dtos.API.Transactions;
 using Mx.NET.SDK.Provider.Dtos.Gateway.Network;
+using Mx.NET.SDK.Provider.Dtos.Gateway.Query;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -611,8 +611,8 @@ namespace Mx.NET.SDK.Provider
         /// This endpoint allows one to execute - with no side-effects - a pure function of a Smart Contract and retrieve the execution results (the Virtual Machine Output).
         /// </summary>
         /// <param name="queryVmRequestDto"></param>
-        /// <returns><see cref="QueryResponseDto"/></returns>
-        Task<QueryResponseDto> Query(QueryRequestDto queryVmRequestDto);
+        /// <returns><see cref="QueryVmResponseDto"/></returns>
+        Task<QueryVmResponseDto> QueryVm(QueryVmRequestDto queryVmRequestDto);
 
         #endregion
 
