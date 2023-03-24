@@ -13,11 +13,11 @@ using Mx.NET.SDK.Provider.Dtos.API.Collection;
 using Mx.NET.SDK.Provider.Dtos.API.Network;
 using Mx.NET.SDK.Provider.Dtos.API.NFT;
 using Mx.NET.SDK.Provider.Dtos.API.Exchange;
-using Mx.NET.SDK.Provider.Dtos.API.Query;
 using Mx.NET.SDK.Provider.Dtos.API.Transactions;
 using Mx.NET.SDK.Provider.Dtos.API.Common;
 using Mx.NET.SDK.Provider.Dtos.API.Token;
 using Mx.NET.SDK.Core.Domain.Constants;
+using Mx.NET.SDK.Provider.Dtos.Gateway.Query;
 
 namespace Mx.NET.SDK.Provider
 {
@@ -343,7 +343,7 @@ namespace Mx.NET.SDK.Provider
             var result = JsonWrapper.Deserialize<AccountSCStakeDto[]>(content);
             return result;
         }
-        
+
         public async Task<AccountContractDto[]> GetAccountContracts(string address)
         {
             var response = await _httpAPIClient.GetAsync($"accounts/{address}/contracts");
@@ -812,30 +812,18 @@ namespace Mx.NET.SDK.Provider
 
         #region query
 
-        //public async Task<QueryVmResultDataDto> QueryVm(QueryVmRequestDto queryVmRequestDto)
-        //{
-        //    var raw = JsonWrapper.Serialize(queryVmRequestDto);
-        //    var payload = new StringContent(raw, Encoding.UTF8, "application/json");
-        //    var response = await _httpGatewayClient.PostAsync("vm-values/query", payload);
-        //    var content = await response.Content.ReadAsStringAsync();
-        //    if (!response.IsSuccessStatusCode)
-        //        throw new APIException(JsonWrapper.Deserialize<APIExceptionResponse>(content));
-
-        //    var result = JsonWrapper.Deserialize<GatewayResponseDto<QueryVmResultDataDto>>(content);
-        //    return result;
-        //}
-
-        public async Task<QueryResponseDto> Query(QueryRequestDto queryVmRequestDto)
+        public async Task<QueryVmResponseDto> QueryVm(QueryVmRequestDto queryVmRequestDto)
         {
             var raw = JsonWrapper.Serialize(queryVmRequestDto);
             var payload = new StringContent(raw, Encoding.UTF8, "application/json");
-            var response = await _httpAPIClient.PostAsync("query", payload);
+            var response = await _httpGatewayClient.PostAsync("vm-values/query", payload);
             var content = await response.Content.ReadAsStringAsync();
             if (!response.IsSuccessStatusCode)
                 throw new APIException(JsonWrapper.Deserialize<APIExceptionResponse>(content));
 
-            var result = JsonWrapper.Deserialize<QueryResponseDto>(content);
-            return result;
+            var result = JsonWrapper.Deserialize<GatewayResponseDto<QueryVmResponseDto>>(content);
+            result.EnsureSuccessStatusCode();
+            return result.Data;
         }
 
         #endregion
