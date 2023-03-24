@@ -18,6 +18,7 @@ using Mx.NET.SDK.Provider.Dtos.API.Common;
 using Mx.NET.SDK.Provider.Dtos.API.Token;
 using Mx.NET.SDK.Core.Domain.Constants;
 using Mx.NET.SDK.Provider.Dtos.Gateway.Query;
+using System.Net;
 
 namespace Mx.NET.SDK.Provider
 {
@@ -75,11 +76,13 @@ namespace Mx.NET.SDK.Provider
             var uri = requestUri.StartsWith("/") ? requestUri.Substring(1) : requestUri;
             var response = await _httpGatewayClient.GetAsync($"{uri}");
             var content = await response.Content.ReadAsStringAsync();
-            if (!response.IsSuccessStatusCode)
-                throw new APIException(JsonWrapper.Deserialize<APIExceptionResponse>(content));
 
-            var result = JsonWrapper.Deserialize<TR>(content);
-            return result;
+            if (response.StatusCode == HttpStatusCode.NotFound)
+                throw new APIException(content);
+
+            var result = JsonWrapper.Deserialize<GatewayResponseDto<TR>>(content);
+            result.EnsureSuccessStatusCode();
+            return result.Data;
         }
 
         public async Task<TR> PostGW<TR>(string requestUri, object requestContent)
@@ -88,12 +91,14 @@ namespace Mx.NET.SDK.Provider
             var raw = JsonWrapper.Serialize(requestContent);
             var payload = new StringContent(raw, Encoding.UTF8, "application/json");
             var response = await _httpGatewayClient.PostAsync(uri, payload);
-            var content = await response.Content.ReadAsStringAsync();
-            if (!response.IsSuccessStatusCode)
-                throw new APIException(JsonWrapper.Deserialize<APIExceptionResponse>(content));
 
-            var result = JsonWrapper.Deserialize<TR>(content);
-            return result;
+            var content = await response.Content.ReadAsStringAsync();
+            if (response.StatusCode == HttpStatusCode.NotFound)
+                throw new APIException(content);
+
+            var result = JsonWrapper.Deserialize<GatewayResponseDto<TR>>(content);
+            result.EnsureSuccessStatusCode();
+            return result.Data;
         }
 
         #endregion region
@@ -449,10 +454,8 @@ namespace Mx.NET.SDK.Provider
         public async Task<GatewayNetworkConfigDataDto> GetGatewayNetworkConfig()
         {
             var response = await _httpGatewayClient.GetAsync("network/config");
-            var content = await response.Content.ReadAsStringAsync();
-            if (!response.IsSuccessStatusCode)
-                throw new APIException(JsonWrapper.Deserialize<APIExceptionResponse>(content));
 
+            var content = await response.Content.ReadAsStringAsync();
             var result = JsonWrapper.Deserialize<GatewayResponseDto<GatewayNetworkConfigDataDto>>(content);
             result.EnsureSuccessStatusCode();
             return result.Data;
@@ -461,10 +464,8 @@ namespace Mx.NET.SDK.Provider
         public async Task<GatewayNetworkEconomicsDataDto> GetGatewayNetworkEconomics()
         {
             var response = await _httpGatewayClient.GetAsync("network/economics");
-            var content = await response.Content.ReadAsStringAsync();
-            if (!response.IsSuccessStatusCode)
-                throw new APIException(JsonWrapper.Deserialize<APIExceptionResponse>(content));
 
+            var content = await response.Content.ReadAsStringAsync();
             var result = JsonWrapper.Deserialize<GatewayResponseDto<GatewayNetworkEconomicsDataDto>>(content);
             result.EnsureSuccessStatusCode();
             return result.Data;
@@ -817,10 +818,8 @@ namespace Mx.NET.SDK.Provider
             var raw = JsonWrapper.Serialize(queryVmRequestDto);
             var payload = new StringContent(raw, Encoding.UTF8, "application/json");
             var response = await _httpGatewayClient.PostAsync("vm-values/query", payload);
-            var content = await response.Content.ReadAsStringAsync();
-            if (!response.IsSuccessStatusCode)
-                throw new APIException(JsonWrapper.Deserialize<APIExceptionResponse>(content));
 
+            var content = await response.Content.ReadAsStringAsync();
             var result = JsonWrapper.Deserialize<GatewayResponseDto<QueryVmResponseDto>>(content);
             result.EnsureSuccessStatusCode();
             return result.Data;
