@@ -93,7 +93,7 @@ namespace Mx.NET.SDK.Domain.Data.Account
             Nonce = accountDto.Nonce;
             Shard = accountDto.Shard;
             Assets = accountDto.Assets;
-            if (accountDto.RootHash != null) RootHash = Encoding.UTF8.GetString(Convert.FromBase64String(accountDto.RootHash));
+            RootHash = accountDto.RootHash;
             TxCount = accountDto.TxCount;
             SrcCount = accountDto.ScrCount;
             UserName = accountDto.UserName;
@@ -115,7 +115,7 @@ namespace Mx.NET.SDK.Domain.Data.Account
                 Nonce = account.Nonce,
                 Shard = account.Shard,
                 Assets = account.Assets,
-                RootHash = account.RootHash == null ? null : Encoding.UTF8.GetString(Convert.FromBase64String(account.RootHash)),
+                RootHash = account.RootHash,
                 TxCount = account.TxCount,
                 SrcCount = account.ScrCount,
                 UserName = account.UserName,

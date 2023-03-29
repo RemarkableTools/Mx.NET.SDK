@@ -67,29 +67,14 @@ namespace Mx.NET.SDK.Domain.Data.Account
         public BigInteger SrcCount { get; private set; }
 
         /// <summary>
-        /// Account user name (herotag)
-        /// </summary>
-        public string UserName { get; private set; }
-
-        /// <summary>
         /// Account developer reward
         /// </summary>
         public string DeveloperReward { get; private set; }
 
         /// <summary>
-        /// Account scam info
-        /// </summary>
-        public ScamInfo ScamInfo { get; private set; }
-
-        /// <summary>
         /// Smart Contract owner address
         /// </summary>
-        public string OwnerAddress { get; private set; }
-
-        /// <summary>
-        /// Smart Contract deployed time
-        /// </summary>
-        public DateTime DeployedAt { get; private set; }
+        public Address OwnerAddress { get; private set; }
 
         /// <summary>
         /// Smart Contract is upgradable
@@ -109,7 +94,22 @@ namespace Mx.NET.SDK.Domain.Data.Account
         /// <summary>
         /// Smart Contract is payable by other Smart Contracts
         /// </summary>
-        public bool IsPayableSmartContract { get; private set; }
+        public bool IsPayableBySmartContract { get; private set; }
+
+        /// <summary>
+        /// Deploy Transaction Hash
+        /// </summary>
+        public string DeployTxHash { get; set; }
+
+        /// <summary>
+        /// Smart Contract deployed time
+        /// </summary>
+        public DateTime DeployedAt { get; private set; }
+
+        /// <summary>
+        /// Account scam info
+        /// </summary>
+        public ScamInfo ScamInfo { get; private set; }
 
         private AccountSC() { }
 
@@ -127,18 +127,18 @@ namespace Mx.NET.SDK.Domain.Data.Account
             Shard = accountDto.Shard;
             Assets = accountDto.Assets;
             Code = accountDto.Code;
-            if (accountDto.CodeHash != null) CodeHash = Encoding.UTF8.GetString(Convert.FromBase64String(accountDto.CodeHash));
-            if (accountDto.RootHash != null) RootHash = Encoding.UTF8.GetString(Convert.FromBase64String(accountDto.RootHash));
+            CodeHash = accountDto.CodeHash;
+            RootHash = accountDto.RootHash;
             TxCount = accountDto.TxCount;
             SrcCount = accountDto.ScrCount;
-            UserName = accountDto.UserName;
             DeveloperReward = accountDto.DeveloperReward;
-            OwnerAddress = accountDto.OwnerAddress;
-            DeployedAt = accountDto.DeployedAt.ToDateTime();
+            OwnerAddress = Address.FromBech32(accountDto.OwnerAddress);
             IsUpgradable = accountDto.IsUpgradable;
             IsReadable = accountDto.IsReadable;
             IsPayable = accountDto.IsPayable;
-            IsPayableSmartContract = accountDto.IsPayableSmartContract;
+            IsPayableBySmartContract = accountDto.IsPayableBySmartContract;
+            DeployTxHash = accountDto.DeployTxHash;
+            DeployedAt = accountDto.DeployedAt.ToDateTime();
             ScamInfo = ScamInfo.From(accountDto.ScamInfo);
         }
 
@@ -157,18 +157,18 @@ namespace Mx.NET.SDK.Domain.Data.Account
                 Shard = account.Shard,
                 Assets = account.Assets,
                 Code = account.Code,
-                CodeHash = Encoding.UTF8.GetString(Convert.FromBase64String(account.CodeHash)),
-                RootHash = Encoding.UTF8.GetString(Convert.FromBase64String(account.RootHash)),
+                CodeHash = account.CodeHash,
+                RootHash = account.RootHash,
                 TxCount = account.TxCount,
                 SrcCount = account.ScrCount,
-                UserName = account.UserName,
                 DeveloperReward = account.DeveloperReward,
-                OwnerAddress = account.OwnerAddress,
-                DeployedAt = account.DeployedAt.ToDateTime(),
+                OwnerAddress = Address.FromBech32(account.OwnerAddress),
                 IsUpgradable = account.IsUpgradable,
                 IsReadable = account.IsReadable,
                 IsPayable = account.IsPayable,
-                IsPayableSmartContract = account.IsPayableSmartContract,
+                IsPayableBySmartContract = account.IsPayableBySmartContract,
+                DeployTxHash = account.DeployTxHash,
+                DeployedAt = account.DeployedAt.ToDateTime(),
                 ScamInfo = ScamInfo.From(account.ScamInfo)
             };
         }

@@ -18,11 +18,12 @@ namespace Mx.NET.SDK.Provider.Dtos.API.Account
         public string UserName { get; set; }
         public string DeveloperReward { get; set; }
         public string OwnerAddress { get; set; }
-        public long DeployedAt { get; set; }
         public bool IsUpgradable { get; set; }
         public bool IsReadable { get; set; }
         public bool IsPayable { get; set; }
-        public bool IsPayableSmartContract { get; set; }
+        public bool IsPayableBySmartContract { get; set; }
+        public string DeployTxHash { get; set; }
+        public long DeployedAt { get; set; }
         public ScamInfoDto ScamInfo { get; set; }
     }
 }
