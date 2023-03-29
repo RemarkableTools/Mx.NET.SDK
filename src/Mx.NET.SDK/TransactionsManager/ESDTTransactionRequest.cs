@@ -116,7 +116,7 @@ namespace Mx.NET.SDK.TransactionsManager
         }
 
         /// <summary>
-        /// Create transaction request - ESDT NFT Transfer to a Smart Contract without gas limit
+        /// Create transaction request - NFT/SFT/MetaESDT Transfer to a Smart Contract without gas limit
         /// </summary>
         /// <param name="networkConfig">MultiversX Network Configuration</param>
         /// <param name="account">Sender Account</param>
@@ -161,7 +161,7 @@ namespace Mx.NET.SDK.TransactionsManager
         }
 
         /// <summary>
-        /// Create transaction request - Multiple ESDT NFTs Transfer to a Smart Contract without gas limit
+        /// Create transaction request - Multiple NFT/SFT/MetaESDT Transfer to a Smart Contract without gas limit
         /// </summary>
         /// <param name="networkConfig">MultiversX Network Configuration</param>
         /// <param name="account">Sender Account</param>
@@ -205,7 +205,7 @@ namespace Mx.NET.SDK.TransactionsManager
         }
 
         /// <summary>
-        /// Create transaction request - ESDT NFT Transfer to a Smart Contract
+        /// Create transaction request - NFT/SFT/MetaESDT Transfer to a Smart Contract
         /// </summary>
         /// <param name="networkConfig">MultiversX Network Configuration</param>
         /// <param name="account">Sender Account</param>
@@ -251,7 +251,7 @@ namespace Mx.NET.SDK.TransactionsManager
         }
 
         /// <summary>
-        /// Create transaction request - Multi ESDT NFTs Transfer to a Smart Contract
+        /// Create transaction request - Multiple NFT/SFT/MetaESDT Transfer to a Smart Contract
         /// </summary>
         /// <param name="networkConfig">MultiversX Network Configuration</param>
         /// <param name="account">Sender Account</param>
