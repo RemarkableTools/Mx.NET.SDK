@@ -9,6 +9,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Mx.NET.SDK.Core\Mx.NET.SDK.Core.csproj" />
+    <ProjectReference Include="..\..\src\Mx.NET.SDK.Wallet\Mx.NET.SDK.Wallet.csproj" />
     <ProjectReference Include="..\..\src\Mx.NET.SDK\Mx.NET.SDK.csproj" />
   </ItemGroup>
 
