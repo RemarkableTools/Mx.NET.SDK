@@ -18,7 +18,7 @@ namespace Mx.NET.SDK.Core.Domain.Abi
         {
             var data = Endpoints.ToList().SingleOrDefault(s => s.Name == endpoint);
             if (data == null)
-                throw new Exception("Endpoint is not define in ABI");
+                throw new Exception("Endpoint is not defined in ABI");
 
             var inputs = data.Inputs.Select(i => new FieldDefinition(i.Name, "", GetTypeValue(i.Type))).ToList();
             var outputs = data.Outputs.Select(i => new FieldDefinition("", "", GetTypeValue(i.Type))).ToList();
@@ -51,13 +51,11 @@ namespace Mx.NET.SDK.Core.Domain.Abi
             if (Types.Keys.Contains(rustType))
             {
                 var typeFromStruct = Types[rustType];
-                return TypeValue.StructValue(
-                                             typeFromStruct.Type,
+                return TypeValue.StructValue(typeFromStruct.Type,
                                              typeFromStruct.Fields
                                                            .ToList()
                                                            .Select(c => new FieldDefinition(c.Name, "", GetTypeValue(c.Type)))
-                                                           .ToArray()
-                                            );
+                                                           .ToArray());
             }
 
             return null;
