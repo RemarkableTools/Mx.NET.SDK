@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+    <RootNamespace>Console_Testing</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Mx.NET.SDK.Core\Mx.NET.SDK.Core.csproj" />
+    <ProjectReference Include="..\..\src\Mx.NET.SDK.Wallet\Mx.NET.SDK.Wallet.csproj" />
+    <ProjectReference Include="..\..\src\Mx.NET.SDK\Mx.NET.SDK.csproj" />
+  </ItemGroup>
+
+</Project>
