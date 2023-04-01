@@ -143,6 +143,12 @@ namespace Mx.NET.SDK.Domain.SmartContracts
 
             var response = await provider.QueryVm(query);
             var data = response.Data;
+
+            if (data.ReturnData is null || data.ReturnData.Length == 0)
+            {
+                return (T)BinaryCoder.DecodeTopLevel(new byte[0], outputTypeValue);
+            }
+
             if (data.ReturnData.Length > 1)
             {
                 var multiTypes = outputTypeValue.MultiTypes;
@@ -165,18 +171,6 @@ namespace Mx.NET.SDK.Domain.SmartContracts
                 return (T)(optional ? OptionValue.NewProvided(multiValue) : (IBinaryType)multiValue);
             }
 
-            if (data.ReturnData.Length == 0)
-            {
-                return (T)BinaryCoder.DecodeTopLevel(new byte[0], outputTypeValue);
-            }
-
-            //TODO: Problem with BooleanValue - FALSE because it returns "" and cannot be decoded
-            //if (outputTypeValue.BinaryType == TypeValue.BooleanValue.BinaryType && data.ReturnData[0] == "")
-            //{
-                //var decodedResponseB = BinaryCoder.DecodeTopLevel(new byte[1] { 0 }, outputTypeValue);
-                //return (T)decodedResponseB;
-            //}
-
             var returnData = Convert.FromBase64String(data.ReturnData[0]);
             var decodedResponse = BinaryCoder.DecodeTopLevel(returnData, outputTypeValue);
             return (T)decodedResponse;
@@ -195,12 +189,14 @@ namespace Mx.NET.SDK.Domain.SmartContracts
                            .ToArray();
 
             var query = new QueryVmRequestDto { FuncName = endpoint, Args = arguments, ScAddress = address.Bech32, Caller = caller?.Bech32 };
-            
+
             var response = await provider.QueryVm(query);
             var data = response.Data;
 
             if (data.ReturnData is null || data.ReturnData.Length == 0)
-                return null;
+            {
+                return Array.Empty<T>();
+            }
 
             var decodedValues = new T[data.ReturnData.Length];
             for (var i = 0; i < data.ReturnData.Length; i++)
