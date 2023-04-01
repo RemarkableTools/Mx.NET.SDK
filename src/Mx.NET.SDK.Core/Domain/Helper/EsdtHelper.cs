@@ -2,7 +2,7 @@
 
 namespace Mx.NET.SDK.Core.Domain.Helper
 {
-    public static class TokenHelper
+    public static class EsdtHelper
     {
         public static string GetTicker(this string identifier)
         {
