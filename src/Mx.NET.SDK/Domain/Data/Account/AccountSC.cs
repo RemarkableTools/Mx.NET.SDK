@@ -8,6 +8,7 @@ using Mx.NET.SDK.Provider;
 using Mx.NET.SDK.Provider.Dtos.API.Account;
 using Mx.NET.SDK.Core.Domain;
 using Mx.NET.SDK.Domain.Helper;
+using Mx.NET.SDK.Core.Domain.Helper;
 
 namespace Mx.NET.SDK.Domain.Data.Account
 {
@@ -127,8 +128,8 @@ namespace Mx.NET.SDK.Domain.Data.Account
             Shard = accountDto.Shard;
             Assets = accountDto.Assets;
             Code = accountDto.Code;
-            CodeHash = accountDto.CodeHash;
-            RootHash = accountDto.RootHash;
+            if (accountDto.CodeHash != null) CodeHash = Converter.ToHexString(Convert.FromBase64String(accountDto.CodeHash)).ToLower();
+            if (accountDto.RootHash != null) RootHash = Converter.ToHexString(Convert.FromBase64String(accountDto.RootHash)).ToLower();
             TxCount = accountDto.TxCount;
             SrcCount = accountDto.ScrCount;
             DeveloperReward = accountDto.DeveloperReward;
@@ -157,8 +158,8 @@ namespace Mx.NET.SDK.Domain.Data.Account
                 Shard = account.Shard,
                 Assets = account.Assets,
                 Code = account.Code,
-                CodeHash = account.CodeHash,
-                RootHash = account.RootHash,
+                CodeHash = account.CodeHash is null ? null : Converter.ToHexString(Convert.FromBase64String(account.CodeHash)).ToLower(),
+                RootHash = account.RootHash is null ? null : Converter.ToHexString(Convert.FromBase64String(account.RootHash)).ToLower(),
                 TxCount = account.TxCount,
                 SrcCount = account.ScrCount,
                 DeveloperReward = account.DeveloperReward,
