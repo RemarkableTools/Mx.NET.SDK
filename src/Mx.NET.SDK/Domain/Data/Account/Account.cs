@@ -3,6 +3,7 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using Mx.NET.SDK.Core.Domain;
+using Mx.NET.SDK.Core.Domain.Helper;
 using Mx.NET.SDK.Core.Domain.Values;
 using Mx.NET.SDK.Domain.Data.Common;
 using Mx.NET.SDK.Provider;
@@ -93,7 +94,7 @@ namespace Mx.NET.SDK.Domain.Data.Account
             Nonce = accountDto.Nonce;
             Shard = accountDto.Shard;
             Assets = accountDto.Assets;
-            RootHash = accountDto.RootHash;
+            if (accountDto.RootHash != null) RootHash = Converter.ToHexString(Convert.FromBase64String(accountDto.RootHash)).ToLower();
             TxCount = accountDto.TxCount;
             SrcCount = accountDto.ScrCount;
             UserName = accountDto.UserName;
@@ -115,7 +116,7 @@ namespace Mx.NET.SDK.Domain.Data.Account
                 Nonce = account.Nonce,
                 Shard = account.Shard,
                 Assets = account.Assets,
-                RootHash = account.RootHash,
+                RootHash = account.RootHash is null ? null : Converter.ToHexString(Convert.FromBase64String(account.RootHash)).ToLower(),
                 TxCount = account.TxCount,
                 SrcCount = account.ScrCount,
                 UserName = account.UserName,
