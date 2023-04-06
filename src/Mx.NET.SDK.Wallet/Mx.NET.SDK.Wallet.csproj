@@ -15,7 +15,7 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     <Title>RemarkableTools.Mx.Wallet</Title>
-    <Copyright>Copyright © Remarkable Tools 2022</Copyright>
+    <Copyright>Copyright © Remarkable Tools 2023</Copyright>
     <PackageIcon>RemarkableToolsPackage.jpg</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageReleaseNotes>.NET SDK Release</PackageReleaseNotes>
