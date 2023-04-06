@@ -18,7 +18,7 @@
     <PackAsTool>False</PackAsTool>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
-    <Copyright>Copyright © Remarkable Tools 2022</Copyright>
+    <Copyright>Copyright © Remarkable Tools 2023</Copyright>
     <PackageIcon>RemarkableToolsPackage.jpg</PackageIcon>
     <PackageReleaseNotes>SDK updates and improvements</PackageReleaseNotes>
   </PropertyGroup>
