@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using System.Numerics;
 using Mx.NET.SDK.Core.Domain.Exceptions;
@@ -167,7 +168,7 @@ namespace Mx.NET.SDK.Core.Domain
         /// <returns></returns>
         public double ToDouble()
         {
-            return double.Parse(ToDenominated());
+            return double.Parse(ToDenominated(), CultureInfo.InvariantCulture);
         }
 
         /// <summary>
