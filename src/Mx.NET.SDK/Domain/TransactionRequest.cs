@@ -10,6 +10,7 @@ using Mx.NET.SDK.Core.Domain;
 using Mx.NET.SDK.Core.Domain.SmartContracts;
 using static Mx.NET.SDK.Core.Domain.Constants.Constants;
 using Mx.NET.SDK.Provider.Dtos.API.Transactions;
+using System.Globalization;
 
 namespace Mx.NET.SDK.Domain
 {
@@ -135,7 +136,7 @@ namespace Mx.NET.SDK.Domain
 
             var remainingGas = GasLimit.Value - dataGas;
             var gasPriceModifier = networkConfig.GasPriceModifier;
-            var modifiedGasPrice = gasPrice * double.Parse(gasPriceModifier);
+            var modifiedGasPrice = gasPrice * double.Parse(gasPriceModifier, CultureInfo.InvariantCulture);
             var surplusFee = remainingGas * modifiedGasPrice;
 
             return ESDTAmount.From($"{transactionGas + surplusFee}");
