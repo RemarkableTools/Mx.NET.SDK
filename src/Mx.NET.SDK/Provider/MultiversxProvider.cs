@@ -19,6 +19,7 @@ using Mx.NET.SDK.Provider.Dtos.API.Token;
 using Mx.NET.SDK.Core.Domain.Constants;
 using Mx.NET.SDK.Provider.Dtos.Gateway.Query;
 using System.Net;
+using Mx.NET.SDK.Provider.Dtos.API.Block;
 
 namespace Mx.NET.SDK.Provider
 {
@@ -391,6 +392,59 @@ namespace Mx.NET.SDK.Provider
                 throw new APIException(JsonWrapper.Deserialize<APIExceptionResponse>(content));
 
             var result = JsonWrapper.Deserialize<AccountHistoryTokenDto[]>(content);
+            return result;
+        }
+
+        #endregion
+
+        #region blocks
+
+        public async Task<BlocksDto[]> GetBlocks(int size = 25, int from = 0, Dictionary<string, string> parameters = null)
+        {
+            return await GetBlocksCustom<BlocksDto>(size, from, parameters);
+        }
+
+        public async Task<Blocks[]> GetBlocksCustom<Blocks>(int size = 25, int from = 0, Dictionary<string, string> parameters = null)
+        {
+            size = size > 10000 ? 10000 : size;
+            string args = "";
+            if (parameters != null)
+                args = $"&{string.Join("&", parameters.Select(e => $"{e.Key}={e.Value}"))}";
+            var response = await _httpAPIClient.GetAsync($"blocks?from={from}&size={size}{args}");
+            var content = await response.Content.ReadAsStringAsync();
+            if (!response.IsSuccessStatusCode)
+                throw new APIException(JsonWrapper.Deserialize<APIExceptionResponse>(content));
+
+            var result = JsonWrapper.Deserialize<Blocks[]>(content);
+            return result;
+        }
+
+        public async Task<string> GetBlocksCount(Dictionary<string, string> parameters = null)
+        {
+            string args = "";
+            if (parameters != null)
+                args = $"?{string.Join("&", parameters.Select(e => $"{e.Key}={e.Value}"))}";
+            var response = await _httpAPIClient.GetAsync($"blocks/count{args}");
+            var content = await response.Content.ReadAsStringAsync();
+            if (!response.IsSuccessStatusCode)
+                throw new APIException(JsonWrapper.Deserialize<APIExceptionResponse>(content));
+
+            return content;
+        }
+
+        public async Task<BlockDto> GetBlock(string blockHash)
+        {
+            return await GetBlockCustom<BlockDto>(blockHash);
+        }
+
+        public async Task<Block> GetBlockCustom<Block>(string blockHash)
+        {
+            var response = await _httpAPIClient.GetAsync($"blocks/{blockHash}");
+            var content = await response.Content.ReadAsStringAsync();
+            if (!response.IsSuccessStatusCode)
+                throw new APIException(JsonWrapper.Deserialize<APIExceptionResponse>(content));
+
+            var result = JsonWrapper.Deserialize<Block>(content);
             return result;
         }
 
