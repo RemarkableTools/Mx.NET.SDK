@@ -68,9 +68,9 @@ namespace Mx.NET.SDK.Domain.Data.Block
         public string StateRootHash { get; private set; }
 
         /// <summary>
-        /// Block date
+        /// Block creation date
         /// </summary>
-        public DateTime BlockDate { get; private set; }
+        public DateTime CreationDate { get; private set; }
 
         /// <summary>
         /// Block transactions count
@@ -135,7 +135,7 @@ namespace Mx.NET.SDK.Domain.Data.Block
                 Size = block.Size ?? 0,
                 SizeTxs = block.SizeTxs ?? 0,
                 StateRootHash = block.StateRootHash,
-                BlockDate = (block.Timestamp ?? 0).ToDateTime(),
+                CreationDate = (block.Timestamp ?? 0).ToDateTime(),
                 TxCount = block.TxCount ?? 0,
                 GasConsumed = block.GasConsumed ?? 0,
                 GasRefunded = block.GasRefunded ?? 0,
