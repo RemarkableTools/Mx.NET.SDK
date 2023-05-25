@@ -10,7 +10,7 @@ namespace Mx.NET.SDK.Wallet
 {
     public static class WalletMethods
     {
-        public static TransactionRequestDto Sign(this TransactionRequest transactionRequest, Signer signer)
+        public static TransactionRequestDto Sign(this TransactionRequest transactionRequest, WalletSigner signer)
         {
             var transactionRequestDto = transactionRequest.GetTransactionRequest();
             var json = JsonWrapper.Serialize(transactionRequestDto);
@@ -26,14 +26,14 @@ namespace Mx.NET.SDK.Wallet
             var message = JsonWrapper.Serialize(transactionRequestDto);
 
             var verifier = WalletVerifier.FromAddress(transactionRequest.Sender);
-            return verifier.VerifyRaw(new SignableMessage()
+            return verifier.Verify(new SignableMessage()
             {
                 Message = message,
                 Signature = signature
             });
         }
 
-        public static TransactionRequestDto[] MultiSign(this TransactionRequest[] transactionsRequest, Signer signer)
+        public static TransactionRequestDto[] MultiSign(this TransactionRequest[] transactionsRequest, WalletSigner signer)
         {
             var transactions = new List<TransactionRequestDto>();
 

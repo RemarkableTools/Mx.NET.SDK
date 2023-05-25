@@ -1,19 +1,18 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 using Mx.NET.SDK.Core.Domain.Values;
 
 namespace Mx.NET.SDK.Wallet.Wallet
 {
-    public class Signer
+    public class WalletSigner
     {
-        private WalletSecretKey _secretKey;
+        private readonly WalletSecretKey _secretKey;
 
-        public Signer(byte[] secretKey)
+        public WalletSigner(byte[] secretKey)
         {
             _secretKey = new WalletSecretKey(secretKey);
         }
 
-        public Signer(WalletSecretKey secretKey)
+        public WalletSigner(WalletSecretKey secretKey)
         {
             _secretKey = secretKey;
         }
@@ -24,9 +23,9 @@ namespace Mx.NET.SDK.Wallet.Wallet
         /// <param name="mnemonic">The mnemonic phrase</param>
         /// <param name="accountIndex">The account index, default 0</param>
         /// <returns></returns>
-        public static Signer FromMnemonic(string mnemonic, int accountIndex = 0)
+        public static WalletSigner FromMnemonic(string mnemonic, int accountIndex = 0)
         {
-            return new Signer(Mnemonic.DecryptSecretKey(mnemonic, accountIndex));
+            return new WalletSigner(Mnemonic.DecryptSecretKey(mnemonic, accountIndex));
         }
 
         /// <summary>
@@ -35,9 +34,9 @@ namespace Mx.NET.SDK.Wallet.Wallet
         /// <param name="filePath">The KeyFile path</param>
         /// <param name="password">The password</param>
         /// <returns></returns>
-        public static Signer FromKeyFile(string filePath, string password)
+        public static WalletSigner FromKeyFile(string filePath, string password)
         {
-            return new Signer(KeyFile.DecryptSecretKey(filePath, password));
+            return new WalletSigner(KeyFile.DecryptSecretKey(filePath, password));
         }
 
         /// <summary>
@@ -45,9 +44,9 @@ namespace Mx.NET.SDK.Wallet.Wallet
         /// </summary>
         /// <param name="filePath">The PemFile path</param>
         /// <returns></returns>
-        public static Signer FromPemFile(string filePath)
+        public static WalletSigner FromPemFile(string filePath)
         {
-            return new Signer(PemFile.DecryptSecretKey(filePath));
+            return new WalletSigner(PemFile.DecryptSecretKey(filePath));
         }
 
         /// <summary>

@@ -6,7 +6,7 @@ namespace Mx.NET.SDK.Wallet.Wallet
 {
     public class WalletVerifier
     {
-        private WalletPublicKey _publicKey;
+        private readonly WalletPublicKey _publicKey;
 
         public WalletVerifier(byte[] publicKey)
         {
@@ -26,12 +26,6 @@ namespace Mx.NET.SDK.Wallet.Wallet
         public bool Verify(SignableMessage message)
         {
             return _publicKey.Verify(message.SerializeForSigning(),
-                                     Converter.FromHexString(message.Signature));
-        }
-
-        public bool VerifyRaw(SignableMessage message)
-        {
-            return _publicKey.Verify(message.SerializeForSigningRaw(),
                                      Converter.FromHexString(message.Signature));
         }
     }
