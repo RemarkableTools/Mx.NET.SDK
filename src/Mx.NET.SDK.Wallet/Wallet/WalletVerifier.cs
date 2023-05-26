@@ -28,5 +28,11 @@ namespace Mx.NET.SDK.Wallet.Wallet
             return _publicKey.Verify(message.SerializeForSigning(),
                                      Converter.FromHexString(message.Signature));
         }
+
+        public bool VerifyRaw(SignableMessage message)
+        {
+            return _publicKey.Verify(message.SerializeForSigningRaw(),
+                                     Converter.FromHexString(message.Signature));
+        }
     }
 }
