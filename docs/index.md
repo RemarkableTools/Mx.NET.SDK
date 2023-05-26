@@ -12,6 +12,8 @@ var provider = new MultiversxProvider(new MultiversxNetworkConfiguration(Network
 ```
 With this provider you can query the MultiversX API data like in the following examples:
 ```csharp
+// You can integrate intructions in Try..Catch block
+
 var networkConfig = await NetworkConfig.GetFromNetwork(provider);
 var account = Account.From(await provider.GetAccount("erd1sdslvlxvfnnflzj42l8czrcngq3xjjzkjp3rgul4ttk6hntr4qdsv6sets"));
 var transaction = Transaction.From(await provider.GetTransaction("0a94708e9653b79665ba41a6292ec865ab09e51a32be4b96b6f76ba272665f01"));
