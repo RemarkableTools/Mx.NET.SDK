@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using Mx.NET.SDK.Core.Domain;
 using Mx.NET.SDK.Core.Domain.Helper;
@@ -48,6 +49,15 @@ namespace Mx.NET.SDK.Wallet
                 Message = message,
                 Signature = signature
             });
+        }
+
+        public static bool VerifyMessage(this SignableMessage signableMessage)
+        {
+            if (signableMessage.Address is null)
+                throw new Exception("Address is not initialized");
+
+            var verifier = WalletVerifier.FromAddress(signableMessage.Address);
+            return verifier.Verify(signableMessage);
         }
     }
 }
