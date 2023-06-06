@@ -11,14 +11,14 @@
     <RepositoryUrl>https://github.com/RemarkableTools/Mx.NET.SDK/tree/main/src/Mx.NET.SDK.Wallet</RepositoryUrl>
     <RepositoryType>GitHub</RepositoryType>
     <Company>Remarkable Tools</Company>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     <Title>RemarkableTools.Mx.Wallet</Title>
     <Copyright>Copyright © Remarkable Tools 2023</Copyright>
     <PackageIcon>RemarkableToolsPackage.jpg</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageReleaseNotes>.NET SDK Release</PackageReleaseNotes>
+    <PackageReleaseNotes>SDK updates and improvements</PackageReleaseNotes>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0|AnyCPU'">
     <WarningLevel>5</WarningLevel>
@@ -40,15 +40,6 @@
   <ItemGroup>
     <PackageReference Include="dotnetstandard-bip39" Version="1.0.2" />
     <PackageReference Include="Portable.BouncyCastle" Version="1.9.0" />
-  </ItemGroup>
-
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net461' ">
-    <Reference Include="System.Numerics" Version="4.0.0.0" />
-    <Reference Include="System.Web" Version="4.0.0.0" />
-  </ItemGroup>
-
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net47' ">
-    <Reference Include="System.Web" Version="4.0.0.0" />
   </ItemGroup>
 
   <ItemGroup>
