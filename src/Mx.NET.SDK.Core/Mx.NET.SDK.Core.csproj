@@ -11,7 +11,7 @@
     <RepositoryUrl>https://github.com/RemarkableTools/Mx.NET.SDK/tree/main/src/Mx.NET.SDK.Core</RepositoryUrl>
     <RepositoryType>GitHub</RepositoryType>
     <Company>Remarkable Tools</Company>
-    <Version>1.0.8</Version>
+    <Version>1.0.9</Version>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Title>RemarkableTools.Mx.Core</Title>
     <PackageReadmeFile>README.md</PackageReadmeFile>
@@ -47,11 +47,6 @@
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'net461' ">
     <Reference Include="System.Numerics" Version="4.0.0.0" />
-    <Reference Include="System.Web" Version="4.0.0.0" />
-  </ItemGroup>
-
-  <ItemGroup Condition=" '$(TargetFramework)' == 'net47' ">
-    <Reference Include="System.Web" Version="4.0.0.0" />
   </ItemGroup>
 
   <ItemGroup>
