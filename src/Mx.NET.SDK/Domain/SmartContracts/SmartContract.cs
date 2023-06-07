@@ -7,6 +7,7 @@ using Mx.NET.SDK.Core.Domain.Abi;
 using Mx.NET.SDK.Core.Domain.Codec;
 using Mx.NET.SDK.Core.Domain.Helper;
 using Mx.NET.SDK.Core.Domain.Values;
+using Mx.NET.SDK.Domain.Exceptions;
 using Mx.NET.SDK.Provider;
 using Mx.NET.SDK.Provider.Dtos.Gateway.Query;
 using Org.BouncyCastle.Crypto.Digests;
@@ -144,7 +145,12 @@ namespace Mx.NET.SDK.Domain.SmartContracts
             var response = await provider.QueryVm(query);
             var data = response.Data;
 
-            if (data.ReturnData is null || data.ReturnData.Length == 0)
+            if (data.ReturnData is null)
+            {
+                throw new APIException(data.ReturnMessage);
+            }
+
+            if (data.ReturnData.Length == 0)
             {
                 return (T)BinaryCoder.DecodeTopLevel(new byte[0], outputTypeValue);
             }
@@ -193,7 +199,12 @@ namespace Mx.NET.SDK.Domain.SmartContracts
             var response = await provider.QueryVm(query);
             var data = response.Data;
 
-            if (data.ReturnData is null || data.ReturnData.Length == 0)
+            if (data.ReturnData is null)
+            {
+                throw new APIException(data.ReturnMessage);
+            }
+
+            if (data.ReturnData.Length == 0)
             {
                 return Array.Empty<T>();
             }
