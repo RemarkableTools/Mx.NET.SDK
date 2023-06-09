@@ -8,7 +8,7 @@ using Mx.NET.SDK.Core.Domain.Codec;
 using Mx.NET.SDK.Core.Domain.Helper;
 using Mx.NET.SDK.Core.Domain.Values;
 using Mx.NET.SDK.Domain.Exceptions;
-using Mx.NET.SDK.Provider;
+using Mx.NET.SDK.Provider.Gateway;
 using Mx.NET.SDK.Provider.Dtos.Gateway.Query;
 using Org.BouncyCastle.Crypto.Digests;
 using static Mx.NET.SDK.Core.Domain.Constants.Constants;
@@ -70,7 +70,7 @@ namespace Mx.NET.SDK.Domain.SmartContracts
         /// <param name="args">The arguments of the Pure Function. Can be empty</param>
         /// <returns>The response</returns>
         public static Task<T> QuerySmartContractWithAbiDefinition<T>(
-            IMultiversxProvider provider,
+            IGatewayProvider provider,
             Address address,
             AbiDefinition abiDefinition,
             string endpoint,
@@ -95,7 +95,7 @@ namespace Mx.NET.SDK.Domain.SmartContracts
         /// <param name="args">The arguments of the Pure Function. Can be empty</param>
         /// <returns>The response</returns>
         public static async Task<BooleanValue> QueryBoolSmartContract(
-            IMultiversxProvider provider,
+            IGatewayProvider provider,
             Address address,
             string endpoint,
             Address caller = null,
@@ -129,7 +129,7 @@ namespace Mx.NET.SDK.Domain.SmartContracts
         /// <param name="args">The arguments of the Pure Function. Can be empty</param>
         /// <returns>The response</returns>
         public static async Task<T> QuerySmartContract<T>(
-            IMultiversxProvider provider,
+            IGatewayProvider provider,
             Address address,
             TypeValue outputTypeValue,
             string endpoint,
@@ -183,7 +183,7 @@ namespace Mx.NET.SDK.Domain.SmartContracts
         }
 
         public static async Task<T[]> QueryArraySmartContract<T>(
-                IMultiversxProvider provider,
+                IGatewayProvider provider,
                 Address address,
                 TypeValue outputTypeValue,
                 string endpoint,
