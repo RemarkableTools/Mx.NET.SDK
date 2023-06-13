@@ -29,6 +29,9 @@ namespace Mx.NET.SDK.Core.Domain.Abi
         {
             var optional = new Regex("^optional<(.*)>$");
             var multi = new Regex("^multi<(.*)>$");
+            var tuple = new Regex("^tuple<(.*)>$");
+            var variadic = new Regex("^variadic<(.*)>$");
+            var list = new Regex("^List<(.*)>$");
 
             if (optional.IsMatch(rustType))
             {
@@ -42,6 +45,27 @@ namespace Mx.NET.SDK.Core.Domain.Abi
                 var innerTypes = multi.Match(rustType).Groups[1].Value.Split(',').Where(s => !string.IsNullOrEmpty(s));
                 var innerTypeValues = innerTypes.Select(GetTypeValue).ToArray();
                 return TypeValue.MultiValue(innerTypeValues);
+            }
+
+            if (tuple.IsMatch(rustType))
+            {
+                var innerTypes = tuple.Match(rustType).Groups[1].Value.Split(',').Where(s => !string.IsNullOrEmpty(s));
+                var innerTypeValues = innerTypes.Select(GetTypeValue).ToArray();
+                return TypeValue.TupleValue(innerTypeValues);
+            }
+
+            if (variadic.IsMatch(rustType))
+            {
+                var innerType = variadic.Match(rustType).Groups[1].Value;
+                var innerTypeValue = GetTypeValue(innerType);
+                return TypeValue.VariadicValue(innerTypeValue);
+            }
+
+            if (list.IsMatch(rustType))
+            {
+                var innerType = list.Match(rustType).Groups[1].Value;
+                var innerTypeValue = GetTypeValue(innerType);
+                return TypeValue.ListValue(innerTypeValue);
             }
 
             var typeFromBaseRustType = TypeValue.FromRustType(rustType);

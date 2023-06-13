@@ -5,19 +5,19 @@ using Mx.NET.SDK.Core.Domain.Helper;
 
 namespace Mx.NET.SDK.Core.Domain.Values
 {
-    public class MultiValue : BaseBinaryValue
+    public class TupleValue : BaseBinaryValue
     {
         public Dictionary<TypeValue, IBinaryType> Values { get; }
 
-        public MultiValue(TypeValue type, Dictionary<TypeValue, IBinaryType> values) : base(type)
+        public TupleValue(TypeValue type, Dictionary<TypeValue, IBinaryType> values) : base(type)
         {
             Values = values;
         }
 
-        public static MultiValue From(params IBinaryType[] values)
+        public static TupleValue From(params IBinaryType[] values)
         {
             var t = values.Select(s => s.Type).ToArray();
-            return new MultiValue(TypeValue.MultiValue(t), values.ToDictionary(s => s.Type, d => d));
+            return new TupleValue(TypeValue.TupleValue(t), values.ToDictionary(s => s.Type, d => d));
         }
 
         public override string ToString()
@@ -43,7 +43,7 @@ namespace Mx.NET.SDK.Core.Domain.Values
             for (var i = 0; i < Values.Count; i++)
             {
                 var value = Values.ToArray()[i];
-                dict.Add($"multi_{i}", value.Value.ToJson());
+                dict.Add($"item{i + 1}", value.Value.ToJson());
             }
 
             return JsonUnqtWrapper.Serialize(dict);

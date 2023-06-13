@@ -75,6 +75,9 @@ namespace Mx.NET.SDK.Core.Domain.Values
             public const string TokenIdentifier = nameof(TokenIdentifier);
             public const string Option = nameof(Option);
             public const string Multi = nameof(Multi);
+            public const string Tuple = nameof(Tuple);
+            public const string Variadic = nameof(Variadic);
+            public const string List = nameof(List);
         }
 
         public static class RustTypes
@@ -124,6 +127,9 @@ namespace Mx.NET.SDK.Core.Domain.Values
 
         public static TypeValue OptionValue(TypeValue innerType = null) => new TypeValue(BinaryTypes.Option, innerType);
         public static TypeValue MultiValue(TypeValue[] multiTypes) => new TypeValue(BinaryTypes.Multi, multiTypes);
+        public static TypeValue TupleValue(TypeValue[] tupleTypes) => new TypeValue(BinaryTypes.Tuple, tupleTypes);
+        public static TypeValue VariadicValue(TypeValue innerType) => new TypeValue(BinaryTypes.Variadic, innerType);
+        public static TypeValue ListValue(TypeValue innerType) => new TypeValue(BinaryTypes.List, innerType);
 
         public static TypeValue StructValue(string name, FieldDefinition[] fieldDefinitions) =>
             new TypeValue(BinaryTypes.Struct, name, fieldDefinitions);

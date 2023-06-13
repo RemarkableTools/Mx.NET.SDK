@@ -117,69 +117,9 @@ namespace Mx.NET.SDK.Domain.SmartContracts
                 throw new APIException(data.ReturnMessage);
             }
 
-            if (data.ReturnData.Length == 0)
-            {
-                return (T)BinaryCoder.DecodeTopLevel(new byte[0], outputTypeValue);
-            }
-
-            if (data.ReturnData.Length > 1)
-            {
-                var multiTypes = outputTypeValue.MultiTypes;
-                var optional = false;
-                if (outputTypeValue.BinaryType == TypeValue.BinaryTypes.Option)
-                {
-                    optional = true;
-                    multiTypes = outputTypeValue.InnerType?.MultiTypes;
-                }
-
-                var decodedValues = new List<IBinaryType>();
-                for (var i = 0; i < multiTypes.Length; i++)
-                {
-                    var decoded = BinaryCoder.DecodeTopLevel(Convert.FromBase64String(data.ReturnData[i]), multiTypes[i]);
-                    decodedValues.Add(decoded);
-                }
-
-                var multiValue = MultiValue.From(decodedValues.ToArray());
-                return (T)(optional ? OptionValue.NewProvided(multiValue) : (IBinaryType)multiValue);
-            }
-
-            var returnData = Convert.FromBase64String(data.ReturnData[0]);
-            var decodedResponse = BinaryCoder.DecodeTopLevel(returnData, outputTypeValue);
-            return (T)decodedResponse;
-        }
-
-        public static async Task<T[]> QueryArraySmartContract<T>(
-                IGatewayProvider provider,
-                Address address,
-                TypeValue outputTypeValue,
-                string endpoint,
-                Address caller = null,
-                params IBinaryType[] args) where T : IBinaryType
-        {
-            var arguments = args
-                           .Select(typeValue => Converter.ToHexString(BinaryCoder.EncodeTopLevel(typeValue)))
-                           .ToArray();
-
-            var query = new QueryVmRequestDto { FuncName = endpoint, Args = arguments, ScAddress = address.Bech32, Caller = caller?.Bech32 };
-
-            var response = await provider.QueryVm(query);
-            var data = response.Data;
-
-            if (data.ReturnData is null)
-            {
-                throw new APIException(data.ReturnMessage);
-            }
-
-            if (data.ReturnData.Length == 0)
-            {
-                return Array.Empty<T>();
-            }
-
-            var decodedValues = new T[data.ReturnData.Length];
-            for (var i = 0; i < data.ReturnData.Length; i++)
-                decodedValues[i] = (T)BinaryCoder.DecodeTopLevel(Convert.FromBase64String(data.ReturnData[i]), outputTypeValue);
-
-            return decodedValues;
+            var returnedData = data.ReturnData.Select(d => Convert.FromBase64String(d));
+            var dataBuffer = returnedData.SelectMany(d => d).ToArray();
+            return (T)BinaryCoder.DecodeTopLevel(dataBuffer, outputTypeValue);
         }
 
         private static byte[] ConcatByteArrays(params byte[][] arrays)
