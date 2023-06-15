@@ -25,5 +25,12 @@ namespace Mx.NET.SDK.Provider.Dtos.API.Account
         public string DeployTxHash { get; set; }
         public long DeployedAt { get; set; }
         public ScamInfoDto ScamInfo { get; set; }
+        public long? ActiveGuardianActivationEpoch { get; set; }
+        public string ActiveGuardianAddress { get; set; }
+        public string ActiveGuardianServiceUid { get; set; }
+        public long? PendingGuardianActivationEpoch { get; set; }
+        public string PendingGuardianAddress { get; set; }
+        public string PendingGuardianServiceUid { get; set; }
+        public bool? IsGuarded { get; set; }
     }
 }

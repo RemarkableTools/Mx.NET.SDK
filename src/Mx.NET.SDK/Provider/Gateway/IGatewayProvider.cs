@@ -1,6 +1,6 @@
-﻿using Mx.NET.SDK.Provider.Dtos.API.Transactions;
-using Mx.NET.SDK.Provider.Dtos.Gateway.Network;
+﻿using Mx.NET.SDK.Provider.Dtos.Gateway.Network;
 using Mx.NET.SDK.Provider.Dtos.Gateway.Query;
+using Mx.NET.SDK.Provider.Dtos.Gateway.Transactions;
 using System.Threading.Tasks;
 
 namespace Mx.NET.SDK.Provider.Gateway
