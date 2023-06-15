@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Mx.NET.SDK.Provider.Dtos.API.Transactions
+namespace Mx.NET.SDK.Provider.Dtos.Gateway.Transactions
 {
     public class MultipleTransactionsResponseDto
     {

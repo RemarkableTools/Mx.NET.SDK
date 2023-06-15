@@ -9,8 +9,8 @@ using Mx.NET.SDK.Core.Domain.Values;
 using Mx.NET.SDK.Core.Domain;
 using Mx.NET.SDK.Core.Domain.SmartContracts;
 using static Mx.NET.SDK.Core.Domain.Constants.Constants;
-using Mx.NET.SDK.Provider.Dtos.API.Transactions;
 using System.Globalization;
+using Mx.NET.SDK.Provider.Dtos.Gateway.Transactions;
 
 namespace Mx.NET.SDK.Domain
 {
@@ -18,30 +18,38 @@ namespace Mx.NET.SDK.Domain
     {
         private static readonly BinaryCodec binaryCoder = new BinaryCodec();
         private readonly NetworkConfig networkConfig;
-
-        public readonly string ChainId;
-        public readonly int Version = 1;
         public Account Account { get; }
-        public Address Sender { get; }
+
         public ulong Nonce { get; }
-        public long GasPrice { get; }
         public ESDTAmount Value { get; private set; }
         public Address Receiver { get; private set; }
+        public Address Sender { get; }
+        public long GasPrice { get; }
         public GasLimit GasLimit { get; private set; }
+        public string ChainId { get; }
         public string Data { get; private set; }
+        public int Version { get; private set; } = 1;
         public int? Options { get; private set; }
+        public Address Guardian { get; private set; } = null;
 
         private TransactionRequest(Account account, NetworkConfig networkConfig)
         {
             this.networkConfig = networkConfig;
-            ChainId = networkConfig.ChainId;
             Account = account;
-            Sender = account.Address;
-            Receiver = Address.Zero();
-            Value = ESDTAmount.Zero();
+
             Nonce = account.Nonce;
-            GasLimit = new GasLimit(networkConfig.MinGasLimit);
+            Value = ESDTAmount.Zero();
+            Receiver = Address.Zero();
+            Sender = account.Address;
             GasPrice = networkConfig.MinGasPrice;
+            GasLimit = new GasLimit(networkConfig.MinGasLimit);
+            ChainId = networkConfig.ChainId;
+            if (account.IsGuarded)
+            {
+                Guardian = account.Guardian;
+                Version = 2;
+                Options = 2;
+            }
         }
 
         public static TransactionRequest Create(Account account, NetworkConfig networkConfig)
@@ -52,6 +60,42 @@ namespace Mx.NET.SDK.Domain
         public static TransactionRequest Create(Account account, NetworkConfig networkConfig, Address receiver, ESDTAmount value)
         {
             return new TransactionRequest(account, networkConfig) { Receiver = receiver, Value = value };
+        }
+
+        public void SetGasLimit(GasLimit gasLimit)
+        {
+            if (Account.IsGuarded)
+                gasLimit += 50000;
+            GasLimit = gasLimit;
+        }
+
+        public void SetVersion(int value)
+        {
+            Version = value;
+        }
+
+        public void SetOptions(int value)
+        {
+            Options = value;
+        }
+
+        public void SetGuardian(string address)
+        {
+            Guardian = Address.FromBech32(address);
+            Version = 2;
+            Options = 2;
+        }
+
+        public void AddArgument(IBinaryType[] args)
+        {
+            if (!args.Any())
+                return;
+
+            var binaryCodec = new BinaryCodec();
+            var decodedData = DataCoder.DecodeData(Data);
+            var data = args.Aggregate(decodedData,
+                                      (c, arg) => c + $"@{Converter.ToHexString(binaryCodec.EncodeTopLevel(arg))}");
+            Data = DataCoder.EncodeData(data);
         }
 
         public static TransactionRequest CreateEgldTransactionRequest(
@@ -108,16 +152,6 @@ namespace Mx.NET.SDK.Domain
             return transaction;
         }
 
-        public void SetGasLimit(GasLimit gasLimit)
-        {
-            GasLimit = gasLimit;
-        }
-
-        public void SetOptions(int value)
-        {
-            Options = value;
-        }
-
         public ESDTAmount GetEstimatedFee()
         {
             if (GasLimit is null)
@@ -126,6 +160,8 @@ namespace Mx.NET.SDK.Domain
             var dataBytes = Data is null ? Array.Empty<byte>() : Convert.FromBase64String(Data);
 
             var dataGas = networkConfig.MinGasLimit + dataBytes.Length * networkConfig.GasPerDataByte;
+            if (Account.IsGuarded)
+                dataGas += 50000;
             if (dataGas > GasLimit.Value)
                 throw new GasLimitException.NotEnoughGasException($"Not Enough Gas ({GasLimit.Value}) for transaction");
 
@@ -142,32 +178,23 @@ namespace Mx.NET.SDK.Domain
             return ESDTAmount.From($"{transactionGas + surplusFee}");
         }
 
-        public void AddArgument(IBinaryType[] args)
-        {
-            if (!args.Any())
-                return;
-
-            var binaryCodec = new BinaryCodec();
-            var decodedData = DataCoder.DecodeData(Data);
-            var data = args.Aggregate(decodedData,
-                                      (c, arg) => c + $"@{Converter.ToHexString(binaryCodec.EncodeTopLevel(arg))}");
-            Data = DataCoder.EncodeData(data);
-        }
-
         public TransactionRequestDto GetTransactionRequest()
         {
             return new TransactionRequestDto()
             {
-                ChainID = ChainId,
-                Data = Data,
-                GasLimit = GasLimit.Value,
-                GasPrice = GasPrice,
                 Nonce = Nonce,
+                Value = Value.ToString(),
                 Receiver = Receiver.Bech32,
                 Sender = Sender.Bech32,
+                GasPrice = GasPrice,
+                GasLimit = GasLimit.Value,
+                Data = Data,
+                ChainID = ChainId,
+                Version = Version,
+                Options = Options,
+                Guardian = Guardian?.Bech32,
                 Signature = null,
-                Value = Value.ToString(),
-                Version = Version
+                GuardianSignature = null
             };
         }
     }

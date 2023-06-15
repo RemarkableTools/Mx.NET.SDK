@@ -4,7 +4,7 @@ using System.Text;
 using Mx.NET.SDK.Core.Domain;
 using Mx.NET.SDK.Core.Domain.Helper;
 using Mx.NET.SDK.Domain;
-using Mx.NET.SDK.Provider.Dtos.API.Transactions;
+using Mx.NET.SDK.Provider.Dtos.Gateway.Transactions;
 using Mx.NET.SDK.Wallet.Wallet;
 
 namespace Mx.NET.SDK.Wallet
