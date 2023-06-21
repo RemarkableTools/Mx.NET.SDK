@@ -20,8 +20,8 @@ using Mx.NET.SDK.Core.Domain.Constants;
 using Mx.NET.SDK.Provider.Dtos.Gateway.Query;
 using System.Net;
 using Mx.NET.SDK.Provider.Dtos.API.Block;
-using System.Threading;
 using Mx.NET.SDK.Provider.Dtos.Gateway.Address;
+using Mx.NET.SDK.Provider.Dtos.API.Transactions;
 
 namespace Mx.NET.SDK.Provider
 {
