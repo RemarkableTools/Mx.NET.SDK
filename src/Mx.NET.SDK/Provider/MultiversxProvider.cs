@@ -20,8 +20,8 @@ using Mx.NET.SDK.Core.Domain.Constants;
 using Mx.NET.SDK.Provider.Dtos.Gateway.Query;
 using System.Net;
 using Mx.NET.SDK.Provider.Dtos.API.Block;
+using System.Threading;
 using Mx.NET.SDK.Provider.Dtos.Gateway.Address;
-using Mx.NET.SDK.Provider.Dtos.API.Transactions;
 
 namespace Mx.NET.SDK.Provider
 {
@@ -289,6 +289,18 @@ namespace Mx.NET.SDK.Provider
         {
             size = size > 10000 ? 10000 : size;
             return await Get<AccountHistoryTokenDto[]>($"accounts/{address}/history/{tokenIdentifier}?from={from}&size={size}");
+        }
+
+        public async Task<GatewayKeyValueDto> GetStorageValue(string address, string key, bool isHex = false)
+        {
+            if (!isHex) key = Converter.ToHexString(key);
+
+            return await GetGW<GatewayKeyValueDto>($"address/{address}/key/{key}");
+        }
+
+        public async Task<GatewayKeyValuePairsDto> GetAllStorageValues(string address)
+        {
+            return await GetGW<GatewayKeyValuePairsDto>($"address/{address}/keys");
         }
 
         #endregion

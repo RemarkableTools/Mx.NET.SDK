@@ -104,7 +104,7 @@ namespace Mx.NET.SDK.TransactionsManager
             foreach(var pair in data)
             {
                 arguments.Add(BytesValue.FromUtf8(pair.Key));
-                arguments.Add(BytesValue.FromHex(pair.Value));
+                arguments.Add(BytesValue.FromUtf8(pair.Value));
             }
 
             var transaction = TransactionRequest.CreateCallSmartContractTransactionRequest(networkConfig,
