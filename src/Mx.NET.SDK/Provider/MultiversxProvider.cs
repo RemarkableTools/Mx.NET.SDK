@@ -291,6 +291,18 @@ namespace Mx.NET.SDK.Provider
             return await Get<AccountHistoryTokenDto[]>($"accounts/{address}/history/{tokenIdentifier}?from={from}&size={size}");
         }
 
+        public async Task<GatewayKeyValueDto> GetStorageValue(string address, string key, bool isHex = false)
+        {
+            if (!isHex) key = Converter.ToHexString(key);
+
+            return await GetGW<GatewayKeyValueDto>($"address/{address}/key/{key}");
+        }
+
+        public async Task<GatewayKeyValuePairsDto> GetAllStorageValues(string address)
+        {
+            return await GetGW<GatewayKeyValuePairsDto>($"address/{address}/keys");
+        }
+
         #endregion
 
         #region blocks
