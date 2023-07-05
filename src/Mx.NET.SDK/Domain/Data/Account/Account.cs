@@ -70,6 +70,41 @@ namespace Mx.NET.SDK.Domain.Data.Account
         /// </summary>
         public ScamInfo ScamInfo { get; private set; }
 
+        /// <summary>
+        /// Account is guarded
+        /// </summary>
+        public bool IsGuarded { get; private set; }
+
+        /// <summary>
+        /// Guardian activation epoch
+        /// </summary>
+        public long ActivationEpoch { get; private set; }
+
+        /// <summary>
+        /// Guardian address
+        /// </summary>
+        public Address Guardian { get; private set; }
+
+        /// <summary>
+        /// Guardian Service UID
+        /// </summary>
+        public string ServiceUID { get; private set; }
+
+        /// <summary>
+        /// Pending guardian activation epoch
+        /// </summary>
+        public long PendingActivationEpoch { get; private set; }
+
+        /// <summary>
+        /// Pending guardian address
+        /// </summary>
+        public Address PendingGuardian { get; private set; }
+
+        /// <summary>
+        /// Pending guardian Service UID
+        /// </summary>
+        public string PendingServiceUID { get; private set; }
+
         private Account() { }
 
         public Account(Address address)
@@ -99,6 +134,13 @@ namespace Mx.NET.SDK.Domain.Data.Account
             UserName = accountDto.UserName;
             DeveloperReward = accountDto.DeveloperReward;
             ScamInfo = ScamInfo.From(accountDto.ScamInfo);
+            IsGuarded = accountDto.IsGuarded ?? false;
+            ActivationEpoch = accountDto.ActiveGuardianActivationEpoch ?? 0;
+            Guardian = accountDto.ActiveGuardianAddress is null ? null : Address.FromBech32(accountDto.ActiveGuardianAddress);
+            ServiceUID = accountDto.ActiveGuardianServiceUid ?? string.Empty;
+            PendingActivationEpoch = accountDto.PendingGuardianActivationEpoch ?? 0;
+            PendingGuardian = accountDto.PendingGuardianAddress is null ? null : Address.FromBech32(accountDto.PendingGuardianAddress);
+            PendingServiceUID = accountDto.PendingGuardianServiceUid ?? string.Empty;
         }
 
         /// <summary>
@@ -120,7 +162,14 @@ namespace Mx.NET.SDK.Domain.Data.Account
                 SrcCount = account.ScrCount,
                 UserName = account.UserName,
                 DeveloperReward = account.DeveloperReward,
-                ScamInfo = ScamInfo.From(account.ScamInfo)
+                ScamInfo = ScamInfo.From(account.ScamInfo),
+                IsGuarded = account.IsGuarded ?? false,
+                ActivationEpoch = account.ActiveGuardianActivationEpoch ?? 0,
+                Guardian = account.ActiveGuardianAddress is null ? null : Address.FromBech32(account.ActiveGuardianAddress),
+                ServiceUID = account.ActiveGuardianServiceUid ?? string.Empty,
+                PendingActivationEpoch = account.PendingGuardianActivationEpoch ?? 0,
+                PendingGuardian = account.PendingGuardianAddress is null ? null : Address.FromBech32(account.PendingGuardianAddress),
+                PendingServiceUID = account.PendingGuardianServiceUid ?? string.Empty
             };
         }
 

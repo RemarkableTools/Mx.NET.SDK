@@ -1,4 +1,4 @@
-﻿namespace Mx.NET.SDK.Provider.Dtos.API.Transactions
+﻿namespace Mx.NET.SDK.Provider.Dtos.Gateway.Transactions
 {
     public class TransactionRequestDto
     {
@@ -12,6 +12,8 @@
         public string ChainID { get; set; }
         public int Version { get; set; }
         public int? Options { get; set; }
+        public string Guardian { get; set; }
         public string Signature { get; set; }
+        public string GuardianSignature { get; set; }
     }
 }

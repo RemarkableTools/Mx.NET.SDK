@@ -13,13 +13,15 @@ using Mx.NET.SDK.Provider.Dtos.API.Collection;
 using Mx.NET.SDK.Provider.Dtos.API.Network;
 using Mx.NET.SDK.Provider.Dtos.API.NFT;
 using Mx.NET.SDK.Provider.Dtos.API.Exchange;
-using Mx.NET.SDK.Provider.Dtos.API.Transactions;
+using Mx.NET.SDK.Provider.Dtos.Gateway.Transactions;
 using Mx.NET.SDK.Provider.Dtos.API.Common;
 using Mx.NET.SDK.Provider.Dtos.API.Token;
 using Mx.NET.SDK.Core.Domain.Constants;
 using Mx.NET.SDK.Provider.Dtos.Gateway.Query;
 using System.Net;
 using Mx.NET.SDK.Provider.Dtos.API.Block;
+using Mx.NET.SDK.Provider.Dtos.Gateway.Address;
+using Mx.NET.SDK.Provider.Dtos.API.Transactions;
 
 namespace Mx.NET.SDK.Provider
 {
@@ -108,7 +110,12 @@ namespace Mx.NET.SDK.Provider
 
         public async Task<AccountDto> GetAccount(string address)
         {
-            return await Get<AccountDto>($"accounts/{address}");
+            return await Get<AccountDto>($"accounts/{address}?withGuardianInfo=true");
+        }
+
+        public async Task<GatewayAddressGuardianDataDto> GetAccountGuardianData(string address)
+        {
+            return await GetGW<GatewayAddressGuardianDataDto>($"address/{address}/guardian-data");
         }
 
         public async Task<AccountTokenDto[]> GetAccountTokens(string address, int size = 100, int from = 0, Dictionary<string, string> parameters = null)
@@ -282,6 +289,18 @@ namespace Mx.NET.SDK.Provider
         {
             size = size > 10000 ? 10000 : size;
             return await Get<AccountHistoryTokenDto[]>($"accounts/{address}/history/{tokenIdentifier}?from={from}&size={size}");
+        }
+
+        public async Task<GatewayKeyValueDto> GetStorageValue(string address, string key, bool isHex = false)
+        {
+            if (!isHex) key = Converter.ToHexString(key);
+
+            return await GetGW<GatewayKeyValueDto>($"address/{address}/key/{key}");
+        }
+
+        public async Task<GatewayKeyValuePairsDto> GetAllStorageValues(string address)
+        {
+            return await GetGW<GatewayKeyValuePairsDto>($"address/{address}/keys");
         }
 
         #endregion

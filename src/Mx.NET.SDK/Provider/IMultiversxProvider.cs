@@ -13,6 +13,9 @@
         API.IxExchangeProvider,
 
         Gateway.IGatewayProvider,
-        Gateway.INetworkProvider
+        Gateway.IAddressProvider,
+        Gateway.INetworkProvider,
+        Gateway.IQueryVmProvider,
+        Gateway.ITransactionsProvider
     { }
 }
