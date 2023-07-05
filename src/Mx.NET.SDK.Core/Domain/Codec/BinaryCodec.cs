@@ -17,10 +17,13 @@ namespace Mx.NET.SDK.Core.Domain.Codec
                 new AddressBinaryCodec(),
                 new BooleanBinaryCodec(),
                 new BytesBinaryCodec(),
-                new MultiBinaryCodec(this),
                 new TokenIdentifierCodec(),
                 new StructBinaryCodec(this),
                 new OptionBinaryCodec(this),
+                new MultiBinaryCodec(this),
+                new TupleBinaryCodec(this),
+                new VariadicBinaryCodec(this),
+                new ListBinaryCodec(this)
             };
         }
 

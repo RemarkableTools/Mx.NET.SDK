@@ -1,54 +1,53 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Mx.NET.SDK.Core.Domain.Helper;
+﻿using Mx.NET.SDK.Core.Domain.Helper;
 using Mx.NET.SDK.Core.Domain.Values;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Mx.NET.SDK.Core.Domain.Codec
 {
-    public class StructBinaryCodec : IBinaryCodec
+    public class TupleBinaryCodec : IBinaryCodec
     {
         private readonly BinaryCodec _binaryCodec;
-        public string Type => TypeValue.BinaryTypes.Struct;
 
-        public StructBinaryCodec(BinaryCodec binaryCodec)
+        public TupleBinaryCodec(BinaryCodec binaryCodec)
         {
             _binaryCodec = binaryCodec;
         }
 
+        public string Type => TypeValue.BinaryTypes.Tuple;
+
         public (IBinaryType Value, int BytesLength) DecodeNested(byte[] data, TypeValue type)
         {
-            var fieldDefinitions = type.GetFieldDefinitions();
-            var fields = new List<StructField>();
+            var result = new Dictionary<TypeValue, IBinaryType>();
             var originalBuffer = data;
             var offset = 0;
 
-            foreach (var fieldDefinition in fieldDefinitions)
+            foreach (var tupleType in type.MultiTypes)
             {
-                var (value, bytesLength) = _binaryCodec.DecodeNested(data, fieldDefinition.Type);
-                fields.Add(new StructField(fieldDefinition.Name, value));
+                var (value, bytesLength) = _binaryCodec.DecodeNested(data, tupleType);
+                result.Add(tupleType, value);
                 offset += bytesLength;
                 data = originalBuffer.Slice(offset);
             }
 
-            var structValue = new StructValue(type, fields.ToArray());
-            return (structValue, offset);
+            var tupleValue = new TupleValue(type, result);
+            return (tupleValue, offset);
         }
 
         public IBinaryType DecodeTopLevel(byte[] data, TypeValue type)
         {
-            var (value, _) = DecodeNested(data, type);
+            var (value, _) = _binaryCodec.DecodeNested(data, type);
             return value;
         }
 
         public byte[] EncodeNested(IBinaryType value)
         {
-            var structValue = value.ValueOf<StructValue>();
+            var tupleValueObject = value.ValueOf<TupleValue>();
             var buffers = new List<byte[]>();
-            var fields = structValue.Fields;
 
-            foreach (var field in fields)
+            foreach (var tupleValue in tupleValueObject.Values)
             {
-                var fieldBuffer = _binaryCodec.EncodeNested(field.Value);
+                var fieldBuffer = _binaryCodec.EncodeNested(tupleValue.Value);
                 buffers.Add(fieldBuffer);
             }
 
