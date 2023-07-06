@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -21,6 +21,18 @@
     <ProjectReference Include="..\..\src\Mx.NET.SDK.Core\Mx.NET.SDK.Core.csproj" />
     <ProjectReference Include="..\..\src\Mx.NET.SDK.Wallet\Mx.NET.SDK.Wallet.csproj" />
     <ProjectReference Include="..\..\src\Mx.NET.SDK\Mx.NET.SDK.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="TypeValueContract\typevalue.abi.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="TypeValueContract\typevalue.wasm">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="walletKey.pem">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

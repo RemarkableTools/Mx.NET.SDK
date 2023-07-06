@@ -99,6 +99,7 @@ namespace Mx.NET.SDK.Core.Domain.Values
             public const string Address = "Address";
             public const string H256 = "H256";
             public const string TokenIdentifier = "TokenIdentifier";
+            public const string EgldOrEsdtTokenIdentifier = "EgldOrEsdtTokenIdentifier";
         }
 
         public static TypeValue U8TypeValue => new TypeValue(BinaryTypes.Numeric, RustTypes.U8, 1, false);
@@ -167,6 +168,8 @@ namespace Mx.NET.SDK.Core.Domain.Values
                 case RustTypes.Address:
                     return AddressValue;
                 case RustTypes.TokenIdentifier:
+                    return TokenIdentifierValue;
+                case RustTypes.EgldOrEsdtTokenIdentifier:
                     return TokenIdentifierValue;
 
                 default:

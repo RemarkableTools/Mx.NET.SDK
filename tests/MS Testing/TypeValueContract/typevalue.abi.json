@@ -1,0 +1,406 @@
+{
+    "buildInfo": {
+        "rustc": {
+            "version": "1.72.0-nightly",
+            "commitHash": "065a1f5df9c2f1d93269e4d25a2acabbddb0db8d",
+            "commitDate": "2023-06-21",
+            "channel": "Nightly",
+            "short": "rustc 1.72.0-nightly (065a1f5df 2023-06-21)"
+        },
+        "contractCrate": {
+            "name": "typevalue",
+            "version": "0.0.0"
+        },
+        "framework": {
+            "name": "multiversx-sc",
+            "version": "0.41.3"
+        }
+    },
+    "name": "TypeValue",
+    "constructor": {
+        "inputs": [],
+        "outputs": []
+    },
+    "endpoints": [
+        {
+            "name": "insert_address",
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "value",
+                    "type": "Address"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "storageAddress",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "Address"
+                }
+            ]
+        },
+        {
+            "name": "insert_token_identifier",
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "value",
+                    "type": "TokenIdentifier"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "storageTokenIdentifier",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "TokenIdentifier"
+                }
+            ]
+        },
+        {
+            "name": "insert_egld_or_esdt_token_identifier",
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "value",
+                    "type": "EgldOrEsdtTokenIdentifier"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "storageEgldOrEsdtTokenIdentifier",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "EgldOrEsdtTokenIdentifier"
+                }
+            ]
+        },
+        {
+            "name": "insert_managed_vec_managed_buffer",
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "value",
+                    "type": "List<bytes>"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "storageManagedVecManagedBuffer",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "List<bytes>"
+                }
+            ]
+        },
+        {
+            "name": "insert_i8",
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "value",
+                    "type": "i8"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "insert_i16",
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "value",
+                    "type": "i16"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "insert_i32",
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "value",
+                    "type": "i32"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "insert_i64",
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "value",
+                    "type": "i64"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "insert_big_int",
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "value",
+                    "type": "BigInt"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "storageI8",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "i8"
+                }
+            ]
+        },
+        {
+            "name": "storageI16",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "i16"
+                }
+            ]
+        },
+        {
+            "name": "storageI32",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "i32"
+                }
+            ]
+        },
+        {
+            "name": "storageI64",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "i64"
+                }
+            ]
+        },
+        {
+            "name": "storageBigInt",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "BigInt"
+                }
+            ]
+        },
+        {
+            "name": "insert_u8",
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "value",
+                    "type": "u8"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "insert_u16",
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "value",
+                    "type": "u16"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "insert_u32",
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "value",
+                    "type": "u32"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "insert_u64",
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "value",
+                    "type": "u64"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "insert_big_uint",
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "value",
+                    "type": "BigUint"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "storageU8",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "u8"
+                }
+            ]
+        },
+        {
+            "name": "storageU16",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "u16"
+                }
+            ]
+        },
+        {
+            "name": "storageU32",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "u32"
+                }
+            ]
+        },
+        {
+            "name": "storageU64",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "u64"
+                }
+            ]
+        },
+        {
+            "name": "storageBigUint",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "BigUint"
+                }
+            ]
+        },
+        {
+            "name": "insert_my_struct",
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "value",
+                    "type": "MyStruct"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "storageMyStruct",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "MyStruct"
+                }
+            ]
+        },
+        {
+            "name": "insert_set_mapper_address",
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "value",
+                    "type": "Address"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "insert_map_mapper_token_identifier_address",
+            "mutability": "mutable",
+            "inputs": [
+                {
+                    "name": "identifier",
+                    "type": "TokenIdentifier"
+                },
+                {
+                    "name": "value",
+                    "type": "Address"
+                }
+            ],
+            "outputs": []
+        },
+        {
+            "name": "StorageSetMapperAddress",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "variadic<Address>",
+                    "multi_result": true
+                }
+            ]
+        },
+        {
+            "name": "StorageMapMapperTokenIdentifierAddress",
+            "mutability": "readonly",
+            "inputs": [],
+            "outputs": [
+                {
+                    "type": "variadic<multi<TokenIdentifier,Address>>",
+                    "multi_result": true
+                }
+            ]
+        }
+    ],
+    "events": [],
+    "hasCallback": false,
+    "types": {
+        "MyStruct": {
+            "type": "struct",
+            "fields": [
+                {
+                    "name": "name",
+                    "type": "bytes"
+                },
+                {
+                    "name": "long_value",
+                    "type": "u64"
+                }
+            ]
+        }
+    }
+}
