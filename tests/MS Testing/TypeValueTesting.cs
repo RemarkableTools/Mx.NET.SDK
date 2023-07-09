@@ -2,6 +2,7 @@
 using Mx.NET.SDK.Configuration;
 using Mx.NET.SDK.Core.Domain;
 using Mx.NET.SDK.Core.Domain.Abi;
+using Mx.NET.SDK.Core.Domain.Helper;
 using Mx.NET.SDK.Core.Domain.SmartContracts;
 using Mx.NET.SDK.Core.Domain.Values;
 using Mx.NET.SDK.Domain;
@@ -16,6 +17,7 @@ using Mx.NET.SDK.Wallet;
 using Mx.NET.SDK.Wallet.Wallet;
 using System.Diagnostics;
 using System.Numerics;
+using System.Xml.Linq;
 using FieldDefinition = Mx.NET.SDK.Core.Domain.Values.FieldDefinition;
 
 namespace MSTesting
@@ -222,19 +224,33 @@ namespace MSTesting
             await ExecuteAndValidateAddTest(args, "insert_egld_or_esdt_token_identifier");
         }
 
-        //[TestMethod]
-        //public async Task Add_List_Bytes_In_ManagedVe_ManagedBuffer_Should_Success()
-        //{
+        [TestMethod]
+        public async Task Add_List_Bytes_In_ManagedVec_ManagedBuffer_Should_Success()
+        {
 
-        //    await InitializeAsync();
+            await InitializeAsync();
 
-        //    var args = new IBinaryType[]
-        //    {
-        //        new ListValue(TypeValue.ListValue(TypeValue.BytesValue), TypeValue.BytesValue, new IBinaryType[] { BytesValue.FromUtf8("test"), BytesValue.FromUtf8("2test") })
-        //    };
+            var args = new IBinaryType[]
+            {
+                ListValue.From(TypeValue.BytesValue, new IBinaryType[] { BytesValue.FromUtf8("OneTest"), BytesValue.FromUtf8("TwoTest") })
+            };
 
-        //    await ExecuteAndValidateAddTest(args, "insert_managed_vec_managed_buffer");
-        //}
+            await ExecuteAndValidateAddTest(args, "insert_managed_vec_managed_buffer");
+        }
+
+        [TestMethod]
+        public async Task Add_List_Long_In_ManagedVec_I64_Should_Success()
+        {
+
+            await InitializeAsync();
+
+            var args = new IBinaryType[]
+            {
+                ListValue.From(TypeValue.I64TypeValue, new IBinaryType[] { NumericValue.I64Value(58748965247569), NumericValue.I64Value(5476225889951) })
+            };
+
+            await ExecuteAndValidateAddTest(args, "insert_managed_vec_i64");
+        }
 
         [TestMethod]
         public async Task Add_MyStruct_In_MyStructStorage_Should_Success()
@@ -260,6 +276,76 @@ namespace MSTesting
             };
 
             await ExecuteAndValidateAddTest(args, "insert_my_struct");
+        }
+
+        [TestMethod]
+        public async Task Add_MyStruct2_In_MyStructStorage_Should_Success()
+        {
+            await InitializeAsync();
+
+            var fieldDefinition = new FieldDefinition[3]
+            {
+                new FieldDefinition("name", "", TypeValue.BytesValue),
+                new FieldDefinition("long_value", "", TypeValue.U64TypeValue),
+                new FieldDefinition("list_bool", "", TypeValue.ListValue(TypeValue.BooleanValue)),
+            };
+
+            var fields = new StructField[3]
+            {
+                new StructField("name", BytesValue.FromUtf8("test")),
+                new StructField("long_value", NumericValue.U64Value(522)),
+                new StructField("list_bool", ListValue.From(TypeValue.BooleanValue, new IBinaryType[]{ BooleanValue.From(true), BooleanValue.From(false), BooleanValue.From(true)})),
+
+            };
+
+            var args = new IBinaryType[]
+            {
+                new StructValue(TypeValue.StructValue("TestStruct", fieldDefinition), fields)
+            };
+
+            await ExecuteAndValidateAddTest(args, "insert_my_struct2");
+        }
+
+        [TestMethod]
+        public async Task Add_MyStruct2_In_ManagedVecMyStructStorage_Should_Success()
+        {
+            await InitializeAsync();
+
+            var fieldDefinition = new FieldDefinition[3]
+            {
+                new FieldDefinition("name", "", TypeValue.BytesValue),
+                new FieldDefinition("long_value", "", TypeValue.U64TypeValue),
+                new FieldDefinition("list_bool", "", TypeValue.ListValue(TypeValue.BooleanValue)),
+            };
+
+            var myStruct1Fields = new StructField[3]
+            {
+                new StructField("name", BytesValue.FromUtf8("test")),
+                new StructField("long_value", NumericValue.U64Value(522)),
+                new StructField("list_bool", ListValue.From(TypeValue.BooleanValue, new IBinaryType[]{ BooleanValue.From(true), BooleanValue.From(false), BooleanValue.From(true)})),
+
+            };
+
+            var myStruct2Fields = new StructField[3]
+            {
+                new StructField("name", BytesValue.FromUtf8("struct2")),
+                new StructField("long_value", NumericValue.U64Value(9866475528)),
+                new StructField("list_bool", ListValue.From(TypeValue.BooleanValue, new IBinaryType[]{ BooleanValue.From(false), BooleanValue.From(false), BooleanValue.From(true)})),
+
+            };
+
+            var struct1 = new StructValue(TypeValue.StructValue("TestStruct", fieldDefinition), myStruct1Fields);
+            var struct2 = new StructValue(TypeValue.StructValue("TestStruct", fieldDefinition), myStruct2Fields);
+
+
+            var listValue = ListValue.From(TypeValue.StructValue("TestStruct", fieldDefinition), new StructValue[] { struct1, struct2});
+
+            var args = new IBinaryType[]
+            {
+                listValue
+            };
+
+            await ExecuteAndValidateAddTest(args, "insert_managed_vec_my_struct2");
         }
 
         [TestMethod]
@@ -291,8 +377,84 @@ namespace MSTesting
             await ExecuteAndValidateAddTest(args, "insert_map_mapper_token_identifier_address");
         }
 
+        [TestMethod]
+        public async Task Add_Tuple_I64_Bool_In_TupleStorage_Should_Success()
+        {
+            await InitializeAsync();
+
+            var args = new IBinaryType[]
+            {
+                TupleValue.From(new IBinaryType[] { NumericValue.I64Value(967745699814), BooleanValue.From(true)} )
+            };
+
+            await ExecuteAndValidateAddTest(args, "insert_tuple_i64_bool");
+        }
+
+        [TestMethod]
+        public async Task Add_Tuple_I64_Bool_ManagedBuffer_In_TupleStorage_Should_Success()
+        {
+            await InitializeAsync();
+
+            var args = new IBinaryType[]
+            {
+                TupleValue.From(new IBinaryType[] { NumericValue.I64Value(967745699814), BooleanValue.From(true), BytesValue.FromUtf8("TupleTest")} )
+            };
+
+            await ExecuteAndValidateAddTest(args, "insert_tuple_i64_bool_managed_buffer");
+        }
+
+        [TestMethod]
+        public async Task Add_Tuple_ManagedVec_I64_Bool_In_TupleStorage_Should_Success()
+        {
+            await InitializeAsync();
+
+            var managedVec = ListValue.From(TypeValue.I64TypeValue, new IBinaryType[] { NumericValue.I64Value(58748965247569), NumericValue.I64Value(5476225889951) });
+            var args = new IBinaryType[]
+            {
+                TupleValue.From(new IBinaryType[] { managedVec, BooleanValue.From(true)} )
+            };
+
+            await ExecuteAndValidateAddTest(args, "insert_tuple_managed_vec_i64_bool");
+        }
+
 
         #region Get
+
+        [TestMethod]
+        public async Task Get_Tuple_ManagedVec_I64_Bool_In_TupleStorage_Should_Success()
+        {
+            await InitializeAsync();
+
+            var (LongValues, BoolValue) = await GetValueForSmartContract<TupleValue, (List<long> LongValues, bool BoolValue)>("storageTupleManagedVecI64Bool");
+
+            Assert.AreEqual(LongValues.Count, 2);
+            Assert.AreEqual(LongValues[0], 58748965247569);
+            Assert.AreEqual(LongValues[1], 5476225889951);
+            Assert.AreEqual(BoolValue, true);
+        }
+
+        [TestMethod]
+        public async Task Get_Tuple_I64_Bool_ManagedBuffer_In_TupleStorage_Should_Success()
+        {
+            await InitializeAsync();
+
+            var (LongValue, BoolValue, Name) = await GetValueForSmartContract<TupleValue, (long LongValue, bool BoolValue, string Name)>("storageTupleI64BoolManagedBuffer");
+
+            Assert.AreEqual(LongValue, 967745699814);
+            Assert.AreEqual(BoolValue, true);
+            Assert.AreEqual(Converter.HexToString(Name), "TupleTest");
+        }
+
+        [TestMethod]
+        public async Task Get_Tuple_I64_Bool_In_TupleStorage_Should_Success()
+        {
+            await InitializeAsync();
+
+            var (LongValue, BoolValue) = await GetValueForSmartContract<TupleValue, (long LongValue, bool BoolValue)>("storageTupleI64Bool");
+
+            Assert.AreEqual(LongValue, 967745699814);
+            Assert.AreEqual(BoolValue, true);
+        }
 
         [TestMethod]
         public async Task Get_Variadic_In_MapMapperTokenIdentifierAddressStorage_Should_Success()
@@ -302,6 +464,26 @@ namespace MSTesting
             var result = await GetValueForSmartContract<VariadicValue, List<MultiValue>>("StorageMapMapperTokenIdentifierAddress");
 
             Assert.AreEqual(result.Count, 1);
+        }
+
+        [TestMethod]
+        public async Task Get_ListValue_In_ManagedVecManagedBuffer_Should_Success()
+        {
+            await InitializeAsync();
+
+            var result = await GetValueForSmartContract<ListValue, List<BytesValue>>("storageManagedVecManagedBuffer");
+
+            Assert.AreEqual(result.Count, 1);
+        }
+
+        [TestMethod]
+        public async Task Get_ListValue_In_ManagedVecI64_Should_Success()
+        {
+            await InitializeAsync();
+
+            var result = await GetValueForSmartContract<ListValue, List<long>>("storageManagedVecI64");
+
+            Assert.AreEqual(result.Count, 2);
         }
 
         [TestMethod]
@@ -315,7 +497,7 @@ namespace MSTesting
         }
 
         [TestMethod]
-        public async Task Get_MyScrut_In_MyStructStorage_Should_Success()
+        public async Task Get_MyStruct_In_MyStructStorage_Should_Success()
         {
             await InitializeAsync();
             var result = await GetValueForSmartContract<StructValue, MyStruct>("storageMyStruct");
@@ -323,6 +505,45 @@ namespace MSTesting
 
             Assert.AreEqual(result.Name, "test");
             Assert.AreEqual(result.LongValue, 522);
+        }
+
+        [TestMethod]
+        public async Task Get_MyStruct2_In_MyStructStorage_Should_Success()
+        {
+            await InitializeAsync();
+            var result = await GetValueForSmartContract<StructValue, MyStruct2>("storageMyStruct2");
+
+
+            Assert.AreEqual(result.Name, "test");
+            Assert.AreEqual(result.LongValue, 522);
+            Assert.AreEqual(result.BoolValues.Count, 3);
+            Assert.AreEqual(result.BoolValues[0], true);
+            Assert.AreEqual(result.BoolValues[1], false);
+            Assert.AreEqual(result.BoolValues[2], true);
+        }
+
+        [TestMethod]
+        public async Task Get_List_MyStruct2_In_MyStructStorage_Should_Success()
+        {
+            await InitializeAsync();
+            var result = await GetValueForSmartContract<ListValue, List<MyStruct2>>("storageManagedVecMyStruct2");
+
+            Assert.AreEqual(result.Count, 2);
+            var firstMyStruct2 = result[0];
+            Assert.AreEqual(firstMyStruct2.Name, "test");
+            Assert.AreEqual(firstMyStruct2.LongValue, 522);
+            Assert.AreEqual(firstMyStruct2.BoolValues.Count, 3);
+            Assert.AreEqual(firstMyStruct2.BoolValues[0], true);
+            Assert.AreEqual(firstMyStruct2.BoolValues[1], false);
+            Assert.AreEqual(firstMyStruct2.BoolValues[2], true);
+
+            var secondMyStruct2 = result[1];
+            Assert.AreEqual(secondMyStruct2.Name, "struct2");
+            Assert.AreEqual(secondMyStruct2.LongValue, 9866475528);
+            Assert.AreEqual(secondMyStruct2.BoolValues.Count, 3);
+            Assert.AreEqual(secondMyStruct2.BoolValues[0], false);
+            Assert.AreEqual(secondMyStruct2.BoolValues[1], false);
+            Assert.AreEqual(secondMyStruct2.BoolValues[2], true);
         }
 
         [TestMethod]
@@ -486,7 +707,7 @@ namespace MSTesting
 
         private static async Task InitializeAsync()
         {
-            //_scAddress = Address.FromBech32("erd1qqqqqqqqqqqqqpgq2ufgtg6zu2kuzzgrydpskjmwx9htp722ge3qvexkqf");
+            //_scAddress = Address.FromBech32("erd1qqqqqqqqqqqqqpgq80xq62kj5yrgcq4k7llwghlgtsrqyt93ge3qksqlz7");
 
             if (!_isInitialized)
             {

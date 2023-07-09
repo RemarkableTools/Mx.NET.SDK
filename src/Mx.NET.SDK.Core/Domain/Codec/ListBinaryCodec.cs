@@ -49,8 +49,8 @@ namespace Mx.NET.SDK.Core.Domain.Codec
 
             while (data.Length > 0)
             {
-                var (value, bytesLength) = _binaryCodec.DecodeNested(data, type);
-                result.AddRange(value.ValueOf<ListValue>().Values);
+                var (value, bytesLength) = _binaryCodec.DecodeNested(data, type.InnerType);
+                result.Add(value);
                 offset += bytesLength;
                 data = originalBuffer.Slice(offset);
             }
@@ -83,7 +83,7 @@ namespace Mx.NET.SDK.Core.Domain.Codec
 
             foreach (var item in listValue.Values)
             {
-                var buffer = EncodeNested(item);
+                var buffer = _binaryCodec.EncodeNested(item);
                 buffers.Add(buffer);
             }
 
