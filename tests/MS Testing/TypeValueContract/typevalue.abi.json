@@ -23,112 +23,8 @@
   },
   "endpoints": [
     {
-      "name": "insert_address",
-      "mutability": "mutable",
-      "inputs": [
-        {
-          "name": "value",
-          "type": "Address"
-        }
-      ],
-      "outputs": []
-    },
-    {
-      "name": "storageAddress",
-      "mutability": "readonly",
-      "inputs": [],
-      "outputs": [
-        {
-          "type": "Address"
-        }
-      ]
-    },
-    {
-      "name": "insert_token_identifier",
-      "mutability": "mutable",
-      "inputs": [
-        {
-          "name": "value",
-          "type": "TokenIdentifier"
-        }
-      ],
-      "outputs": []
-    },
-    {
-      "name": "storageTokenIdentifier",
-      "mutability": "readonly",
-      "inputs": [],
-      "outputs": [
-        {
-          "type": "TokenIdentifier"
-        }
-      ]
-    },
-    {
-      "name": "insert_egld_or_esdt_token_identifier",
-      "mutability": "mutable",
-      "inputs": [
-        {
-          "name": "value",
-          "type": "EgldOrEsdtTokenIdentifier"
-        }
-      ],
-      "outputs": []
-    },
-    {
-      "name": "storageEgldOrEsdtTokenIdentifier",
-      "mutability": "readonly",
-      "inputs": [],
-      "outputs": [
-        {
-          "type": "EgldOrEsdtTokenIdentifier"
-        }
-      ]
-    },
-    {
-      "name": "insert_managed_vec_managed_buffer",
-      "mutability": "mutable",
-      "inputs": [
-        {
-          "name": "value",
-          "type": "List<bytes>"
-        }
-      ],
-      "outputs": []
-    },
-    {
-      "name": "storageManagedVecManagedBuffer",
-      "mutability": "readonly",
-      "inputs": [],
-      "outputs": [
-        {
-          "type": "List<bytes>"
-        }
-      ]
-    },
-    {
-      "name": "insert_managed_vec_i64",
-      "mutability": "mutable",
-      "inputs": [
-        {
-          "name": "value",
-          "type": "List<i64>"
-        }
-      ],
-      "outputs": []
-    },
-    {
-      "name": "storageManagedVecI64",
-      "mutability": "readonly",
-      "inputs": [],
-      "outputs": [
-        {
-          "type": "List<i64>"
-        }
-      ]
-    },
-    {
-      "name": "insert_i8",
+      "name": "insertI8",
+      "onlyOwner": true,
       "mutability": "mutable",
       "inputs": [
         {
@@ -139,7 +35,8 @@
       "outputs": []
     },
     {
-      "name": "insert_i16",
+      "name": "insertI16",
+      "onlyOwner": true,
       "mutability": "mutable",
       "inputs": [
         {
@@ -150,7 +47,8 @@
       "outputs": []
     },
     {
-      "name": "insert_i32",
+      "name": "insertI32",
+      "onlyOwner": true,
       "mutability": "mutable",
       "inputs": [
         {
@@ -161,7 +59,8 @@
       "outputs": []
     },
     {
-      "name": "insert_i64",
+      "name": "insertI64",
+      "onlyOwner": true,
       "mutability": "mutable",
       "inputs": [
         {
@@ -172,7 +71,8 @@
       "outputs": []
     },
     {
-      "name": "insert_big_int",
+      "name": "insertBigInt",
+      "onlyOwner": true,
       "mutability": "mutable",
       "inputs": [
         {
@@ -183,57 +83,8 @@
       "outputs": []
     },
     {
-      "name": "storageI8",
-      "mutability": "readonly",
-      "inputs": [],
-      "outputs": [
-        {
-          "type": "i8"
-        }
-      ]
-    },
-    {
-      "name": "storageI16",
-      "mutability": "readonly",
-      "inputs": [],
-      "outputs": [
-        {
-          "type": "i16"
-        }
-      ]
-    },
-    {
-      "name": "storageI32",
-      "mutability": "readonly",
-      "inputs": [],
-      "outputs": [
-        {
-          "type": "i32"
-        }
-      ]
-    },
-    {
-      "name": "storageI64",
-      "mutability": "readonly",
-      "inputs": [],
-      "outputs": [
-        {
-          "type": "i64"
-        }
-      ]
-    },
-    {
-      "name": "storageBigInt",
-      "mutability": "readonly",
-      "inputs": [],
-      "outputs": [
-        {
-          "type": "BigInt"
-        }
-      ]
-    },
-    {
-      "name": "insert_u8",
+      "name": "insertU8",
+      "onlyOwner": true,
       "mutability": "mutable",
       "inputs": [
         {
@@ -244,7 +95,8 @@
       "outputs": []
     },
     {
-      "name": "insert_u16",
+      "name": "insertU16",
+      "onlyOwner": true,
       "mutability": "mutable",
       "inputs": [
         {
@@ -255,7 +107,8 @@
       "outputs": []
     },
     {
-      "name": "insert_u32",
+      "name": "insertU32",
+      "onlyOwner": true,
       "mutability": "mutable",
       "inputs": [
         {
@@ -266,7 +119,8 @@
       "outputs": []
     },
     {
-      "name": "insert_u64",
+      "name": "insertU64",
+      "onlyOwner": true,
       "mutability": "mutable",
       "inputs": [
         {
@@ -277,7 +131,8 @@
       "outputs": []
     },
     {
-      "name": "insert_big_uint",
+      "name": "insertBigUInt",
+      "onlyOwner": true,
       "mutability": "mutable",
       "inputs": [
         {
@@ -288,120 +143,8 @@
       "outputs": []
     },
     {
-      "name": "storageU8",
-      "mutability": "readonly",
-      "inputs": [],
-      "outputs": [
-        {
-          "type": "u8"
-        }
-      ]
-    },
-    {
-      "name": "storageU16",
-      "mutability": "readonly",
-      "inputs": [],
-      "outputs": [
-        {
-          "type": "u16"
-        }
-      ]
-    },
-    {
-      "name": "storageU32",
-      "mutability": "readonly",
-      "inputs": [],
-      "outputs": [
-        {
-          "type": "u32"
-        }
-      ]
-    },
-    {
-      "name": "storageU64",
-      "mutability": "readonly",
-      "inputs": [],
-      "outputs": [
-        {
-          "type": "u64"
-        }
-      ]
-    },
-    {
-      "name": "storageBigUint",
-      "mutability": "readonly",
-      "inputs": [],
-      "outputs": [
-        {
-          "type": "BigUint"
-        }
-      ]
-    },
-    {
-      "name": "insert_my_struct",
-      "mutability": "mutable",
-      "inputs": [
-        {
-          "name": "value",
-          "type": "MyStruct"
-        }
-      ],
-      "outputs": []
-    },
-    {
-      "name": "storageMyStruct",
-      "mutability": "readonly",
-      "inputs": [],
-      "outputs": [
-        {
-          "type": "MyStruct"
-        }
-      ]
-    },
-    {
-      "name": "insert_my_struct2",
-      "mutability": "mutable",
-      "inputs": [
-        {
-          "name": "value",
-          "type": "MyStruct2"
-        }
-      ],
-      "outputs": []
-    },
-    {
-      "name": "storageMyStruct2",
-      "mutability": "readonly",
-      "inputs": [],
-      "outputs": [
-        {
-          "type": "MyStruct2"
-        }
-      ]
-    },
-    {
-      "name": "insert_managed_vec_my_struct2",
-      "mutability": "mutable",
-      "inputs": [
-        {
-          "name": "value",
-          "type": "List<MyStruct2>"
-        }
-      ],
-      "outputs": []
-    },
-    {
-      "name": "storageManagedVecMyStruct2",
-      "mutability": "readonly",
-      "inputs": [],
-      "outputs": [
-        {
-          "type": "List<MyStruct2>"
-        }
-      ]
-    },
-    {
-      "name": "insert_set_mapper_address",
+      "name": "insertManagedAddress",
+      "onlyOwner": true,
       "mutability": "mutable",
       "inputs": [
         {
@@ -412,7 +155,284 @@
       "outputs": []
     },
     {
-      "name": "insert_map_mapper_token_identifier_address",
+      "name": "insertTokenIdentifier",
+      "onlyOwner": true,
+      "mutability": "mutable",
+      "inputs": [
+        {
+          "name": "value",
+          "type": "TokenIdentifier"
+        }
+      ],
+      "outputs": []
+    },
+    {
+      "name": "insertEgldOrEsdtTokenIdentifier",
+      "onlyOwner": true,
+      "mutability": "mutable",
+      "inputs": [
+        {
+          "name": "value",
+          "type": "EgldOrEsdtTokenIdentifier"
+        }
+      ],
+      "outputs": []
+    },
+    {
+      "name": "getI8",
+      "mutability": "readonly",
+      "inputs": [],
+      "outputs": [
+        {
+          "type": "i8"
+        }
+      ]
+    },
+    {
+      "name": "getI16",
+      "mutability": "readonly",
+      "inputs": [],
+      "outputs": [
+        {
+          "type": "i16"
+        }
+      ]
+    },
+    {
+      "name": "getI32",
+      "mutability": "readonly",
+      "inputs": [],
+      "outputs": [
+        {
+          "type": "i32"
+        }
+      ]
+    },
+    {
+      "name": "getI64",
+      "mutability": "readonly",
+      "inputs": [],
+      "outputs": [
+        {
+          "type": "i64"
+        }
+      ]
+    },
+    {
+      "name": "getBigInt",
+      "mutability": "readonly",
+      "inputs": [],
+      "outputs": [
+        {
+          "type": "BigInt"
+        }
+      ]
+    },
+    {
+      "name": "getU8",
+      "mutability": "readonly",
+      "inputs": [],
+      "outputs": [
+        {
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "getU16",
+      "mutability": "readonly",
+      "inputs": [],
+      "outputs": [
+        {
+          "type": "u16"
+        }
+      ]
+    },
+    {
+      "name": "getU32",
+      "mutability": "readonly",
+      "inputs": [],
+      "outputs": [
+        {
+          "type": "u32"
+        }
+      ]
+    },
+    {
+      "name": "getU64",
+      "mutability": "readonly",
+      "inputs": [],
+      "outputs": [
+        {
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "getBigUInt",
+      "mutability": "readonly",
+      "inputs": [],
+      "outputs": [
+        {
+          "type": "BigUint"
+        }
+      ]
+    },
+    {
+      "name": "getManagedAddress",
+      "mutability": "readonly",
+      "inputs": [],
+      "outputs": [
+        {
+          "type": "Address"
+        }
+      ]
+    },
+    {
+      "name": "getTokenIdentifier",
+      "mutability": "readonly",
+      "inputs": [],
+      "outputs": [
+        {
+          "type": "TokenIdentifier"
+        }
+      ]
+    },
+    {
+      "name": "getEgldOrEsdtTokenIdentifier",
+      "mutability": "readonly",
+      "inputs": [],
+      "outputs": [
+        {
+          "type": "EgldOrEsdtTokenIdentifier"
+        }
+      ]
+    },
+    {
+      "name": "insertMyStruct",
+      "onlyOwner": true,
+      "mutability": "mutable",
+      "inputs": [
+        {
+          "name": "value",
+          "type": "MyStruct"
+        }
+      ],
+      "outputs": []
+    },
+    {
+      "name": "insertMyStruct2",
+      "onlyOwner": true,
+      "mutability": "mutable",
+      "inputs": [
+        {
+          "name": "value",
+          "type": "MyStruct2"
+        }
+      ],
+      "outputs": []
+    },
+    {
+      "name": "insertManagedVecMyStruct2",
+      "onlyOwner": true,
+      "mutability": "mutable",
+      "inputs": [
+        {
+          "name": "value",
+          "type": "List<MyStruct2>"
+        }
+      ],
+      "outputs": []
+    },
+    {
+      "name": "getMyStruct",
+      "mutability": "readonly",
+      "inputs": [],
+      "outputs": [
+        {
+          "type": "MyStruct"
+        }
+      ]
+    },
+    {
+      "name": "getMyStruct2",
+      "mutability": "readonly",
+      "inputs": [],
+      "outputs": [
+        {
+          "type": "MyStruct2"
+        }
+      ]
+    },
+    {
+      "name": "getManagedVecMyStruct2",
+      "mutability": "readonly",
+      "inputs": [],
+      "outputs": [
+        {
+          "type": "List<MyStruct2>"
+        }
+      ]
+    },
+    {
+      "name": "insertManagedVecManagedBuffer",
+      "onlyOwner": true,
+      "mutability": "mutable",
+      "inputs": [
+        {
+          "name": "value",
+          "type": "List<bytes>"
+        }
+      ],
+      "outputs": []
+    },
+    {
+      "name": "insertManagedVecI64",
+      "onlyOwner": true,
+      "mutability": "mutable",
+      "inputs": [
+        {
+          "name": "value",
+          "type": "List<i64>"
+        }
+      ],
+      "outputs": []
+    },
+    {
+      "name": "getManagedVecManagedBuffer",
+      "mutability": "readonly",
+      "inputs": [],
+      "outputs": [
+        {
+          "type": "List<bytes>"
+        }
+      ]
+    },
+    {
+      "name": "getManagedVecI64",
+      "mutability": "readonly",
+      "inputs": [],
+      "outputs": [
+        {
+          "type": "List<i64>"
+        }
+      ]
+    },
+    {
+      "name": "insertVariadicManagedAddress",
+      "onlyOwner": true,
+      "mutability": "mutable",
+      "inputs": [
+        {
+          "name": "value",
+          "type": "Address"
+        }
+      ],
+      "outputs": []
+    },
+    {
+      "name": "insertVariadicTokenIdentifierManagedAddress",
+      "onlyOwner": true,
       "mutability": "mutable",
       "inputs": [
         {
@@ -427,7 +447,7 @@
       "outputs": []
     },
     {
-      "name": "StorageSetMapperAddress",
+      "name": "getVariadicManagedAddress",
       "mutability": "readonly",
       "inputs": [],
       "outputs": [
@@ -438,7 +458,7 @@
       ]
     },
     {
-      "name": "StorageMapMapperTokenIdentifierAddress",
+      "name": "getVariadicTokenIdentifierManagedAddress",
       "mutability": "readonly",
       "inputs": [],
       "outputs": [
@@ -449,7 +469,8 @@
       ]
     },
     {
-      "name": "insert_tuple_i64_bool",
+      "name": "insertTupleI64ValueBooleanValue",
+      "onlyOwner": true,
       "mutability": "mutable",
       "inputs": [
         {
@@ -460,7 +481,31 @@
       "outputs": []
     },
     {
-      "name": "storageTupleI64Bool",
+      "name": "insertTupleI64ValueBooleanValueManagedBuffer",
+      "onlyOwner": true,
+      "mutability": "mutable",
+      "inputs": [
+        {
+          "name": "value",
+          "type": "tuple<i64,bool,bytes>"
+        }
+      ],
+      "outputs": []
+    },
+    {
+      "name": "insertTupleManagedVecI64BooleanValue",
+      "onlyOwner": true,
+      "mutability": "mutable",
+      "inputs": [
+        {
+          "name": "value",
+          "type": "tuple<List<i64>,bool>"
+        }
+      ],
+      "outputs": []
+    },
+    {
+      "name": "getTupleI64ValueBooleanValue",
       "mutability": "readonly",
       "inputs": [],
       "outputs": [
@@ -470,18 +515,7 @@
       ]
     },
     {
-      "name": "insert_tuple_i64_bool_managed_buffer",
-      "mutability": "mutable",
-      "inputs": [
-        {
-          "name": "value",
-          "type": "tuple<i64,bool,bytes>"
-        }
-      ],
-      "outputs": []
-    },
-    {
-      "name": "storageTupleI64BoolManagedBuffer",
+      "name": "getTupleI64ValueBooleanValueManagedBuffer",
       "mutability": "readonly",
       "inputs": [],
       "outputs": [
@@ -491,23 +525,144 @@
       ]
     },
     {
-      "name": "insert_tuple_managed_vec_i64_bool",
-      "mutability": "mutable",
-      "inputs": [
-        {
-          "name": "value",
-          "type": "tuple<List<i64>,bool>"
-        }
-      ],
-      "outputs": []
-    },
-    {
-      "name": "storageTupleManagedVecI64Bool",
+      "name": "getTupleManagedVecI64BooleanValue",
       "mutability": "readonly",
       "inputs": [],
       "outputs": [
         {
           "type": "tuple<List<i64>,bool>"
+        }
+      ]
+    },
+    {
+      "name": "insertOptionalValueU8",
+      "onlyOwner": true,
+      "mutability": "mutable",
+      "inputs": [
+        {
+          "name": "opt_value",
+          "type": "optional<u8>",
+          "multi_arg": true
+        }
+      ],
+      "outputs": []
+    },
+    {
+      "name": "insertOptionalValueEmptyU8",
+      "onlyOwner": true,
+      "mutability": "mutable",
+      "inputs": [
+        {
+          "name": "opt_value",
+          "type": "optional<u8>",
+          "multi_arg": true
+        }
+      ],
+      "outputs": []
+    },
+    {
+      "name": "insertOptionU8",
+      "onlyOwner": true,
+      "mutability": "mutable",
+      "inputs": [
+        {
+          "name": "opt_value",
+          "type": "Option<u8>"
+        }
+      ],
+      "outputs": []
+    },
+    {
+      "name": "insertOptionEmptyU8",
+      "onlyOwner": true,
+      "mutability": "mutable",
+      "inputs": [
+        {
+          "name": "opt_value",
+          "type": "Option<u8>"
+        }
+      ],
+      "outputs": []
+    },
+    {
+      "name": "getOptionalValueEmptyU64",
+      "mutability": "readonly",
+      "inputs": [],
+      "outputs": [
+        {
+          "type": "optional<u64>",
+          "multi_result": true
+        }
+      ]
+    },
+    {
+      "name": "getOptionalValueU64",
+      "mutability": "readonly",
+      "inputs": [],
+      "outputs": [
+        {
+          "type": "optional<u64>",
+          "multi_result": true
+        }
+      ]
+    },
+    {
+      "name": "getOptionValueEmptyU64",
+      "mutability": "readonly",
+      "inputs": [],
+      "outputs": [
+        {
+          "type": "Option<u64>"
+        }
+      ]
+    },
+    {
+      "name": "getOptionValueU64",
+      "mutability": "readonly",
+      "inputs": [],
+      "outputs": [
+        {
+          "type": "Option<u64>"
+        }
+      ]
+    },
+    {
+      "name": "getOptionalU8",
+      "mutability": "readonly",
+      "inputs": [],
+      "outputs": [
+        {
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "getOptionalEmptyU8",
+      "mutability": "readonly",
+      "inputs": [],
+      "outputs": [
+        {
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "getOptionU8",
+      "mutability": "readonly",
+      "inputs": [],
+      "outputs": [
+        {
+          "type": "u8"
+        }
+      ]
+    },
+    {
+      "name": "getOptionEmptyU8",
+      "mutability": "readonly",
+      "inputs": [],
+      "outputs": [
+        {
+          "type": "u8"
         }
       ]
     }

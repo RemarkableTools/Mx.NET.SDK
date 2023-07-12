@@ -20,6 +20,7 @@ namespace Mx.NET.SDK.Core.Domain.Codec
                 new TokenIdentifierCodec(),
                 new StructBinaryCodec(this),
                 new OptionBinaryCodec(this),
+                new OptionalBinaryCodec(this),
                 new MultiBinaryCodec(this),
                 new TupleBinaryCodec(this),
                 new VariadicBinaryCodec(this),

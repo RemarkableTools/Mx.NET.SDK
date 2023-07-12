@@ -11,6 +11,7 @@ using Mx.NET.SDK.Core.Domain.SmartContracts;
 using static Mx.NET.SDK.Core.Domain.Constants.Constants;
 using System.Globalization;
 using Mx.NET.SDK.Provider.Dtos.Gateway.Transactions;
+using static Mx.NET.SDK.Core.Domain.Values.TypeValue;
 
 namespace Mx.NET.SDK.Domain
 {
@@ -131,6 +132,27 @@ namespace Mx.NET.SDK.Domain
             return transaction;
         }
 
+        public static TransactionRequest CreateDeploySmartContractTransactionRequest(
+            NetworkConfig networkConfig,
+            Account account,
+            CodeArtifact codeArtifact,
+            CodeMetadata codeMetadata,
+            GasLimit gasLimit,
+            params IBinaryType[] args)
+        {
+            var transaction = Create(account, networkConfig);
+            var data = $"{codeArtifact.Value}@{ArwenVirtualMachine}@{codeMetadata.Value}";
+            if (args.Any())
+            {
+                data = args.Aggregate(data,
+                                      (c, arg) => c + $"@{Converter.ToHexString(binaryCoder.EncodeTopLevel(arg))}");
+            }
+
+            transaction.Data = DataCoder.EncodeData(data);
+            transaction.SetGasLimit(gasLimit);
+            return transaction;
+        }
+
         public static TransactionRequest CreateCallSmartContractTransactionRequest(
             NetworkConfig networkConfig,
             Account account,
@@ -144,7 +166,13 @@ namespace Mx.NET.SDK.Domain
             if (args.Any())
             {
                 data = args.Aggregate(data,
-                                      (c, arg) => c + $"@{Converter.ToHexString(binaryCoder.EncodeTopLevel(arg))}");
+                                      (c, arg) => 
+                                      { 
+                                          var hex = Converter.ToHexString(binaryCoder.EncodeTopLevel(arg));
+                                          //In case of OptionalValue, if there is no value we shouldn't put the parameter.
+                                          var hexFormat = arg.Type.BinaryType == BinaryTypes.Optional && string.IsNullOrEmpty(hex) ? string.Empty : $"@{hex}";
+                                          return c + hexFormat; 
+                                      });
             }
 
             transaction.Data = DataCoder.EncodeData(data);

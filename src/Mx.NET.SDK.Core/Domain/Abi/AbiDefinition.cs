@@ -28,6 +28,7 @@ namespace Mx.NET.SDK.Core.Domain.Abi
         private TypeValue GetTypeValue(string rustType)
         {
             var optional = new Regex("^optional<(.*)>$");
+            var option = new Regex("^Option<(.*)>$");
             var multi = new Regex("^multi<(.*)>$");
             var tuple = new Regex("^tuple<(.*)>$");
             var variadic = new Regex("^variadic<(.*)>$");
@@ -36,6 +37,13 @@ namespace Mx.NET.SDK.Core.Domain.Abi
             if (optional.IsMatch(rustType))
             {
                 var innerType = optional.Match(rustType).Groups[1].Value;
+                var innerTypeValue = GetTypeValue(innerType);
+                return TypeValue.OptionalValue(innerTypeValue);
+            }
+
+            if (option.IsMatch(rustType))
+            {
+                var innerType = option.Match(rustType).Groups[1].Value;
                 var innerTypeValue = GetTypeValue(innerType);
                 return TypeValue.OptionValue(innerTypeValue);
             }
