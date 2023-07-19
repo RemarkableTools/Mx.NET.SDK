@@ -1,11 +1,11 @@
 ﻿namespace Mx.NET.SDK.Provider.Dtos.Gateway.Network
 {
-    public class GatewayNetworkConfigDataDto
+    public class NetworkConfigDataDto
     {
-        public GatewayNetworkConfigDto Config { get; set; }
+        public NetworkConfigDto Config { get; set; }
     }
 
-    public class GatewayNetworkConfigDto
+    public class NetworkConfigDto
     {
         public string erd_chain_id { get; set; }
         public int erd_denomination { get; set; }

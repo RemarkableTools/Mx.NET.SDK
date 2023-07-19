@@ -1,10 +1,17 @@
-﻿using Mx.NET.SDK.Provider.Dtos.Gateway.Address;
+﻿using Mx.NET.SDK.Provider.Dtos.Gateway.Addresses;
 using System.Threading.Tasks;
 
 namespace Mx.NET.SDK.Provider.Gateway
 {
-    public interface IAddressProvider
+    public interface IAddressesProvider
     {
+        /// <summary>
+        /// This endpoint allows one to retrieve basic information about an Addresses (Account).
+        /// </summary>
+        /// <param name="address">The address</param>
+        /// <returns><see cref="AccountDataDto"/></returns>
+        Task<AccountDto> GetAddress(string address);
+
         /// <summary>
         /// Returns the guardian data for an address
         /// </summary>
