@@ -32,7 +32,7 @@ namespace Mx.NET.SDK.Core.Domain.Abi
             var tuple = new Regex("^tuple<(.*)>$");
             var variadic = new Regex("^variadic<(.*)>$");
             var list = new Regex("^List<(.*)>$");
-            //var array = new Regex("^Array<(.*)>$");
+            var array = new Regex("^Array<(.*)>$");
 
             if (optional.IsMatch(rustType))
             {
@@ -68,12 +68,12 @@ namespace Mx.NET.SDK.Core.Domain.Abi
                 var innerTypeValue = GetTypeValue(innerType);
                 return TypeValue.ListValue(innerTypeValue);
             }
-            //if (array.IsMatch(rustType))
-            //{
-            //    var innerTypes = array.Match(rustType).Groups[1].Value.Split(',').Where(s => !string.IsNullOrEmpty(s));
-            //    var innerTypeValues = innerTypes.Select(GetTypeValue).ToArray();
-            //    return TypeValue.ArrayValue(innerTypeValues[0]);
-            //}
+            if (array.IsMatch(rustType))
+            {
+                var innerTypes = array.Match(rustType).Groups[1].Value.Split(',').Where(s => !string.IsNullOrEmpty(s));
+                var innerTypeValues = innerTypes.Select(GetTypeValue).ToArray();
+                return TypeValue.ArrayValue(innerTypeValues[0]);
+            }
 
             var typeFromBaseRustType = TypeValue.FromRustType(rustType);
             if (typeFromBaseRustType != null)

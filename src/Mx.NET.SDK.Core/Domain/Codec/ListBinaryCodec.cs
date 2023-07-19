@@ -8,86 +8,69 @@ namespace Mx.NET.SDK.Core.Domain.Codec
     public class ListBinaryCodec : IBinaryCodec
     {
         private readonly BinaryCodec _binaryCodec;
-
-        private const int BytesSizeOfU32 = 4;
+        private readonly List<IBinaryCodec> _codecs;
 
         public ListBinaryCodec(BinaryCodec binaryCodec)
         {
             _binaryCodec = binaryCodec;
+
+            _codecs = new List<IBinaryCodec>
+            {
+                new NumericBinaryCodec(),
+                new AddressBinaryCodec(),
+                new BooleanBinaryCodec(),
+                new BytesBinaryCodec(),
+                new TokenIdentifierCodec(),
+            };
         }
 
         public string Type => TypeValue.BinaryTypes.List;
 
         public (IBinaryType Value, int BytesLength) DecodeNested(byte[] data, TypeValue type)
         {
-            var numItems = data.ReadUInt32BE(0);
             var result = new List<IBinaryType>();
-
-            var originalBuffer = data;
-            var offset = BytesSizeOfU32;
-
-            data = originalBuffer.Slice(offset);
-
-            for (int i = 0; i < numItems; i++)
+            var buffer = data.ToList();
+            var offset = 0;
+            var listLen = _binaryCodec.DecodeNested(buffer.Take(4).ToArray(), TypeValue.U32TypeValue);
+            buffer = buffer.Skip(4).ToList();
+            int i = 0;
+            while (buffer.Any() && i < ((NumericValue)listLen.Value).Number)
             {
-                var (value, bytesLength) = _binaryCodec.DecodeNested(data, type.InnerType);
+                i++;
+                var (value, bytesLength) = _binaryCodec.DecodeNested(buffer.ToArray(), type.InnerType);
                 result.Add(value);
                 offset += bytesLength;
-                data = originalBuffer.Slice(offset);
+                buffer = buffer.Skip(bytesLength).ToList();
             }
 
-            var listValue = new ListValue(type, type.InnerType, result.ToArray());
-            return (listValue, offset);
+            var multiValue = new ListValue(type, result);
+            return (multiValue, offset + 4);
         }
 
         public IBinaryType DecodeTopLevel(byte[] data, TypeValue type)
         {
-            var result = new List<IBinaryType>();
-
-            var originalBuffer = data;
-            var offset = 0;
-
-            while (data.Length > 0)
-            {
-                var (value, bytesLength) = _binaryCodec.DecodeNested(data, type);
-                result.AddRange(value.ValueOf<ListValue>().Values);
-                offset += bytesLength;
-                data = originalBuffer.Slice(offset);
-            }
-
-            return ListValue.From(type, result.ToArray());
+            var decoded = DecodeNested(data, type);
+            return decoded.Value;
         }
 
         public byte[] EncodeNested(IBinaryType value)
         {
-            var listValueObject = value.ValueOf<ListValue>();
             var buffers = new List<byte[]>();
 
-            foreach (var listValue in listValueObject.Values)
+            foreach (var multiValue in ((ArrayValue)value).Values)
             {
-                var fieldBuffer = _binaryCodec.EncodeNested(listValue);
+                var codec = _codecs.SingleOrDefault(c => c.Type == multiValue.Type.BinaryType);
+                var fieldBuffer = codec.EncodeNested(multiValue);
                 buffers.Add(fieldBuffer);
             }
 
-            var lengthBuffer = new byte[4];
-            lengthBuffer.WriteUInt32BE(listValueObject.Values.Length);
-
-            var data = lengthBuffer.Concat(buffers.SelectMany(b => b));
+            var data = buffers.SelectMany(s => s);
             return data.ToArray();
         }
 
         public byte[] EncodeTopLevel(IBinaryType value)
         {
-            var listValue = value.ValueOf<ListValue>();
-            var buffers = new List<byte[]>();
-
-            foreach (var item in listValue.Values)
-            {
-                var buffer = EncodeNested(item);
-                buffers.Add(buffer);
-            }
-
-            return buffers.SelectMany(b => b).ToArray();
+            return EncodeNested(value);
         }
     }
 }

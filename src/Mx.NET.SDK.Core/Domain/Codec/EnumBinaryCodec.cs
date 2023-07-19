@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Mx.NET.SDK.Core.Domain.Values;
+using System.Collections.Generic;
 using System.Linq;
-using Mx.NET.SDK.Core.Domain.Exceptions;
-using Mx.NET.SDK.Core.Domain.Values;
 
 namespace Mx.NET.SDK.Core.Domain.Codec
 {
@@ -18,14 +17,14 @@ namespace Mx.NET.SDK.Core.Domain.Codec
         public (IBinaryType Value, int BytesLength) DecodeNested(byte[] data, TypeValue type)
         {
             var fieldDefinitions = type.GetFieldDefinitions();
-            var fields = new List<EnumField>();
+
             var buffer = data.ToList();
             var offset = 0;
 
             var (value, bytesLength) = _binaryCodec.DecodeNested(buffer.ToArray(), fieldDefinitions[0].Type);
 
             offset += bytesLength;
-            buffer = buffer.Skip(bytesLength).ToList();
+            _ = buffer.Skip(bytesLength).ToList();
 
             var intVal = int.Parse(value.ToString());
 
