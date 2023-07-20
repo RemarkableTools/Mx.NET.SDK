@@ -18,29 +18,19 @@ namespace Mx.NET.SDK.Core.Domain.Codec
 
         public (IBinaryType Value, int BytesLength) DecodeNested(byte[] data, TypeValue type)
         {
-            if (data[0] == 0x00)
+            if (data.Length == 0)
             {
                 return (OptionalValue.NewMissing(), 1);
             }
 
-            if (data[0] != 0x01)
-            {
-                throw new BinaryCodecException("invalid buffer for optional value");
-            }
-
-            var (value, bytesLength) = _binaryCodec.DecodeNested(data.Slice(1), type.InnerType);
-            return (OptionalValue.NewProvided(value), bytesLength + 1);
+            var (value, bytesLength) = _binaryCodec.DecodeNested(data, type.InnerType);
+            return (OptionalValue.NewProvided(value), bytesLength);
         }
 
         public IBinaryType DecodeTopLevel(byte[] data, TypeValue type)
         {
-            if (data.Length == 0)
-            {
-                return OptionalValue.NewMissing();
-            }
-
-            var result = _binaryCodec.DecodeTopLevel(data, type.InnerType);
-            return OptionalValue.NewProvided(result);
+            var (value, _) = _binaryCodec.DecodeNested(data, type);
+            return OptionalValue.NewProvided(value);
         }
 
         public byte[] EncodeNested(IBinaryType value)
