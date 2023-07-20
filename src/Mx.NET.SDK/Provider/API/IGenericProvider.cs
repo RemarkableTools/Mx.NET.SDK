@@ -1,5 +1,4 @@
-﻿using Mx.NET.SDK.Provider.Dtos.API.Account;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace Mx.NET.SDK.Provider.API
 {

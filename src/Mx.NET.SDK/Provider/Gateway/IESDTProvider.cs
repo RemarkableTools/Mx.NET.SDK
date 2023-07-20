@@ -11,14 +11,6 @@ namespace Mx.NET.SDK.Provider.Gateway
 {
     public interface IESDTProvider
     {
-
-        /// <summary>
-        /// This endpoint allows one to retrieve basic information about an Addresses (Account).
-        /// </summary>
-        /// <param name="address">The address</param>
-        /// <returns><see cref="AccountDataDto"/></returns>
-        Task<AccountDto> GetAccount(string address);
-
         /// <summary>
         /// Returns an array of FungibleESDT Tokens that the specified address has interacted with (issued, sent or received).
         /// </summary>

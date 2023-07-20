@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Mx.NET.SDK.Core.Domain.Exceptions;
+using Mx.NET.SDK.Core.Domain.Helper;
 using Mx.NET.SDK.Core.Domain.Values;
 
 namespace Mx.NET.SDK.Core.Domain.Codec

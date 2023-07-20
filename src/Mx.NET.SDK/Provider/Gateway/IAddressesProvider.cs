@@ -9,30 +9,30 @@ namespace Mx.NET.SDK.Provider.Gateway
         /// This endpoint allows one to retrieve basic information about an Addresses (Account).
         /// </summary>
         /// <param name="address">The address</param>
-        /// <returns><see cref="AccountDataDto"/></returns>
-        Task<AccountDto> GetAddress(string address);
+        /// <returns><see cref="AddressDto"/></returns>
+        Task<AddressDataDto> GetAddress(string address);
 
         /// <summary>
-        /// Returns the guardian data for an address
+        /// This endpoint allows one to retrieve the guardian data of an Address.
         /// </summary>
         /// <param name="address">Wallet address in bech32 format</param>
-        /// <returns><see cref="GatewayAddressGuardianDataDto"/></returns>
-        Task<GatewayAddressGuardianDataDto> GetAccountGuardianData(string address);
+        /// <returns><see cref="AddressGuardianDataDto"/></returns>
+        Task<AddressGuardianDataDto> GetAddressGuardianData(string address);
 
         /// <summary>
-        /// Retrieve a value stored under a given account
+        /// This endpoint allows one to retrieve a value stored within the Blockchain for a given Address.
         /// </summary>
         /// <param name="address">Wallet address in bech32 format</param>
         /// <param name="key">Storage Key</param>
         /// <param name="isHex">Is hexadecimal encoded string</param>
         /// <returns></returns>
-        Task<GatewayKeyValueDto> GetStorageValue(string address, string key, bool isHex = false);
+        Task<StorageValueDto> GetStorageValue(string address, string key, bool isHex = false);
 
         /// <summary>
-        /// retrieve all the key-value pairs stored under a given account
+        /// This endpoint allows one to retrieve all the key-value pairs stored under a given account.
         /// </summary>
         /// <param name="address">Wallet address in bech32 format</param>
         /// <returns></returns>
-        Task<GatewayKeyValuePairsDto> GetAllStorageValues(string address);
+        Task<AllStorageDto> GetAllStorageValues(string address);
     }
 }

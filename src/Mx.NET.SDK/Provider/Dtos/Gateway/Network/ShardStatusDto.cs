@@ -1,5 +1,10 @@
 ﻿namespace Mx.NET.SDK.Provider.Dtos.Gateway.Network
 {
+    public class ShardStatusDataDto
+    {
+        public ShardStatusDto Status { get; set; }
+    }
+
     public class ShardStatusDto
     {
         public long erd_current_round { get; set; }

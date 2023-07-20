@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Mx.NET.SDK.Provider.Dtos.Gateway.Network;
-using Mx.NET.SDK.Provider.Gateway;
+using Mx.NET.SDK.Provider.Generic;
 
 namespace Mx.NET.SDK.Domain.Data.Network
 {
@@ -30,7 +30,7 @@ namespace Mx.NET.SDK.Domain.Data.Network
         /// </summary>
         /// <param name="provider">Gateway network provider</param>
         /// <returns>NetworkConfig</returns>
-        public static async Task<NetworkConfig> GetFromNetwork(INetworkProvider provider)
+        public static async Task<NetworkConfig> GetFromNetwork(IGenericGatewayProvider provider)
         {
             return new NetworkConfig(await provider.GetNetworkConfig());
         }

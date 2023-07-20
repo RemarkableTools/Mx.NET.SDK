@@ -64,4 +64,8 @@
       <PackagePath>\</PackagePath>
     </None>
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Provider\Dtos\Gateway\Nodes\" />
+  </ItemGroup>
 </Project>

@@ -1,5 +1,6 @@
 ﻿using Mx.NET.SDK.Core.Domain.Helper;
 using System.Collections.Generic;
+using System.Text;
 
 namespace Mx.NET.SDK.Core.Domain.Values
 {

@@ -1,6 +1,9 @@
-﻿namespace Mx.NET.SDK.Provider
+﻿using Mx.NET.SDK.Provider.Generic;
+
+namespace Mx.NET.SDK.Provider
 {
     public interface IApiProvider :
+        IGenericApiProvider,
         API.IGenericProvider,
         API.IAccountsProvider,
         API.IBlocksProvider,

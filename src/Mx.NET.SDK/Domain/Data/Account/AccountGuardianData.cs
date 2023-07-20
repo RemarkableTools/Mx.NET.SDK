@@ -10,12 +10,12 @@ namespace Mx.NET.SDK.Domain.Data.Account
 
         private AccountGuardianData() { }
 
-        public static AccountGuardianData From(GatewayAddressGuardianDataDto guardianData)
+        public static AccountGuardianData From(AddressGuardianDataDto guardianData)
         {
             return new AccountGuardianData()
             {
-                BlockInfo = BlockInfo.From(guardianData.Data.BlockInfo),
-                GuardianData = GuardianData.From(guardianData.Data.GuardianData)
+                BlockInfo = BlockInfo.From(guardianData.BlockInfo),
+                GuardianData = GuardianData.From(guardianData.GuardianData)
             };
         }
     }

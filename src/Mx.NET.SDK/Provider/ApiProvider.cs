@@ -16,7 +16,6 @@ using Mx.NET.SDK.Provider.Dtos.API.Common;
 using Mx.NET.SDK.Provider.Dtos.API.Token;
 using Mx.NET.SDK.Provider.Dtos.API.Block;
 using Mx.NET.SDK.Provider.Dtos.API.Transactions;
-using Mx.NET.SDK.Provider.Dtos.Gateway.Network;
 
 namespace Mx.NET.SDK.Provider
 {
@@ -71,7 +70,6 @@ namespace Mx.NET.SDK.Provider
         {
             return await Get<AccountDto>($"accounts/{address}?withGuardianInfo=true");
         }
-
 
         public async Task<AccountTokenDto[]> GetAccountTokens(string address, int size = 100, int from = 0, Dictionary<string, string> parameters = null)
         {
@@ -325,14 +323,9 @@ namespace Mx.NET.SDK.Provider
 
         #region network
 
-        //public async Task<NetworkConfigDataDto> GetNetworkConfig()
-        //{
-        //    return await GetGW<NetworkConfigDataDto>("network/config");
-        //}
-
-        public async Task<Dtos.API.Network.NetworkEconomicsDto> GetNetworkEconomics()
+        public async Task<NetworkEconomicsDto> GetNetworkEconomics()
         {
-            return await Get<Dtos.API.Network.NetworkEconomicsDto>("economics");
+            return await Get<NetworkEconomicsDto>("economics");
         }
 
         public async Task<NetworkStatsDto> GetNetworkStats()
@@ -529,15 +522,6 @@ namespace Mx.NET.SDK.Provider
         {
             return await Get<AccountDto>($"usernames/{username}");
         }
-
-        #endregion
-
-        #region query
-
-        //public async Task<QueryVmResponseDto> QueryVm(QueryVmRequestDto queryVmRequestDto)
-        //{
-        //    return await PostGW<QueryVmResponseDto>("vm-values/query", queryVmRequestDto);
-        //}
 
         #endregion
 

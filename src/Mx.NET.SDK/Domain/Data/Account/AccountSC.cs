@@ -8,6 +8,9 @@ using Mx.NET.SDK.Core.Domain;
 using Mx.NET.SDK.Domain.Helper;
 using Mx.NET.SDK.Core.Domain.Helper;
 using Mx.NET.SDK.Provider.API;
+using Mx.NET.SDK.Provider.Generic;
+using Mx.NET.SDK.Provider;
+using Mx.NET.SDK.Provider.Dtos.Gateway.Addresses;
 
 namespace Mx.NET.SDK.Domain.Data.Account
 {
@@ -114,11 +117,11 @@ namespace Mx.NET.SDK.Domain.Data.Account
         private AccountSC() { }
 
         /// <summary>
-        /// Synchronizes Smart Contract account properties with the ones queried from the Network
+        /// Synchronizes Smart Contract account properties with the ones queried from the API
         /// </summary>
-        /// <param name="provider"></param>
+        /// <param name="provider">API provider</param>
         /// <returns></returns>
-        public async Task Sync(IAccountsProvider provider)
+        public async Task Sync(IGenericApiProvider provider)
         {
             var accountDto = await provider.GetAccount(Address.Bech32);
 
@@ -143,11 +146,52 @@ namespace Mx.NET.SDK.Domain.Data.Account
         }
 
         /// <summary>
-        /// Creates a new Smart Contract account object from data
+        /// Synchronizes Smart Contract account properties with the ones queried from the Gateway
+        /// </summary>
+        /// <param name="provider">Gateway provider</param>
+        /// <returns></returns>
+        public async Task Sync(IGatewayProvider provider)
+        {
+            var accountDto = (await provider.GetAddress(Address.Bech32)).Account;
+
+            Address = Address.FromBech32(accountDto.Address);
+            Nonce = accountDto.Nonce;
+            Balance = ESDTAmount.From(accountDto.Balance, ESDT.EGLD());
+            Code = accountDto.Code;
+            if (accountDto.CodeHash != null) CodeHash = Converter.ToHexString(Convert.FromBase64String(accountDto.CodeHash)).ToLower();
+            if (accountDto.RootHash != null) RootHash = Converter.ToHexString(Convert.FromBase64String(accountDto.RootHash)).ToLower();
+            DeveloperReward = accountDto.DeveloperReward;
+            OwnerAddress = Address.FromBech32(accountDto.OwnerAddress);
+        }
+
+        /// <summary>
+        /// Creates a new account object from Gateway data
+        /// </summary>
+        /// <param name="addressData">Gateway provider</param>
+        /// <returns><see cref="AccountSC"/></returns>
+        public static AccountSC From(AddressDataDto addressData)
+        {
+            var account = addressData.Account;
+
+            return new AccountSC()
+            {
+                Address = Address.FromBech32(account.Address),
+                Nonce = account.Nonce,
+                Balance = ESDTAmount.From(account.Balance, ESDT.EGLD()),
+                Code = account.Code,
+                CodeHash = account.CodeHash is null ? null : Converter.ToHexString(Convert.FromBase64String(account.CodeHash)).ToLower(),
+                RootHash = account.RootHash is null ? null : Converter.ToHexString(Convert.FromBase64String(account.RootHash)).ToLower(),
+                DeveloperReward = account.DeveloperReward,
+                OwnerAddress = account.OwnerAddress == "" ? null : Address.FromBech32(account.OwnerAddress)
+            };
+        }
+
+        /// <summary>
+        /// Creates a new Smart Contract account object from API data
         /// </summary>
         /// <param name="account"></param>
-        /// <returns>AccountSC object</returns>
-        public static AccountSC From(AccountDto account)
+        /// <returns><see cref="AccountSC"/></returns>
+        public static AccountSC From(Provider.Dtos.API.Account.AccountDto account)
         {
             return new AccountSC()
             {
@@ -162,7 +206,7 @@ namespace Mx.NET.SDK.Domain.Data.Account
                 TxCount = account.TxCount,
                 SrcCount = account.ScrCount,
                 DeveloperReward = account.DeveloperReward,
-                OwnerAddress = Address.FromBech32(account.OwnerAddress),
+                OwnerAddress = account.OwnerAddress is null ? null : Address.FromBech32(account.OwnerAddress),
                 IsUpgradable = account.IsUpgradable,
                 IsReadable = account.IsReadable,
                 IsPayable = account.IsPayable,

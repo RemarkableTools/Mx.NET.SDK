@@ -1,4 +1,5 @@
-﻿using Mx.NET.SDK.Core.Domain.Values;
+﻿using Mx.NET.SDK.Core.Domain.Helper;
+using Mx.NET.SDK.Core.Domain.Values;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -43,11 +44,11 @@ namespace Mx.NET.SDK.Core.Domain.Codec
         {
             var enumValue = value.ValueOf<EnumValue>();
             var buffers = new List<byte[]>();
-            var fields = enumValue.Fields;
+            var fields = enumValue.Variants;
 
             foreach (var field in fields)
             {
-                var fieldBuffer = _binaryCodec.EncodeNested(field.Value);
+                var fieldBuffer = _binaryCodec.EncodeNested(field.Discriminant);
                 buffers.Add(fieldBuffer);
             }
 
