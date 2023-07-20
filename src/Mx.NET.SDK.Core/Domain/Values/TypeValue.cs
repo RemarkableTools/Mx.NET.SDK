@@ -133,11 +133,12 @@ namespace Mx.NET.SDK.Core.Domain.Values
         public static TypeValue TupleValue(TypeValue[] tupleTypes) => new TypeValue(BinaryTypes.Tuple, tupleTypes);
         public static TypeValue VariadicValue(TypeValue innerType) => new TypeValue(BinaryTypes.Variadic, innerType);
         public static TypeValue ListValue(TypeValue innerType) => new TypeValue(BinaryTypes.List, innerType);
-        public static TypeValue ArrayValue(TypeValue itemType) => new TypeValue(BinaryTypes.Array, itemType);
-        public static TypeValue EnumValue(string name, FieldDefinition[] fieldDefinitions) =>
-            new TypeValue(BinaryTypes.Enum, name, fieldDefinitions);
+        public static TypeValue ArrayValue(TypeValue innerType) => new TypeValue(BinaryTypes.Array, innerType);
+        
         public static TypeValue StructValue(string name, FieldDefinition[] fieldDefinitions) =>
             new TypeValue(BinaryTypes.Struct, name, fieldDefinitions);
+        public static TypeValue EnumValue(string name, FieldDefinition[] fieldDefinitions) =>
+            new TypeValue(BinaryTypes.Enum, name, fieldDefinitions);
 
         public static TypeValue FromRustType(string rustType)
         {
@@ -173,8 +174,6 @@ namespace Mx.NET.SDK.Core.Domain.Values
                     return AddressValue;
                 case RustTypes.TokenIdentifier:
                     return TokenIdentifierValue;
-                case RustTypes.Enum:
-                    return U8TypeValue;
 
                 default:
                     return null;
