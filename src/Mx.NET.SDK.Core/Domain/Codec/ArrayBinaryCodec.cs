@@ -6,68 +6,58 @@ using Mx.NET.SDK.Core.Domain.Values;
 namespace Mx.NET.SDK.Core.Domain.Codec
 {
     public class ArrayBinaryCodec : IBinaryCodec
-    {
-        private readonly BinaryCodec _binaryCodec;
-        private readonly List<IBinaryCodec> _codecs;
+	{
+		private readonly BinaryCodec _binaryCodec;
 
-        public ArrayBinaryCodec(BinaryCodec binaryCodec)
-        {
-            _binaryCodec = binaryCodec;
+		public ArrayBinaryCodec(BinaryCodec binaryCodec)
+		{
+			_binaryCodec = binaryCodec;
+		}
 
-            _codecs = new List<IBinaryCodec>
-            {
-                new NumericBinaryCodec(),
-                new AddressBinaryCodec(),
-                new BooleanBinaryCodec(),
-                new BytesBinaryCodec(),
-                new TokenIdentifierCodec(),
-            };
-        }
+		public string Type => TypeValue.BinaryTypes.Array;
 
-        public string Type => TypeValue.BinaryTypes.Array;
+		public (IBinaryType Value, int BytesLength) DecodeNested(byte[] data, TypeValue type)
+		{
+			var result = new List<IBinaryType>();
+			var originalBuffer = data;
+			var offset = 0;
 
-        public (IBinaryType Value, int BytesLength) DecodeNested(byte[] data, TypeValue type)
-        {
-            var result = new List<IBinaryType>();
-            var buffer = data.ToList();
-            var offset = 0;
+			while (data.Length > 0)
+			{
+				var (value, bytesLength) = _binaryCodec.DecodeNested(data, type.InnerType);
+				result.Add(value);
+				offset += bytesLength;
+				data = originalBuffer.Slice(offset);
+			}
 
-            while (buffer.Any())
-            {
-                var (value, bytesLength) = _binaryCodec.DecodeNested(buffer.ToArray(), type.InnerType);
-                result.Add(value);
-                offset += bytesLength;
-                buffer = buffer.Skip(bytesLength).ToList();
-            }
+			var arrayValue = new ArrayValue(type, type.InnerType, result.ToArray());
+			return (arrayValue, offset);
+		}
 
-            var multiValue = new ArrayValue(type, result);
-            return (multiValue, offset);
-        }
+		public IBinaryType DecodeTopLevel(byte[] data, TypeValue type)
+		{
+			var (value, _) = _binaryCodec.DecodeNested(data, type);
+			return value;
+		}
 
-        public IBinaryType DecodeTopLevel(byte[] data, TypeValue type)
-        {
-            var decoded = DecodeNested(data, type);
-            return decoded.Value;
-        }
+		public byte[] EncodeNested(IBinaryType value)
+		{
+			var arrayValueObject = value.ValueOf<ArrayValue>();
+			var buffers = new List<byte[]>();
 
-        public byte[] EncodeNested(IBinaryType value)
-        {
-            var buffers = new List<byte[]>();
+			foreach (var arrayValue in arrayValueObject.Values)
+			{
+				var fieldBuffer = _binaryCodec.EncodeNested(arrayValue);
+				buffers.Add(fieldBuffer);
+			}
 
-            foreach (var multiValue in ((ArrayValue)value).Values)
-            {
-                var codec = _codecs.SingleOrDefault(c => c.Type == multiValue.Type.BinaryType);
-                var fieldBuffer = codec.EncodeNested(multiValue);
-                buffers.Add(fieldBuffer);
-            }
+			var data = buffers.SelectMany(s => s);
+			return data.ToArray();
+		}
 
-            var data = buffers.SelectMany(s => s);
-            return data.ToArray();
-        }
-
-        public byte[] EncodeTopLevel(IBinaryType value)
-        {
-            return EncodeNested(value);
-        }
-    }
+		public byte[] EncodeTopLevel(IBinaryType value)
+		{
+			return EncodeNested(value);
+		}
+	}
 }
