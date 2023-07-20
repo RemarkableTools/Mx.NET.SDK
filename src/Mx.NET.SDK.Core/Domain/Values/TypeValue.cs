@@ -74,6 +74,7 @@ namespace Mx.NET.SDK.Core.Domain.Values
             public const string Bytes = nameof(Bytes);
             public const string TokenIdentifier = nameof(TokenIdentifier);
             public const string Option = nameof(Option);
+            public const string Optional = nameof(Optional);
             public const string Multi = nameof(Multi);
             public const string Tuple = nameof(Tuple);
             public const string Variadic = nameof(Variadic);
@@ -101,6 +102,7 @@ namespace Mx.NET.SDK.Core.Domain.Values
             public const string Address = "Address";
             public const string H256 = "H256";
             public const string TokenIdentifier = "TokenIdentifier";
+            public const string EgldOrEsdtTokenIdentifier = "EgldOrEsdtTokenIdentifier";
             public const string Enum = "Enum";
         }
 
@@ -129,6 +131,7 @@ namespace Mx.NET.SDK.Core.Domain.Values
         public static TypeValue H256Value => new TypeValue(BinaryTypes.Bytes, RustTypes.H256);
 
         public static TypeValue OptionValue(TypeValue innerType = null) => new TypeValue(BinaryTypes.Option, innerType);
+        public static TypeValue OptionalValue(TypeValue innerType = null) => new TypeValue(BinaryTypes.Optional, innerType);
         public static TypeValue MultiValue(TypeValue[] multiTypes) => new TypeValue(BinaryTypes.Multi, multiTypes);
         public static TypeValue TupleValue(TypeValue[] tupleTypes) => new TypeValue(BinaryTypes.Tuple, tupleTypes);
         public static TypeValue VariadicValue(TypeValue innerType) => new TypeValue(BinaryTypes.Variadic, innerType);
@@ -173,6 +176,8 @@ namespace Mx.NET.SDK.Core.Domain.Values
                 case RustTypes.Address:
                     return AddressValue;
                 case RustTypes.TokenIdentifier:
+                    return TokenIdentifierValue;
+                case RustTypes.EgldOrEsdtTokenIdentifier:
                     return TokenIdentifierValue;
 
                 default:

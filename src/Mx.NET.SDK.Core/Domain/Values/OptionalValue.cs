@@ -2,26 +2,27 @@
 
 namespace Mx.NET.SDK.Core.Domain.Values
 {
-    public class OptionValue : BaseBinaryValue
+    public class OptionalValue : BaseBinaryValue
     {
         public TypeValue InnerType { get; }
         public IBinaryType Value { get; }
 
-        private OptionValue(TypeValue type, TypeValue innerType = null, IBinaryType value = null) : base(type)
+        private OptionalValue(TypeValue type, TypeValue innerType = null, IBinaryType value = null) : base(type)
         {
             InnerType = innerType;
             Value = value;
         }
 
-        public static OptionValue NewMissing()
+        public static OptionalValue NewMissing()
         {
-            return new OptionValue(TypeValue.OptionValue());
+            return new OptionalValue(TypeValue.OptionalValue());
         }
 
-        public static OptionValue NewProvided(IBinaryType value)
+        public static OptionalValue NewProvided(IBinaryType value)
         {
-            return new OptionValue(TypeValue.OptionValue(value.Type), value.Type, value);
+            return new OptionalValue(TypeValue.OptionalValue(value.Type), value.Type, value);
         }
+
 
         public bool IsSet()
         {
