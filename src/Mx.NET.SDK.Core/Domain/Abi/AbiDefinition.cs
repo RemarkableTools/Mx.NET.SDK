@@ -25,7 +25,7 @@ namespace Mx.NET.SDK.Core.Domain.Abi
             return new EndpointDefinition(endpoint, inputs.ToArray(), outputs.ToArray());
         }
 
-        public TypeValue GetTypeValue(string rustType)
+        private TypeValue GetTypeValue(string rustType)
         {
             var optional = new Regex("^optional<(.*)>$");
             var multi = new Regex("^multi<(.*)>$");
@@ -70,9 +70,9 @@ namespace Mx.NET.SDK.Core.Domain.Abi
             }
             if (array.IsMatch(rustType))
             {
-                var innerTypes = array.Match(rustType).Groups[1].Value.Split(',').Where(s => !string.IsNullOrEmpty(s));
-                var innerTypeValues = innerTypes.Select(GetTypeValue).ToArray();
-                return TypeValue.ArrayValue(innerTypeValues[0]);
+                var innerType = list.Match(rustType).Groups[1].Value;
+                var innerTypeValue = GetTypeValue(innerType);
+                return TypeValue.ArrayValue(innerTypeValue);
             }
 
             var typeFromBaseRustType = TypeValue.FromRustType(rustType);
@@ -99,12 +99,6 @@ namespace Mx.NET.SDK.Core.Domain.Abi
                                                     .ToArray());
 
                 }
-                // TODO: Probably the next line can be removed
-                return TypeValue.StructValue(typeFromStruct.Type,
-                                             typeFromStruct.Fields
-                                                .ToList()
-                                                .Select(c => new FieldDefinition(c.Name, "", GetTypeValue(c.Type)))
-                                                .ToArray());
             }
 
             return null;
