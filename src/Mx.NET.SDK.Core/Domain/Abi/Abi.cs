@@ -17,12 +17,19 @@ namespace Mx.NET.SDK.Core.Domain.Abi
         {
             public string Type { get; set; }
             public Field[] Fields { get; set; }
+            public Variant[] Variants { get; set; }
         }
 
         public class Field
         {
             public string Name { get; set; }
             public string Type { get; set; }
+        }
+
+        public class Variant
+        {
+            public string Name { get; set; }
+            public int Discriminant { get; set; }
         }
 
         public class Endpoint

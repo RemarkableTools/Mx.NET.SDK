@@ -24,7 +24,9 @@ namespace Mx.NET.SDK.Core.Domain.Codec
                 new MultiBinaryCodec(this),
                 new TupleBinaryCodec(this),
                 new VariadicBinaryCodec(this),
-                new ListBinaryCodec(this)
+                new ListBinaryCodec(this),
+                new ArrayBinaryCodec(this),
+                new EnumBinaryCodec(this),
             };
         }
 

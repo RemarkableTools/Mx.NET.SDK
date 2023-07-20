@@ -1,6 +1,6 @@
 ﻿using Mx.NET.SDK.Core.Domain.Helper;
 
-namespace Mx.NET.SDK.Provider.Dtos.Gateway.Address
+namespace Mx.NET.SDK.Provider.Dtos.Gateway.Addresses
 {
     public class GatewayKeyValueDto
     {

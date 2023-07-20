@@ -14,7 +14,7 @@ namespace Mx.NET.SDK.Domain.Data.Network
         public string TotalSupply { get; set; }
         public string TotalTopUpValue { get; set; }
 
-        private GwNetworkEconomics(GatewayNetworkEconomicsDataDto economics)
+        private GwNetworkEconomics(NetworkEconomicsDataDto economics)
         {
             DevRewards = economics.Metrics.erd_dev_rewards;
             EpochForEconomicsData = economics.Metrics.erd_epoch_for_economics_data;
@@ -32,7 +32,7 @@ namespace Mx.NET.SDK.Domain.Data.Network
         /// <returns>NetworkEconomics</returns>
         public static async Task<GwNetworkEconomics> GetFromNetwork(INetworkProvider provider)
         {
-            return new GwNetworkEconomics(await provider.GetGatewayNetworkEconomics());
+            return new GwNetworkEconomics(await provider.GetNetworkEconomics());
         }
     }
 }

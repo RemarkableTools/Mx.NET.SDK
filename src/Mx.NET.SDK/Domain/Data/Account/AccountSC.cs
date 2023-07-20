@@ -118,7 +118,7 @@ namespace Mx.NET.SDK.Domain.Data.Account
         /// </summary>
         /// <param name="provider"></param>
         /// <returns></returns>
-        public async Task Sync(IApiProvider provider)
+        public async Task Sync(IAccountsProvider provider)
         {
             var accountDto = await provider.GetAccount(Address.Bech32);
 

@@ -33,6 +33,7 @@ namespace Mx.NET.SDK.Core.Domain.Abi
             var tuple = new Regex("^tuple<(.*)>$");
             var variadic = new Regex("^variadic<(.*)>$");
             var list = new Regex("^List<(.*)>$");
+            var array = new Regex("^Array<(.*)>$");
 
             if (optional.IsMatch(rustType))
             {
@@ -75,6 +76,12 @@ namespace Mx.NET.SDK.Core.Domain.Abi
                 var innerTypeValue = GetTypeValue(innerType);
                 return TypeValue.ListValue(innerTypeValue);
             }
+            if (array.IsMatch(rustType))
+            {
+                var innerType = list.Match(rustType).Groups[1].Value;
+                var innerTypeValue = GetTypeValue(innerType);
+                return TypeValue.ArrayValue(innerTypeValue);
+            }
 
             var typeFromBaseRustType = TypeValue.FromRustType(rustType);
             if (typeFromBaseRustType != null)
@@ -83,11 +90,23 @@ namespace Mx.NET.SDK.Core.Domain.Abi
             if (Types.Keys.Contains(rustType))
             {
                 var typeFromStruct = Types[rustType];
-                return TypeValue.StructValue(typeFromStruct.Type,
-                                             typeFromStruct.Fields
-                                                           .ToList()
-                                                           .Select(c => new FieldDefinition(c.Name, "", GetTypeValue(c.Type)))
-                                                           .ToArray());
+                if (typeFromStruct.Type == "enum")
+                {
+                    return TypeValue.EnumValue(typeFromStruct.Type,
+                                               typeFromStruct.Variants?
+                                                    .ToList()
+                                                    .Select(c => new FieldDefinition(c.Name, "", GetTypeValue(TypeValue.FromRustType("Enum").RustType)))
+                                                    .ToArray());
+                }
+                else if (typeFromStruct.Type == "struct")
+                {
+                    return TypeValue.StructValue(typeFromStruct.Type,
+                                                 typeFromStruct.Fields?
+                                                    .ToList()
+                                                    .Select(c => new FieldDefinition(c.Name, "", GetTypeValue(c.Type)))
+                                                    .ToArray());
+
+                }
             }
 
             return null;

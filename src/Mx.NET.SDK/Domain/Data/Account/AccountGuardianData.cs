@@ -1,5 +1,5 @@
 ﻿using Mx.NET.SDK.Domain.Data.Common;
-using Mx.NET.SDK.Provider.Dtos.Gateway.Address;
+using Mx.NET.SDK.Provider.Dtos.Gateway.Addresses;
 
 namespace Mx.NET.SDK.Domain.Data.Account
 {

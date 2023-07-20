@@ -1,12 +1,12 @@
-﻿using System;
-using System.Numerics;
-using System.Threading.Tasks;
-using Mx.NET.SDK.Core.Domain;
+﻿using Mx.NET.SDK.Core.Domain;
 using Mx.NET.SDK.Core.Domain.Helper;
 using Mx.NET.SDK.Core.Domain.Values;
 using Mx.NET.SDK.Domain.Data.Common;
-using Mx.NET.SDK.Provider.API;
+using Mx.NET.SDK.Provider;
 using Mx.NET.SDK.Provider.Dtos.API.Account;
+using System;
+using System.Numerics;
+using System.Threading.Tasks;
 
 namespace Mx.NET.SDK.Domain.Data.Account
 {
@@ -120,7 +120,7 @@ namespace Mx.NET.SDK.Domain.Data.Account
         /// </summary>
         /// <param name="provider"></param>
         /// <returns></returns>
-        public async Task Sync(IApiProvider provider)
+        public async Task Sync(Provider.API.IAccountsProvider provider)
         {
             var accountDto = await provider.GetAccount(Address.Bech32);
 
@@ -141,6 +141,15 @@ namespace Mx.NET.SDK.Domain.Data.Account
             PendingActivationEpoch = accountDto.PendingGuardianActivationEpoch ?? 0;
             PendingGuardian = accountDto.PendingGuardianAddress is null ? null : Address.FromBech32(accountDto.PendingGuardianAddress);
             PendingServiceUID = accountDto.PendingGuardianServiceUid ?? string.Empty;
+        }
+        public async Task Sync(Provider.Gateway.IAddressesProvider provider)
+        {
+            var accountDto = await provider.GetAddress(Address.Bech32);
+
+            Balance = ESDTAmount.From(accountDto.Balance, ESDT.EGLD());
+            Nonce = accountDto.Nonce;
+            Address = Address.FromBech32(accountDto.Address);
+            UserName = accountDto.Username;
         }
 
         /// <summary>
@@ -172,7 +181,10 @@ namespace Mx.NET.SDK.Domain.Data.Account
                 PendingServiceUID = account.PendingGuardianServiceUid ?? string.Empty
             };
         }
-
+        public static Account From(string address)
+        {
+            return new Account(Address.FromBech32(address));
+        }
         /// <summary>
         /// Increments (locally) the nonce (Account sequence number).
         /// </summary>

@@ -79,6 +79,8 @@ namespace Mx.NET.SDK.Core.Domain.Values
             public const string Tuple = nameof(Tuple);
             public const string Variadic = nameof(Variadic);
             public const string List = nameof(List);
+            public const string Array = nameof(Array);
+            public const string Enum = nameof(Enum);
         }
 
         public static class RustTypes
@@ -101,6 +103,7 @@ namespace Mx.NET.SDK.Core.Domain.Values
             public const string H256 = "H256";
             public const string TokenIdentifier = "TokenIdentifier";
             public const string EgldOrEsdtTokenIdentifier = "EgldOrEsdtTokenIdentifier";
+            public const string Enum = "Enum";
         }
 
         public static TypeValue U8TypeValue => new TypeValue(BinaryTypes.Numeric, RustTypes.U8, 1, false);
@@ -133,9 +136,12 @@ namespace Mx.NET.SDK.Core.Domain.Values
         public static TypeValue TupleValue(TypeValue[] tupleTypes) => new TypeValue(BinaryTypes.Tuple, tupleTypes);
         public static TypeValue VariadicValue(TypeValue innerType) => new TypeValue(BinaryTypes.Variadic, innerType);
         public static TypeValue ListValue(TypeValue innerType) => new TypeValue(BinaryTypes.List, innerType);
-
+        public static TypeValue ArrayValue(TypeValue innerType) => new TypeValue(BinaryTypes.Array, innerType);
+        
         public static TypeValue StructValue(string name, FieldDefinition[] fieldDefinitions) =>
             new TypeValue(BinaryTypes.Struct, name, fieldDefinitions);
+        public static TypeValue EnumValue(string name, FieldDefinition[] fieldDefinitions) =>
+            new TypeValue(BinaryTypes.Enum, name, fieldDefinitions);
 
         public static TypeValue FromRustType(string rustType)
         {
