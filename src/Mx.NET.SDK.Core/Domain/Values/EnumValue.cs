@@ -5,18 +5,23 @@ namespace Mx.NET.SDK.Core.Domain.Values
 {
     public class EnumValue : BaseBinaryValue
     {
-        //public EnumField Discriminant { get; }
-        public EnumField Value { get; }
+        public EnumField[] Variants { get; }
 
-        public EnumValue(TypeValue structType, EnumField discriminant) : base(structType)
+        public EnumValue(TypeValue enumType, EnumField[] variants) : base(enumType)
         {
-            //Discriminant = discriminant;
-            Value = discriminant;
+            Variants = variants;
         }
 
         public override string ToString()
         {
-            return Value.Name;
+            var builder = new StringBuilder();
+            builder.AppendLine(Type.Name);
+            foreach (var enumVariant in Variants)
+            {
+                builder.AppendLine($"{enumVariant.Name}:{enumVariant.Discriminant}");
+            }
+
+            return builder.ToString();
         }
 
         public override T ToObject<T>()
@@ -26,12 +31,13 @@ namespace Mx.NET.SDK.Core.Domain.Values
 
         public override string ToJson()
         {
-            var dic = new Dictionary<string, object>
+            var dict = new Dictionary<string, object>();
+            foreach (var variant in Variants)
             {
-                { Value.Name, Value.Discriminant.ToString() }
-            };
+                dict.Add(variant.Name, variant.Discriminant.ToJson());
+            }
 
-            return JsonWrapper.Serialize(dic);
+            return JsonUnqtWrapper.Serialize(dict);
         }
     }
 }
