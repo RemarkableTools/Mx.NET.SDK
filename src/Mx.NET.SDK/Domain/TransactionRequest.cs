@@ -132,27 +132,6 @@ namespace Mx.NET.SDK.Domain
             return transaction;
         }
 
-        public static TransactionRequest CreateDeploySmartContractTransactionRequest(
-            NetworkConfig networkConfig,
-            Account account,
-            CodeArtifact codeArtifact,
-            CodeMetadata codeMetadata,
-            GasLimit gasLimit,
-            params IBinaryType[] args)
-        {
-            var transaction = Create(account, networkConfig);
-            var data = $"{codeArtifact.Value}@{ArwenVirtualMachine}@{codeMetadata.Value}";
-            if (args.Any())
-            {
-                data = args.Aggregate(data,
-                                      (c, arg) => c + $"@{Converter.ToHexString(binaryCoder.EncodeTopLevel(arg))}");
-            }
-
-            transaction.Data = DataCoder.EncodeData(data);
-            transaction.SetGasLimit(gasLimit);
-            return transaction;
-        }
-
         public static TransactionRequest CreateCallSmartContractTransactionRequest(
             NetworkConfig networkConfig,
             Account account,
