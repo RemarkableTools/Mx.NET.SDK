@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using Mx.NET.SDK.Core.Domain.Constants;
+using Mx.NET.SDK.Core.Domain.Helper;
 
 namespace Mx.NET.SDK.Core.Domain.Values
 {
@@ -63,6 +64,11 @@ namespace Mx.NET.SDK.Core.Domain.Values
         public override int GetHashCode()
         {
             return base.GetHashCode();
+        }
+
+        public override string ToJson()
+        {
+            return JsonWrapper.Serialize(Value);
         }
     }
 }
