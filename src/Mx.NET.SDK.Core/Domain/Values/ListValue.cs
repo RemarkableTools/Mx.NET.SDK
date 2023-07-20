@@ -7,17 +7,18 @@ namespace Mx.NET.SDK.Core.Domain.Values
 {
     public class ListValue : BaseBinaryValue
     {
-        public List<IBinaryType> Values { get; }
+        public TypeValue InnerType { get; }
+        public IBinaryType[] Values { get; }
 
-        public ListValue(TypeValue type, List<IBinaryType> values) : base(type)
+        public ListValue(TypeValue type, TypeValue innerType, IBinaryType[] values) : base(type)
         {
+            InnerType = innerType;
             Values = values;
         }
 
-        public static ListValue From(params IBinaryType[] values)
+        public static ListValue From(TypeValue type, params IBinaryType[] values)
         {
-            var t = values.Select(s => s.Type).ToArray();
-            return new ListValue(TypeValue.ListValue(TypeValue.FromRustType(values.GetType().GetElementType().Name.Replace("Value", ""))), values.ToList());
+            return new ListValue(TypeValue.ListValue(type), type.InnerType, values);
         }
 
         public override string ToString()
@@ -26,7 +27,7 @@ namespace Mx.NET.SDK.Core.Domain.Values
             builder.AppendLine(Type.Name);
             foreach (var value in Values)
             {
-                builder.AppendLine($"{value}");
+                builder.AppendLine(value.ToString());
             }
 
             return builder.ToString();
@@ -39,23 +40,8 @@ namespace Mx.NET.SDK.Core.Domain.Values
 
         public override string ToJson()
         {
-            var list = new List<object>();
-            for (var i = 0; i < Values.Count; i++)
-            {
-                var value = Values.ToArray()[i];
-                if (value.Type.BinaryType == TypeValue.BinaryTypes.Struct)
-                {
-                    var json = value.ToJson();
-                    var jsonObject = JsonWrapper.Deserialize<object>(json);
-                    list.Add(jsonObject);
-                }
-                else
-                {
-                    list.Add(value.ToString());
-                }
-            }
-
-            return JsonWrapper.Serialize(list);
+            var json = Values.Select(v => v.ToJson()).ToArray();
+            return $"[{string.Join(",", json)}]";
         }
     }
 }
