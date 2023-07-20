@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Mx.NET.SDK.Core.Domain.Codec
 {
-    public class EnumBinaryCodec : IBinaryCodec
+	public class EnumBinaryCodec : IBinaryCodec
     {
         private readonly BinaryCodec _binaryCodec;
         public string Type => TypeValue.BinaryTypes.Enum;
@@ -17,33 +17,33 @@ namespace Mx.NET.SDK.Core.Domain.Codec
         public (IBinaryType Value, int BytesLength) DecodeNested(byte[] data, TypeValue type)
         {
             var fieldDefinitions = type.GetFieldDefinitions();
-
-            var buffer = data.ToList();
+            var fields = new List<EnumField>();
+            var originalBuffer = data;
             var offset = 0;
 
-            var (value, bytesLength) = _binaryCodec.DecodeNested(buffer.ToArray(), fieldDefinitions[0].Type);
+            foreach (var fieldDefinition in fieldDefinitions)
+            {
+                var (value, bytesLength) = _binaryCodec.DecodeNested(data, fieldDefinition.Type);
+                fields.Add(new EnumField(fieldDefinition.Name, value));
+                offset += bytesLength;
+                data = originalBuffer.Slice(offset);
+            }
 
-            offset += bytesLength;
-            _ = buffer.Skip(bytesLength).ToList();
-
-            var intVal = int.Parse(value.ToString());
-
-            var structObject = new EnumValue(type, new EnumField(fieldDefinitions[intVal].Name, value));
-
-            return (structObject, offset);
+            var enumValue = new EnumValue(type, fields.ToArray());
+            return (enumValue, offset);
         }
 
         public IBinaryType DecodeTopLevel(byte[] data, TypeValue type)
         {
-            var decoded = DecodeNested(data, type);
-            return decoded.Value;
+            var (value, _) = DecodeNested(data, type);
+            return value;
         }
 
         public byte[] EncodeNested(IBinaryType value)
         {
-            var structValue = value.ValueOf<StructValue>();
+            var enumValue = value.ValueOf<EnumValue>();
             var buffers = new List<byte[]>();
-            var fields = structValue.Fields;
+            var fields = enumValue.Fields;
 
             foreach (var field in fields)
             {
@@ -52,7 +52,6 @@ namespace Mx.NET.SDK.Core.Domain.Codec
             }
 
             var data = buffers.SelectMany(s => s);
-
             return data.ToArray();
         }
 
