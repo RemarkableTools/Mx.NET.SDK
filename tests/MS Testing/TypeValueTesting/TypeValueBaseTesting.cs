@@ -20,7 +20,7 @@ namespace MSTesting.TypeValueTesting
     {
         private static Wallet _wallet;
         private static IGatewayProvider _gatewayProvider;
-        private static IMultiversxProvider _provider;
+        private static MultiversxProvider _provider;
         private static Address? _scAddress;
         private static WalletSigner _walletSigner;
         private static AbiDefinition _abi;
@@ -45,7 +45,7 @@ namespace MSTesting.TypeValueTesting
             var request = EGLDTransactionRequest.EGLDTransferToSmartContract(_networkConfig, _account, _scAddress, gasLimit, ESDTAmount.Zero(), methodName, args);
 
             var signedTransaction = _walletSigner.SignTransaction(request);
-            var response = await _gatewayProvider.SendTransaction(signedTransaction);
+            var response = await _provider.SendTransaction(signedTransaction);
             var transaction = Transaction.From(response.TxHash);
             await transaction.AwaitExecuted(_provider);
             _account.IncrementNonce();
@@ -76,7 +76,7 @@ namespace MSTesting.TypeValueTesting
                 _isInitialized = true;
                 _wallet = Wallet.FromPemFile("./walletKey.pem");
                 _provider = new MultiversxProvider(new MultiversxNetworkConfiguration(Network.DevNet));
-                _gatewayProvider = new MultiversxProvider(new MultiversxNetworkConfiguration(Network.DevNet));
+                //_gatewayProvider = new MultiversxProvider(new MultiversxNetworkConfiguration(Network.DevNet));
                 _networkConfig = await NetworkConfig.GetFromNetwork(_provider);
                 _walletSigner = _wallet.GetSigner();
                 _account = _wallet.GetAccount();
@@ -86,9 +86,9 @@ namespace MSTesting.TypeValueTesting
                 var code = CodeArtifact.FromFilePath("./TypeValueContract/typevalue.wasm");
                 var codeMetaData = new CodeMetadata(true, true, false);
                 var gasLimit = new GasLimit(100000000);
-                var contractRequest = TransactionRequest.CreateDeploySmartContractTransactionRequest(_networkConfig, _account, code, codeMetaData, gasLimit);
+                var contractRequest = TransactionRequest.CreateDeploySmartContractTransactionRequest(_networkConfig, _account, code, codeMetaData);
                 var signedTransaction = _walletSigner.SignTransaction(contractRequest);
-                var response = await _gatewayProvider.SendTransaction(signedTransaction);
+                var response = await _provider.SendTransaction(signedTransaction);
                 var transaction = Transaction.From(response.TxHash);
                 _scAddress = SmartContract.ComputeAddress(contractRequest);
                 await transaction.AwaitExecuted(_provider);

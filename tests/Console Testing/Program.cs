@@ -12,11 +12,11 @@ using Mx.NET.SDK.Core.Domain.Abi;
 //var apiProvider = new ApiProvider(new MultiversxNetworkConfiguration(Network.DevNet));
 //var apiNetworkConfig = await NetworkConfig.GetFromNetwork(gwProvider);
 
-//var mvxProvider = new MultiversxProvider(new MultiversxNetworkConfiguration(Network.DevNet));
+var mvxProvider = new MultiversxProvider(new MultiversxNetworkConfiguration(Network.DevNet));
 //var mvxNetworkConfig = await NetworkConfig.GetFromNetwork(mvxProvider);
 
-var myProvider = new MyProvider();
-var myNetworkConfig = await NetworkConfig.GetFromNetwork(myProvider);
+//var myProvider = new MyProvider();
+//var myNetworkConfig = await NetworkConfig.GetFromNetwork(myProvider);
 
 //var account = new Account(Address.FromBech32("erd1nn5jgka6z8utfnn5z5qccaql9m4ljslm4d9tj4nfc24jtpklw4fqv7eg6m"));
 //var account = new Account(Address.FromBech32("erd16nlhrnlm30qkpy8q52u95aaw0gjtx33xmlp62g5p4kj4mje04drq5y2tlw"));

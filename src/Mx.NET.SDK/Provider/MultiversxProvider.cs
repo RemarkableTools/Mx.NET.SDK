@@ -15,6 +15,7 @@ using Mx.NET.SDK.Provider.Dtos.API.Exchange;
 using Mx.NET.SDK.Provider.Dtos.API.Common;
 using Mx.NET.SDK.Provider.Dtos.API.Token;
 using Mx.NET.SDK.Provider.Generic;
+using Mx.NET.SDK.Provider.Gateway;
 
 namespace Mx.NET.SDK.Provider
 {
@@ -166,7 +167,7 @@ namespace Mx.NET.SDK.Provider
             return await gatewayProvider.GetTransactionCost(transactionRequestDto);
         }
 
-        public async Task<TransactionDto> GetTransaction(string txHash)
+        public async Task<TransactionDto> GetTransactionDetails(string txHash)
         {
             return await gatewayProvider.GetTransaction(txHash);
         }
@@ -534,12 +535,13 @@ namespace Mx.NET.SDK.Provider
             return await apiProvider.GetTransactionsCount(parameters);
         }
 
-        public async Task<Dtos.API.Transactions.TransactionDto> GetTransactionApi(string txHash)
+        public async Task<Dtos.API.Transactions.TransactionDto> GetTransaction(string txHash)
         {
-            return await apiProvider.GetTransaction(txHash);
+            return await Get<Dtos.API.Transactions.TransactionDto>($"transactions/{txHash}");
+            //return await apiProvider.GetTransaction(txHash);
         }
 
-        public async Task<Transaction> GetTransactionApi<Transaction>(string txHash)
+        public async Task<Transaction> GetTransaction<Transaction>(string txHash)
         {
             return await apiProvider.GetTransaction<Transaction>(txHash);
         }

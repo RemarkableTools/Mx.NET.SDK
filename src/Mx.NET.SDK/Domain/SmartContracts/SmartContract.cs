@@ -80,10 +80,8 @@ namespace Mx.NET.SDK.Domain.SmartContracts
         {
             var endpointDefinition = abiDefinition.GetEndpointDefinition(endpoint);
             var outputs = endpointDefinition.Output.Select(o => o.Type).ToArray();
-            if (outputs.Length != 1)
-                throw new Exception("Bad output quantities in ABI definition. Should only be one.");
 
-            return QuerySmartContract<T>(provider, address, outputs[0], endpoint, caller, args);
+            return QuerySmartContract<T>(provider, address, outputs, endpoint, caller, args);
         }
 
         /// <summary>
@@ -99,7 +97,7 @@ namespace Mx.NET.SDK.Domain.SmartContracts
         public static async Task<T> QuerySmartContract<T>(
             IGenericGatewayProvider provider,
             Address address,
-            TypeValue outputTypeValue,
+            TypeValue[] outputTypeValue,
             string endpoint,
             Address caller = null,
             params IBinaryType[] args) where T : IBinaryType
