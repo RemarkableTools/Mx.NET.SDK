@@ -1,59 +1,58 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-	<PropertyGroup>
-		<LangVersion>9.0</LangVersion>
-		<Description>⚡ MultiversX .NET SDK: Core components for Mx.NET.SDK</Description>
-		<TargetFrameworks>netstandard2.0;netcoreapp3.1;net461;net47;net5.0;net6.0;net7.0</TargetFrameworks>
-		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-		<PackageId>RemarkableTools.Mx.Core</PackageId>
-		<Authors>Remarkable Tools</Authors>
-		<Product />
-		<PackageTags>RemarkableTools;MultiversX;MxDotNetCore</PackageTags>
-		<PackageProjectUrl></PackageProjectUrl>
-		<RepositoryUrl>https://github.com/RemarkableTools/Mx.NET.SDK/tree/main/src/Mx.NET.SDK.Core</RepositoryUrl>
-		<RepositoryType>GitHub</RepositoryType>
-		<Company>Remarkable Tools</Company>
-		<Version>1.1.0-beta.1</Version>
-		<AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-		<Title>RemarkableTools.Mx.Core</Title>
-		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<PackAsTool>False</PackAsTool>
-		<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
-		<PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
-		<Copyright>Copyright © Remarkable Tools 2023</Copyright>
-		<PackageIcon>RemarkableToolsPackage.jpg</PackageIcon>
-		<PackageReleaseNotes>SDK updates and improvements</PackageReleaseNotes>
-	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0|AnyCPU'">
-		<WarningLevel>5</WarningLevel>
-	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0|AnyCPU'">
-		<WarningLevel>5</WarningLevel>
-	</PropertyGroup>
-	<ItemGroup>
-		<None Include="..\..\LICENSE.txt">
-			<Pack>True</Pack>
-			<PackagePath>\</PackagePath>
-		</None>
-		<None Include="..\..\RemarkableToolsPackage.jpg">
-			<Pack>True</Pack>
-			<PackagePath>\</PackagePath>
-		</None>
-	</ItemGroup>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <Description>⚡ MultiversX .NET SDK: Core components for Mx.NET.SDK</Description>
+    <TargetFrameworks>netstandard2.0;netcoreapp3.1;net461;net47;net5.0;net6.0;net7.0</TargetFrameworks>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageId>RemarkableTools.Mx.Core</PackageId>
+    <Authors>Remarkable Tools</Authors>
+    <Product />
+    <PackageTags>RemarkableTools;MultiversX;MxDotNetCore</PackageTags>
+    <PackageProjectUrl></PackageProjectUrl>
+    <RepositoryUrl>https://github.com/RemarkableTools/Mx.NET.SDK/tree/main/src/Mx.NET.SDK.Core</RepositoryUrl>
+    <RepositoryType>GitHub</RepositoryType>
+    <Company>Remarkable Tools</Company>
+    <Version>1.1.0-beta.1</Version>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Title>RemarkableTools.Mx.Core</Title>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackAsTool>False</PackAsTool>
+    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+    <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
+    <Copyright>Copyright © Remarkable Tools 2023</Copyright>
+    <PackageIcon>RemarkableToolsPackage.jpg</PackageIcon>
+    <PackageReleaseNotes>SDK updates and improvements</PackageReleaseNotes>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0|AnyCPU'">
+    <WarningLevel>5</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0|AnyCPU'">
+    <WarningLevel>5</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="..\..\LICENSE.txt">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\..\RemarkableToolsPackage.jpg">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 
-	<ItemGroup>
-		<PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
-		<PackageReference Include="Portable.BouncyCastle" Version="1.9.0" />
-		<PackageReference Include="System.ValueTuple" Version="4.5.0" />
-	</ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+    <PackageReference Include="Portable.BouncyCastle" Version="1.9.0" />
+    <PackageReference Include="System.ValueTuple" Version="4.5.0" />
+  </ItemGroup>
 
-	<ItemGroup Condition=" '$(TargetFramework)' == 'net461' ">
-		<Reference Include="System.Numerics" Version="4.0.0.0" />
-	</ItemGroup>
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net461' ">
+    <Reference Include="System.Numerics" Version="4.0.0.0" />
+  </ItemGroup>
 
-	<ItemGroup>
-		<None Include="README.md">
-			<Pack>True</Pack>
-			<PackagePath>\</PackagePath>
-		</None>
-	</ItemGroup>
+  <ItemGroup>
+    <None Include="README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 </Project>
