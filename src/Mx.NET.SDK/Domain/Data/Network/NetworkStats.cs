@@ -1,5 +1,6 @@
 ﻿using Mx.NET.SDK.Provider.API;
 using Mx.NET.SDK.Provider.Dtos.API.Network;
+using Mx.NET.SDK.Provider.Dtos.Gateway.Network;
 using System.Threading.Tasks;
 
 namespace Mx.NET.SDK.Domain.Data.Network

@@ -1,6 +1,6 @@
 ﻿namespace Mx.NET.SDK.Provider
 {
-    public interface IMultiversxProvider :
+    public interface IApiProvider :
         API.IGenericProvider,
         API.IAccountsProvider,
         API.IBlocksProvider,
@@ -10,14 +10,6 @@
         API.ITokensProvider,
         API.ITransactionsProvider,
         API.IUsernamesProvider,
-        API.IxExchangeProvider,
-
-        Gateway.IGenericProvider,
-        Gateway.IAddressesProvider,
-        Gateway.ITransactionsProvider,
-        Gateway.INetworkProvider,
-        Gateway.INodesProvider,
-        Gateway.IBlocksProvider,
-        Gateway.IQueryVmProvider
+        API.IxExchangeProvider
     { }
 }

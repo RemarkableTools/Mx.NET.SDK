@@ -1,11 +1,11 @@
 ﻿namespace Mx.NET.SDK.Provider.Dtos.Gateway.Network
 {
-    public class GatewayNetworkEconomicsDataDto
+    public class NetworkEconomicsDataDto
     {
-        public GatewayNetworkEconomicsDto Metrics { get; set; }
+        public NetworkEconomicsDto Metrics { get; set; }
     }
 
-    public class GatewayNetworkEconomicsDto
+    public class NetworkEconomicsDto
     {
         public string erd_dev_rewards { get; set; }
         public int erd_epoch_for_economics_data { get; set; }

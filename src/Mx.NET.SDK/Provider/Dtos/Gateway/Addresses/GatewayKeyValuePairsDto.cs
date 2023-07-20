@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Mx.NET.SDK.Provider.Dtos.Gateway.Address
+namespace Mx.NET.SDK.Provider.Dtos.Gateway.Addresses
 {
     public class GatewayKeyValuePairsDto
     {

@@ -1,4 +1,4 @@
-﻿namespace Mx.NET.SDK.Provider.Dtos.Gateway.Address
+﻿namespace Mx.NET.SDK.Provider.Dtos.Gateway.Addresses
 {
     public class GatewayAddressGuardianDataDto
     {

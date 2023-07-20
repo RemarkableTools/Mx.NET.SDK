@@ -15,7 +15,7 @@ namespace Mx.NET.SDK.Domain.Data.Network
 
         private NetworkConfig() { }
 
-        private NetworkConfig(GatewayNetworkConfigDataDto constants)
+        private NetworkConfig(NetworkConfigDataDto constants)
         {
             ChainId = constants.Config.erd_chain_id;
             GasPerDataByte = constants.Config.erd_gas_per_data_byte;
@@ -30,9 +30,9 @@ namespace Mx.NET.SDK.Domain.Data.Network
         /// </summary>
         /// <param name="provider">Gateway network provider</param>
         /// <returns>NetworkConfig</returns>
-        public static async Task<NetworkConfig> GetFromNetwork(IGatewayProvider provider)
+        public static async Task<NetworkConfig> GetFromNetwork(INetworkProvider provider)
         {
-            return new NetworkConfig(await provider.GetGatewayNetworkConfig());
+            return new NetworkConfig(await provider.GetNetworkConfig());
         }
     }
 }
