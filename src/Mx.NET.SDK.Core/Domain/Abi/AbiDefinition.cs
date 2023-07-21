@@ -16,12 +16,15 @@ namespace Mx.NET.SDK.Core.Domain.Abi
 
         public EndpointDefinition GetEndpointDefinition(string endpoint)
         {
-            var data = Endpoints.ToList().SingleOrDefault(s => s.Name == endpoint);
-            if (data == null)
-                throw new Exception("Endpoint is not defined in ABI");
+            var data = Endpoints.ToList().SingleOrDefault(s => s.Name == endpoint) ?? throw new Exception("Endpoint is not defined in ABI");
 
-            var inputs = data.Inputs.Select(i => new FieldDefinition(i.Name, "", GetTypeValue(i.Type))).ToList();
-            var outputs = data.Outputs.Select(i => new FieldDefinition("", "", GetTypeValue(i.Type))).ToList();
+            var inputs = data.Inputs is null ?
+                new List<FieldDefinition>() :
+                data.Inputs.Select(i => new FieldDefinition(i.Name, "", GetTypeValue(i.Type))).ToList();
+            var outputs = data.Outputs is null ?
+                new List<FieldDefinition>() :
+                data.Outputs.Select(i => new FieldDefinition("", "", GetTypeValue(i.Type))).ToList();
+
             return new EndpointDefinition(endpoint, inputs.ToArray(), outputs.ToArray());
         }
 

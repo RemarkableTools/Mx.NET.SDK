@@ -20,9 +20,10 @@ namespace Mx.NET.SDK.Core.Domain.Values
 
         public static OptionalValue NewProvided(IBinaryType value)
         {
+            if (value is null)
+                return NewMissing();
             return new OptionalValue(TypeValue.OptionalValue(value.Type), value.Type, value);
         }
-
 
         public bool IsSet()
         {

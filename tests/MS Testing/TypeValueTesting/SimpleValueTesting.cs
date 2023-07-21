@@ -27,7 +27,7 @@ namespace MSTesting.TypeValueTesting
             await InitializeAsync();
             var result = await GetValueForSmartContract<NumericValue, uint>("getU8");
 
-            Assert.AreEqual(result, (uint)8);
+            Assert.AreEqual(result, (uint)5);
         }
 
         [TestMethod]

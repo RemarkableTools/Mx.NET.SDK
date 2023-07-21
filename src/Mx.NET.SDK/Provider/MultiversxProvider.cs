@@ -537,7 +537,7 @@ namespace Mx.NET.SDK.Provider
 
         public async Task<Dtos.API.Transactions.TransactionDto> GetTransaction(string txHash)
         {
-            return await Get<Dtos.API.Transactions.TransactionDto>($"transactions/{txHash}");
+            return await GetApi<Dtos.API.Transactions.TransactionDto>($"transactions/{txHash}");
             //return await apiProvider.GetTransaction(txHash);
         }
 

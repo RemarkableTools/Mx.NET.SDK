@@ -37,7 +37,7 @@ namespace Mx.NET.SDK.Core.Domain.Codec
 
 		public IBinaryType DecodeTopLevel(byte[] data, TypeValue type)
 		{
-			var (value, _) = _binaryCodec.DecodeNested(data, type);
+			var (value, _) = DecodeNested(data, type);
 			return value;
 		}
 

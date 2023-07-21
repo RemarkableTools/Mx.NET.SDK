@@ -28,7 +28,7 @@ namespace Mx.NET.SDK.Core.Domain.Codec
                 throw new BinaryCodecException("invalid buffer for optional value");
             }
 
-            var (value, bytesLength) = _binaryCodec.DecodeNested(data.Slice(2), type.InnerType);
+            var (value, bytesLength) = _binaryCodec.DecodeNested(data.Slice(1), type.InnerType);
             return (OptionValue.NewProvided(value), bytesLength + 1);
         }
 
@@ -39,7 +39,7 @@ namespace Mx.NET.SDK.Core.Domain.Codec
                 return OptionValue.NewMissing();
             }
 
-            var (value, _) = _binaryCodec.DecodeNested(data, type);
+            var (value, _) = DecodeNested(data, type);
             return OptionValue.NewProvided(value);
         }
 

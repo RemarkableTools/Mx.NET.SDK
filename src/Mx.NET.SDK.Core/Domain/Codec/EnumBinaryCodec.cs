@@ -2,6 +2,7 @@
 using Mx.NET.SDK.Core.Domain.Values;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace Mx.NET.SDK.Core.Domain.Codec
 {
@@ -20,18 +21,12 @@ namespace Mx.NET.SDK.Core.Domain.Codec
             var fieldDefinitions = type.GetFieldDefinitions();
             var fields = new List<EnumField>();
             var originalBuffer = data;
-            var offset = 0;
 
-            foreach (var fieldDefinition in fieldDefinitions)
-            {
-                var (value, bytesLength) = _binaryCodec.DecodeNested(data, fieldDefinition.Type);
-                fields.Add(new EnumField(fieldDefinition.Name, value));
-                offset += bytesLength;
-                data = originalBuffer.Slice(offset);
-            }
+            var (value, bytesLength) = _binaryCodec.DecodeNested(data, fieldDefinitions[0].Type);
 
-            var enumValue = new EnumValue(type, fields.ToArray());
-            return (enumValue, offset);
+            var index = int.Parse(value.ToString());
+            var enumValue = new EnumValue(type, new EnumField(fieldDefinitions[index].Name, value));
+            return (enumValue, 1);
         }
 
         public IBinaryType DecodeTopLevel(byte[] data, TypeValue type)
@@ -43,17 +38,7 @@ namespace Mx.NET.SDK.Core.Domain.Codec
         public byte[] EncodeNested(IBinaryType value)
         {
             var enumValue = value.ValueOf<EnumValue>();
-            var buffers = new List<byte[]>();
-            var fields = enumValue.Variants;
-
-            foreach (var field in fields)
-            {
-                var fieldBuffer = _binaryCodec.EncodeNested(field.Discriminant);
-                buffers.Add(fieldBuffer);
-            }
-
-            var data = buffers.SelectMany(s => s);
-            return data.ToArray();
+            return Encoding.ASCII.GetBytes(enumValue.Variant.Discriminant.ToString());
         }
 
         public byte[] EncodeTopLevel(IBinaryType value)

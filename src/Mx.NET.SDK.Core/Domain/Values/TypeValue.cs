@@ -179,6 +179,8 @@ namespace Mx.NET.SDK.Core.Domain.Values
                     return TokenIdentifierValue;
                 case RustTypes.EgldOrEsdtTokenIdentifier:
                     return TokenIdentifierValue;
+                case RustTypes.Enum:
+                    return U8TypeValue;
 
                 default:
                     return null;
