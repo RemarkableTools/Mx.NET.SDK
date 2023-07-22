@@ -12,6 +12,7 @@ using static Mx.NET.SDK.Core.Domain.Constants.Constants;
 using System.Globalization;
 using Mx.NET.SDK.Provider.Dtos.Gateway.Transactions;
 using static Mx.NET.SDK.Core.Domain.Values.TypeValue;
+using System.Text;
 
 namespace Mx.NET.SDK.Domain
 {
@@ -203,6 +204,13 @@ namespace Mx.NET.SDK.Domain
                 Signature = null,
                 GuardianSignature = null
             };
+        }
+
+        public byte[] SerializeForSigning()
+        {
+            var transactionRequest = GetTransactionRequest();
+            var data = JsonWrapper.Serialize(transactionRequest);
+            return Encoding.UTF8.GetBytes(data);
         }
     }
 }
