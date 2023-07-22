@@ -7,14 +7,11 @@ using Mx.NET.SDK.Core.Domain.Abi;
 using Mx.NET.SDK.Core.Domain.Codec;
 using Mx.NET.SDK.Core.Domain.Helper;
 using Mx.NET.SDK.Core.Domain.Values;
-using Mx.NET.SDK.Provider.Gateway;
 using Mx.NET.SDK.Provider.Dtos.Gateway.Query;
 using Org.BouncyCastle.Crypto.Digests;
 using static Mx.NET.SDK.Core.Domain.Constants.Constants;
 using Mx.NET.SDK.Domain.Exceptions;
 using Mx.NET.SDK.Provider.Generic;
-using Newtonsoft.Json.Linq;
-using System.Runtime.CompilerServices;
 
 namespace Mx.NET.SDK.Domain.SmartContracts
 {
