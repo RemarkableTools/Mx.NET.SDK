@@ -13,10 +13,24 @@ namespace Mx.NET.SDK.Provider.Gateway
         Task<TransactionResponseDto> SendTransaction(TransactionRequestDto transactionRequest);
 
         /// <summary>
-        /// This endpoint allows one to send multiple signed Transactions to the Blockchain.
+        /// This endpoint allows one to send a bulk of Transactions to the Blockchain.
         /// </summary>
         /// <param name="transactionsRequest">Array of transactions payload</param>
         /// <returns><see cref="MultipleTransactionsResponseDto"/></returns>
         Task<MultipleTransactionsResponseDto> SendTransactions(TransactionRequestDto[] transactionsRequest);
+
+        /// <summary>
+        /// This endpoint allows one to estimate the cost of a transaction.
+        /// </summary>
+        /// <param name="transactionRequestDto">The transaction payload</param>
+        /// <returns><see cref="TransactionCostDataDto"/></returns>
+        Task<TransactionCostResponseDto> GetTransactionCost(TransactionRequestDto transactionRequestDto);
+
+        /// <summary>
+        /// This endpoint allows one to query the details of a Transaction.
+        /// </summary>
+        /// <param name="txHash">The transaction hash</param>
+        /// <returns><see cref="TransactionDto"/></returns>
+        Task<TransactionDto> GetTransaction(string txHash);
     }
 }

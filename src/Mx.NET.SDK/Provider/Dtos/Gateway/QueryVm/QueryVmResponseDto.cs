@@ -1,6 +1,6 @@
 ﻿namespace Mx.NET.SDK.Provider.Dtos.Gateway.Query
 {
-    public class QueryVmResponseDto
+    public class QueryVmDto
     {
         public QueryVmResponseDataDto Data { get; set; }
     }

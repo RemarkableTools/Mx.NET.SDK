@@ -1,12 +1,13 @@
-﻿using System;
-using System.Numerics;
-using System.Threading.Tasks;
-using Mx.NET.SDK.Core.Domain;
+﻿using Mx.NET.SDK.Core.Domain;
 using Mx.NET.SDK.Core.Domain.Helper;
 using Mx.NET.SDK.Core.Domain.Values;
 using Mx.NET.SDK.Domain.Data.Common;
-using Mx.NET.SDK.Provider.API;
-using Mx.NET.SDK.Provider.Dtos.API.Account;
+using Mx.NET.SDK.Provider;
+using Mx.NET.SDK.Provider.Dtos.Gateway.Addresses;
+using Mx.NET.SDK.Provider.Generic;
+using System;
+using System.Numerics;
+using System.Threading.Tasks;
 
 namespace Mx.NET.SDK.Domain.Data.Account
 {
@@ -116,11 +117,11 @@ namespace Mx.NET.SDK.Domain.Data.Account
         }
 
         /// <summary>
-        /// Synchronizes account properties with the ones queried from the Network
+        /// Synchronizes account properties with the ones queried from the API
         /// </summary>
-        /// <param name="provider"></param>
+        /// <param name="provider">API provider</param>
         /// <returns></returns>
-        public async Task Sync(IApiProvider provider)
+        public async Task Sync(IGenericApiProvider provider)
         {
             var accountDto = await provider.GetAccount(Address.Bech32);
 
@@ -144,11 +145,66 @@ namespace Mx.NET.SDK.Domain.Data.Account
         }
 
         /// <summary>
-        /// Creates a new account object from data
+        /// Synchronizes account properties with the ones queried from the Gateway
+        /// </summary>
+        /// <param name="provider">Gateway provider</param>
+        /// <returns></returns>
+        public async Task Sync(IGatewayProvider provider)
+        {
+            var accountDto = (await provider.GetAddress(Address.Bech32)).Account;
+
+            Address = Address.FromBech32(accountDto.Address);
+            Nonce = accountDto.Nonce;
+            Balance = ESDTAmount.From(accountDto.Balance, ESDT.EGLD());
+            UserName = accountDto.Username;
+            if (accountDto.RootHash != null) RootHash = Converter.ToHexString(Convert.FromBase64String(accountDto.RootHash)).ToLower();
+
+            await SyncGuardian(provider);
+        }
+
+        /// <summary>
+        /// Synchronizes account guardian with the ones queried from the Gateway
+        /// </summary>
+        /// <param name="provider">Gateway provider</param>
+        /// <returns></returns>
+        public async Task SyncGuardian(IGatewayProvider provider)
+        {
+            var guardianData = AccountGuardianData.From(await provider.GetAddressGuardianData(Address.Bech32)).GuardianData;
+
+            IsGuarded = guardianData.Guarded ?? false;
+            ActivationEpoch = guardianData.ActiveGuardian?.ActivationEpoch ?? 0;
+            Guardian = guardianData.ActiveGuardian?.Address;
+            ServiceUID = guardianData.ActiveGuardian?.ServiceUID ?? string.Empty;
+            PendingActivationEpoch = guardianData.PendingGuardian?.ActivationEpoch ?? 0;
+            PendingGuardian = guardianData.PendingGuardian?.Address;
+            PendingServiceUID = guardianData.PendingGuardian?.ServiceUID ?? string.Empty;
+        }
+
+        /// <summary>
+        /// Creates a new account object from Gateway data
+        /// </summary>
+        /// <param name="addressData"></param>
+        /// <returns><see cref="Account"/></returns>
+        public static Account From(AddressDataDto addressData)
+        {
+            var account = addressData.Account;
+
+            return new Account()
+            {
+                Address = Address.FromBech32(account.Address),
+                Nonce = account.Nonce,
+                Balance = ESDTAmount.From(account.Balance, ESDT.EGLD()),
+                UserName = account.Username,
+                RootHash = account.RootHash is null ? null : Converter.ToHexString(Convert.FromBase64String(account.RootHash)).ToLower(),
+            };
+        }
+
+        /// <summary>
+        /// Creates a new account object from API data
         /// </summary>
         /// <param name="account"></param>
-        /// <returns></returns>
-        public static Account From(AccountDto account)
+        /// <returns><see cref="Account"/></returns>
+        public static Account From(Provider.Dtos.API.Account.AccountDto account)
         {
             return new Account()
             {

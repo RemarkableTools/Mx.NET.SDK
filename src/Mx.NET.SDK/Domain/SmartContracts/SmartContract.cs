@@ -7,11 +7,11 @@ using Mx.NET.SDK.Core.Domain.Abi;
 using Mx.NET.SDK.Core.Domain.Codec;
 using Mx.NET.SDK.Core.Domain.Helper;
 using Mx.NET.SDK.Core.Domain.Values;
-using Mx.NET.SDK.Domain.Exceptions;
-using Mx.NET.SDK.Provider.Gateway;
 using Mx.NET.SDK.Provider.Dtos.Gateway.Query;
 using Org.BouncyCastle.Crypto.Digests;
 using static Mx.NET.SDK.Core.Domain.Constants.Constants;
+using Mx.NET.SDK.Domain.Exceptions;
+using Mx.NET.SDK.Provider.Generic;
 
 namespace Mx.NET.SDK.Domain.SmartContracts
 {
@@ -63,14 +63,14 @@ namespace Mx.NET.SDK.Domain.SmartContracts
         /// Allows one to execute - with no side-effects - a pure function of a Smart Contract and retrieve the execution results (the Virtual Machine Output).
         /// </summary>
         /// <param name="provider">MultiversX provider</param>
-        /// <param name="address">The Address of the Smart Contract.</param>
+        /// <param name="address">The Addresses of the Smart Contract.</param>
         /// <param name="abiDefinition">The smart contract ABI Definition</param>
         /// <param name="endpoint">The name of the Pure Function to execute.</param>
         /// <param name="caller">Optional caller</param>
         /// <param name="args">The arguments of the Pure Function. Can be empty</param>
         /// <returns>The response</returns>
         public static Task<T> QuerySmartContractWithAbiDefinition<T>(
-            IGatewayProvider provider,
+            IGenericGatewayProvider provider,
             Address address,
             AbiDefinition abiDefinition,
             string endpoint,
@@ -79,10 +79,8 @@ namespace Mx.NET.SDK.Domain.SmartContracts
         {
             var endpointDefinition = abiDefinition.GetEndpointDefinition(endpoint);
             var outputs = endpointDefinition.Output.Select(o => o.Type).ToArray();
-            if (outputs.Length != 1)
-                throw new Exception("Bad output quantities in ABI definition. Should only be one.");
 
-            return QuerySmartContract<T>(provider, address, outputs[0], endpoint, caller, args);
+            return QuerySmartContract<T>(provider, address, outputs, endpoint, caller, args);
         }
 
         /// <summary>
@@ -90,15 +88,15 @@ namespace Mx.NET.SDK.Domain.SmartContracts
         /// </summary>
         /// <param name="provider">MultiversX provider</param>
         /// <param name="address">The Address of the Smart Contract.</param>
-        /// <param name="outputTypeValue">Output value type of the response</param>
+        /// <param name="outputTypes">Output value types of the response</param>
         /// <param name="endpoint">The name of the Pure Function to execute.</param>
         /// <param name="caller">Optional caller</param>
         /// <param name="args">The arguments of the Pure Function. Can be empty</param>
         /// <returns>The response</returns>
         public static async Task<T> QuerySmartContract<T>(
-            IGatewayProvider provider,
+            IGenericGatewayProvider provider,
             Address address,
-            TypeValue outputTypeValue,
+            TypeValue[] outputTypes,
             string endpoint,
             Address caller = null,
             params IBinaryType[] args) where T : IBinaryType
@@ -117,69 +115,67 @@ namespace Mx.NET.SDK.Domain.SmartContracts
                 throw new APIException(data.ReturnMessage);
             }
 
-            if (data.ReturnData.Length == 0)
+            var buffers = data.ReturnData.Select(d => Convert.FromBase64String(d)).ToArray();
+            var outputValues = new List<IBinaryType>();
+            var bufferIndex = 0;
+            int numBuffers = buffers.Length;
+
+            foreach (var outputType in outputTypes)
             {
-                return (T)BinaryCoder.DecodeTopLevel(new byte[0], outputTypeValue);
+                var value = ReadValue(outputType);
+                outputValues.Add(value);
             }
 
-            if (data.ReturnData.Length > 1)
+            IBinaryType ReadValue(TypeValue typeValue)
             {
-                var multiTypes = outputTypeValue.MultiTypes;
-                var optional = false;
-                if (outputTypeValue.BinaryType == TypeValue.BinaryTypes.Option)
+                if (typeValue.BinaryType == TypeValue.BinaryTypes.Optional)
                 {
-                    optional = true;
-                    multiTypes = outputTypeValue.InnerType?.MultiTypes;
+                    IBinaryType value = ReadValue(typeValue.InnerType);
+                    return OptionalValue.NewProvided(value);
+                }
+                else if (typeValue.BinaryType == TypeValue.BinaryTypes.Variadic)
+                {
+                    var values = new List<IBinaryType>();
+
+                    while (!HasReachedTheEnd())
+                        values.Add(ReadValue(typeValue.InnerType));
+                    return new VariadicValue(typeValue, typeValue.InnerType, values.ToArray());
+                }
+                else if (typeValue.BinaryType == TypeValue.BinaryTypes.Multi)
+                {
+                    var values = new Dictionary<TypeValue, IBinaryType>();
+
+                    foreach (var type in typeValue.MultiTypes)
+                        values.Add(type, ReadValue(type));
+                    return new MultiValue(typeValue, values);
+                }
+                {
+                    var value = DecodeNextBuffer(typeValue);
+                    return value;
+                }
+            }
+
+            IBinaryType DecodeNextBuffer(TypeValue typeValue)
+            {
+                if (HasReachedTheEnd())
+                {
+                    return null;
                 }
 
-                var decodedValues = new List<IBinaryType>();
-                for (var i = 0; i < multiTypes.Length; i++)
-                {
-                    var decoded = BinaryCoder.DecodeTopLevel(Convert.FromBase64String(data.ReturnData[i]), multiTypes[i]);
-                    decodedValues.Add(decoded);
-                }
-
-                var multiValue = MultiValue.From(decodedValues.ToArray());
-                return (T)(optional ? OptionValue.NewProvided(multiValue) : (IBinaryType)multiValue);
+                var buffer = buffers[bufferIndex++];
+                var decodedValue = BinaryCoder.DecodeTopLevel(buffer, typeValue);
+                return decodedValue;
             }
 
-            var returnData = Convert.FromBase64String(data.ReturnData[0]);
-            var decodedResponse = BinaryCoder.DecodeTopLevel(returnData, outputTypeValue);
-            return (T)decodedResponse;
-        }
-
-        public static async Task<T[]> QueryArraySmartContract<T>(
-                IGatewayProvider provider,
-                Address address,
-                TypeValue outputTypeValue,
-                string endpoint,
-                Address caller = null,
-                params IBinaryType[] args) where T : IBinaryType
-        {
-            var arguments = args
-                           .Select(typeValue => Converter.ToHexString(BinaryCoder.EncodeTopLevel(typeValue)))
-                           .ToArray();
-
-            var query = new QueryVmRequestDto { FuncName = endpoint, Args = arguments, ScAddress = address.Bech32, Caller = caller?.Bech32 };
-
-            var response = await provider.QueryVm(query);
-            var data = response.Data;
-
-            if (data.ReturnData is null)
+            bool HasReachedTheEnd()
             {
-                throw new APIException(data.ReturnMessage);
+                return bufferIndex >= numBuffers;
             }
 
-            if (data.ReturnData.Length == 0)
-            {
-                return Array.Empty<T>();
-            }
-
-            var decodedValues = new T[data.ReturnData.Length];
-            for (var i = 0; i < data.ReturnData.Length; i++)
-                decodedValues[i] = (T)BinaryCoder.DecodeTopLevel(Convert.FromBase64String(data.ReturnData[i]), outputTypeValue);
-
-            return decodedValues;
+            if (outputValues.Count == 1)
+                return (T)outputValues[0];
+            else
+                return (T)(IBinaryType)MultiValue.From(outputValues.ToArray());
         }
 
         private static byte[] ConcatByteArrays(params byte[][] arrays)

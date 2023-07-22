@@ -1,10 +1,10 @@
 ﻿using Mx.NET.SDK.Core.Domain.Helper;
 
-namespace Mx.NET.SDK.Provider.Dtos.Gateway.Address
+namespace Mx.NET.SDK.Provider.Dtos.Gateway.Addresses
 {
-    public class GatewayKeyValueDto
+    public class StorageValueDto
     {
-        public GatewayKeyValueDto(string value)
+        public StorageValueDto(string value)
         {
             Value = Converter.HexToString(value);
         }
