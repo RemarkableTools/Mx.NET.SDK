@@ -29,6 +29,11 @@
     <WarningLevel>5</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="Provider\Generic\**" />
+    <EmbeddedResource Remove="Provider\Generic\**" />
+    <None Remove="Provider\Generic\**" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include="..\..\LICENSE.txt">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>

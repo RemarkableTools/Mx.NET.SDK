@@ -36,7 +36,7 @@ namespace Mx.NET.SDK.Provider.API
         /// </summary>
         /// <param name="txHash">The transaction hash</param>
         /// <returns><see cref="TransactionDto"/></returns>
-        Task<TransactionDto> GetTransaction(string txHash);
+        Task<TransactionDto> GetMvxTransaction(string txHash);
 
         /// <summary>
         /// This endpoint allows one to query the details of a Transaction.

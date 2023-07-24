@@ -7,24 +7,25 @@ using Mx.NET.SDK.Domain.Exceptions;
 using System.Collections.Generic;
 using System.Linq;
 using Mx.NET.SDK.Core.Domain.Constants;
-using Mx.NET.SDK.Provider.Dtos.API.Account;
-using Mx.NET.SDK.Provider.Dtos.API.Collection;
+using Mx.NET.SDK.Provider.Dtos.API.Accounts;
+using Mx.NET.SDK.Provider.Dtos.API.Collections;
 using Mx.NET.SDK.Provider.Dtos.API.Network;
-using Mx.NET.SDK.Provider.Dtos.API.NFT;
-using Mx.NET.SDK.Provider.Dtos.API.Exchange;
+using Mx.NET.SDK.Provider.Dtos.API.NFTs;
+using Mx.NET.SDK.Provider.Dtos.API.xExchange;
 using Mx.NET.SDK.Provider.Dtos.API.Common;
-using Mx.NET.SDK.Provider.Dtos.API.Token;
-using Mx.NET.SDK.Provider.Dtos.API.Block;
+using Mx.NET.SDK.Provider.Dtos.API.Tokens;
+using Mx.NET.SDK.Provider.Dtos.API.Blocks;
 using Mx.NET.SDK.Provider.Dtos.API.Transactions;
+using Mx.NET.SDK.Provider.Dtos.API.Query;
 
 namespace Mx.NET.SDK.Provider
 {
     public class ApiProvider : IApiProvider
     {
         private readonly HttpClient _httpAPIClient;
-        public readonly MultiversxNetworkConfiguration NetworkConfiguration;
+        public readonly ApiNetworkConfiguration NetworkConfiguration;
 
-        public ApiProvider(MultiversxNetworkConfiguration configuration)
+        public ApiProvider(ApiNetworkConfiguration configuration)
         {
             NetworkConfiguration = configuration;
 
@@ -323,6 +324,11 @@ namespace Mx.NET.SDK.Provider
 
         #region network
 
+        public async Task<NetworkConfigDto> GetNetworkConfig()
+        {
+            return await Get<NetworkConfigDto>("constants");
+        }
+
         public async Task<NetworkEconomicsDto> GetNetworkEconomics()
         {
             return await Get<NetworkEconomicsDto>("economics");
@@ -332,6 +338,7 @@ namespace Mx.NET.SDK.Provider
         {
             return await Get<NetworkStatsDto>("stats");
         }
+
         #endregion
 
         #region nfts
@@ -504,7 +511,7 @@ namespace Mx.NET.SDK.Provider
             return await Get<string>($"transactions/count{args}");
         }
 
-        public async Task<TransactionDto> GetTransaction(string txHash)
+        public async Task<TransactionDto> GetMvxTransaction(string txHash)
         {
             return await GetTransaction<TransactionDto>(txHash);
         }
@@ -521,6 +528,15 @@ namespace Mx.NET.SDK.Provider
         public async Task<AccountDto> GetAccountByUsername(string username)
         {
             return await Get<AccountDto>($"usernames/{username}");
+        }
+
+        #endregion
+
+        #region query
+
+        public async Task<QueryResponseDto> Query(QueryRequestDto queryRequestDto)
+        {
+            return await Post<QueryResponseDto>("query", queryRequestDto);
         }
 
         #endregion

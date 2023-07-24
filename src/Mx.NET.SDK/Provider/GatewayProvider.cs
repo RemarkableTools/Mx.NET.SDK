@@ -18,9 +18,9 @@ namespace Mx.NET.SDK.Provider
     public class GatewayProvider : IGatewayProvider
     {
         private readonly HttpClient _httpGatewayClient;
-        public readonly MultiversxNetworkConfiguration NetworkConfiguration;
+        public readonly GatewayNetworkConfiguration NetworkConfiguration;
 
-        public GatewayProvider(MultiversxNetworkConfiguration configuration)
+        public GatewayProvider(GatewayNetworkConfiguration configuration)
         {
             NetworkConfiguration = configuration;
 

@@ -11,7 +11,8 @@ using Mx.NET.SDK.Provider.Dtos.Gateway.Query;
 using Org.BouncyCastle.Crypto.Digests;
 using static Mx.NET.SDK.Core.Domain.Constants.Constants;
 using Mx.NET.SDK.Domain.Exceptions;
-using Mx.NET.SDK.Provider.Generic;
+using Mx.NET.SDK.Provider;
+using Mx.NET.SDK.Provider.Dtos.API.Query;
 
 namespace Mx.NET.SDK.Domain.SmartContracts
 {
@@ -60,9 +61,9 @@ namespace Mx.NET.SDK.Domain.SmartContracts
         }
 
         /// <summary>
-        /// Allows one to execute - with no side-effects - a pure function of a Smart Contract and retrieve the execution results (the Virtual Machine Output).
+        /// Allows one to execute - with no side-effects - a pure function of a Smart Contract and retrieve the execution results (the Virtual Machine Output) from Gateway.
         /// </summary>
-        /// <param name="provider">MultiversX provider</param>
+        /// <param name="provider">Gateway provider</param>
         /// <param name="address">The Addresses of the Smart Contract.</param>
         /// <param name="abiDefinition">The smart contract ABI Definition</param>
         /// <param name="endpoint">The name of the Pure Function to execute.</param>
@@ -70,7 +71,7 @@ namespace Mx.NET.SDK.Domain.SmartContracts
         /// <param name="args">The arguments of the Pure Function. Can be empty</param>
         /// <returns>The response</returns>
         public static Task<T> QuerySmartContractWithAbiDefinition<T>(
-            IGenericGatewayProvider provider,
+            IGatewayProvider provider,
             Address address,
             AbiDefinition abiDefinition,
             string endpoint,
@@ -84,7 +85,31 @@ namespace Mx.NET.SDK.Domain.SmartContracts
         }
 
         /// <summary>
-        /// Allows one to execute - with no side-effects - a pure function of a Smart Contract and retrieve the execution results (the Virtual Machine Output).
+        /// Allows one to execute - with no side-effects - a pure function of a Smart Contract and retrieve the execution results (the Virtual Machine Output) from API.
+        /// </summary>
+        /// <param name="provider">API provider</param>
+        /// <param name="address">The Addresses of the Smart Contract.</param>
+        /// <param name="abiDefinition">The smart contract ABI Definition</param>
+        /// <param name="endpoint">The name of the Pure Function to execute.</param>
+        /// <param name="caller">Optional caller</param>
+        /// <param name="args">The arguments of the Pure Function. Can be empty</param>
+        /// <returns>The response</returns>
+        public static Task<T> QuerySmartContractWithAbiDefinition<T>(
+            IApiProvider provider,
+            Address address,
+            AbiDefinition abiDefinition,
+            string endpoint,
+            Address caller = null,
+            params IBinaryType[] args) where T : IBinaryType
+        {
+            var endpointDefinition = abiDefinition.GetEndpointDefinition(endpoint);
+            var outputs = endpointDefinition.Output.Select(o => o.Type).ToArray();
+
+            return QuerySmartContract<T>(provider, address, outputs, endpoint, caller, args);
+        }
+
+        /// <summary>
+        /// Allows one to execute - with no side-effects - a pure function of a Smart Contract and retrieve the execution results (the Virtual Machine Output) from Gaetway.
         /// </summary>
         /// <param name="provider">MultiversX provider</param>
         /// <param name="address">The Address of the Smart Contract.</param>
@@ -94,7 +119,7 @@ namespace Mx.NET.SDK.Domain.SmartContracts
         /// <param name="args">The arguments of the Pure Function. Can be empty</param>
         /// <returns>The response</returns>
         public static async Task<T> QuerySmartContract<T>(
-            IGenericGatewayProvider provider,
+            IGatewayProvider provider,
             Address address,
             TypeValue[] outputTypes,
             string endpoint,
@@ -115,7 +140,173 @@ namespace Mx.NET.SDK.Domain.SmartContracts
                 throw new APIException(data.ReturnMessage);
             }
 
-            var buffers = data.ReturnData.Select(d => Convert.FromBase64String(d)).ToArray();
+            return GetResponse<T>(outputTypes, data.ReturnData);
+
+            //var buffers = data.ReturnData.Select(d => Convert.FromBase64String(d)).ToArray();
+            //var outputValues = new List<IBinaryType>();
+            //var bufferIndex = 0;
+            //int numBuffers = buffers.Length;
+
+            //foreach (var outputType in outputTypes)
+            //{
+            //    var value = ReadValue(outputType);
+            //    outputValues.Add(value);
+            //}
+
+            //IBinaryType ReadValue(TypeValue typeValue)
+            //{
+            //    if (typeValue.BinaryType == TypeValue.BinaryTypes.Optional)
+            //    {
+            //        IBinaryType value = ReadValue(typeValue.InnerType);
+            //        return OptionalValue.NewProvided(value);
+            //    }
+            //    else if (typeValue.BinaryType == TypeValue.BinaryTypes.Variadic)
+            //    {
+            //        var values = new List<IBinaryType>();
+
+            //        while (!HasReachedTheEnd())
+            //            values.Add(ReadValue(typeValue.InnerType));
+            //        return new VariadicValue(typeValue, typeValue.InnerType, values.ToArray());
+            //    }
+            //    else if (typeValue.BinaryType == TypeValue.BinaryTypes.Multi)
+            //    {
+            //        var values = new Dictionary<TypeValue, IBinaryType>();
+
+            //        foreach (var type in typeValue.MultiTypes)
+            //            values.Add(type, ReadValue(type));
+            //        return new MultiValue(typeValue, values);
+            //    }
+            //    {
+            //        var value = DecodeNextBuffer(typeValue);
+            //        return value;
+            //    }
+            //}
+
+            //IBinaryType DecodeNextBuffer(TypeValue typeValue)
+            //{
+            //    if (HasReachedTheEnd())
+            //    {
+            //        return null;
+            //    }
+
+            //    var buffer = buffers[bufferIndex++];
+            //    var decodedValue = BinaryCoder.DecodeTopLevel(buffer, typeValue);
+            //    return decodedValue;
+            //}
+
+            //bool HasReachedTheEnd()
+            //{
+            //    return bufferIndex >= numBuffers;
+            //}
+
+            //if (outputValues.Count == 1)
+            //    return (T)outputValues[0];
+            //else
+            //    return (T)(IBinaryType)MultiValue.From(outputValues.ToArray());
+        }
+
+        /// <summary>
+        /// Allows one to execute - with no side-effects - a pure function of a Smart Contract and retrieve the execution results (the Virtual Machine Output) from API.
+        /// </summary>
+        /// <param name="provider">MultiversX provider</param>
+        /// <param name="address">The Address of the Smart Contract.</param>
+        /// <param name="outputTypes">Output value types of the response</param>
+        /// <param name="endpoint">The name of the Pure Function to execute.</param>
+        /// <param name="caller">Optional caller</param>
+        /// <param name="args">The arguments of the Pure Function. Can be empty</param>
+        /// <returns>The response</returns>
+        public static async Task<T> QuerySmartContract<T>(
+            IApiProvider provider,
+            Address address,
+            TypeValue[] outputTypes,
+            string endpoint,
+            Address caller = null,
+            params IBinaryType[] args) where T : IBinaryType
+        {
+            var arguments = args
+                           .Select(typeValue => Converter.ToHexString(BinaryCoder.EncodeTopLevel(typeValue)))
+                           .ToArray();
+
+            var query = new QueryRequestDto { FuncName = endpoint, Args = arguments, ScAddress = address.Bech32, Caller = caller?.Bech32 };
+
+            var response = await provider.Query(query);
+            var data = response;
+
+            if (data.ReturnData is null)
+            {
+                throw new APIException("Return data is null");
+            }
+
+            return GetResponse<T>(outputTypes, data.ReturnData);
+
+            //var buffers = data.ReturnData.Select(d => Convert.FromBase64String(d)).ToArray();
+            //var outputValues = new List<IBinaryType>();
+            //var bufferIndex = 0;
+            //int numBuffers = buffers.Length;
+
+            //foreach (var outputType in outputTypes)
+            //{
+            //    var value = ReadValue(outputType);
+            //    outputValues.Add(value);
+            //}
+
+            //IBinaryType ReadValue(TypeValue typeValue)
+            //{
+            //    if (typeValue.BinaryType == TypeValue.BinaryTypes.Optional)
+            //    {
+            //        IBinaryType value = ReadValue(typeValue.InnerType);
+            //        return OptionalValue.NewProvided(value);
+            //    }
+            //    else if (typeValue.BinaryType == TypeValue.BinaryTypes.Variadic)
+            //    {
+            //        var values = new List<IBinaryType>();
+
+            //        while (!HasReachedTheEnd())
+            //            values.Add(ReadValue(typeValue.InnerType));
+            //        return new VariadicValue(typeValue, typeValue.InnerType, values.ToArray());
+            //    }
+            //    else if (typeValue.BinaryType == TypeValue.BinaryTypes.Multi)
+            //    {
+            //        var values = new Dictionary<TypeValue, IBinaryType>();
+
+            //        foreach (var type in typeValue.MultiTypes)
+            //            values.Add(type, ReadValue(type));
+            //        return new MultiValue(typeValue, values);
+            //    }
+            //    {
+            //        var value = DecodeNextBuffer(typeValue);
+            //        return value;
+            //    }
+            //}
+
+            //IBinaryType DecodeNextBuffer(TypeValue typeValue)
+            //{
+            //    if (HasReachedTheEnd())
+            //    {
+            //        return null;
+            //    }
+
+            //    var buffer = buffers[bufferIndex++];
+            //    var decodedValue = BinaryCoder.DecodeTopLevel(buffer, typeValue);
+            //    return decodedValue;
+            //}
+
+            //bool HasReachedTheEnd()
+            //{
+            //    return bufferIndex >= numBuffers;
+            //}
+
+            //if (outputValues.Count == 1)
+            //    return (T)outputValues[0];
+            //else
+            //    return (T)(IBinaryType)MultiValue.From(outputValues.ToArray());
+        }
+
+        public static T GetResponse<T>(
+            TypeValue[] outputTypes,
+            string[] data)
+        {
+            var buffers = data.Select(d => Convert.FromBase64String(d)).ToArray();
             var outputValues = new List<IBinaryType>();
             var bufferIndex = 0;
             int numBuffers = buffers.Length;
