@@ -8,7 +8,7 @@ The library is a tool to query the MultiversX API or MultiversX Gateway and retr
 ### Quick start guide
 Define the network provider which can be MainNet/DevNet/TestNet
 ```csharp
-var provider = new MultiversxProvider(new MultiversxNetworkConfiguration(Network.DevNet));
+var provider = new ApiProvider(new ApiNetworkConfiguration(Network.DevNet));
 ```
 With this provider you can query the MultiversX API data like in the following examples:
 ```csharp
