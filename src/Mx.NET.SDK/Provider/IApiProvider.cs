@@ -1,4 +1,6 @@
-﻿namespace Mx.NET.SDK.Provider
+﻿using Mx.NET.SDK.Configuration;
+
+namespace Mx.NET.SDK.Provider
 {
     public interface IApiProvider :
         API.IGenericProvider,
@@ -12,5 +14,7 @@
         API.IUsernamesProvider,
         API.IQueryProvider,
         API.IxExchangeProvider
-    { }
+    {
+        ApiNetworkConfiguration NetworkConfiguration { get; }
+    }
 }
