@@ -1,6 +1,6 @@
 ﻿using Mx.NET.SDK.Core.Domain.Helper;
 
-namespace MSTesting.Models
+namespace MSTesting.TypeValueTesting.Models
 {
     public class MyStruct
     {
