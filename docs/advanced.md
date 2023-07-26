@@ -106,26 +106,26 @@ var queryResult = await SmartContract.QuerySmartContract<NumericValue>(provider,
 Console.WriteLine(queryResult.Number);
 
 // query array from Smart Contract (random example)
-var queryArrayResult = await SmartContract.QueryArraySmartContract<Address>(provider,
-                                                                            smartContractAddress,
-                                                                            TypeValue.AddressValue,
-                                                                            "getUsers");
+var queryArrayResult = await SmartContract.QuerySmartContract<VariadicValue>(provider,
+                                                                             smartContractAddress,
+                                                                             new TypeValue[] { TypeValue.VariadicValue(TypeValue.AddressValue) },
+                                                                             "getUsers");
 foreach (var user in queryArrayResult)
     Console.WriteLine(user.Bech32);
 
 // more complex reading from Smart Contract storage (random example)
 uint day = 1;
-var dayRewards = await SmartContract.QueryArraySmartContract<StructValue>(provider,
-                                                                          smartContractAddress,
-                                                                          TypeValue.StructValue("EsdtTokenPayment", new FieldDefinition[3]
-                                                                          {
-                                                                              new FieldDefinition("token_identifier", "", TypeValue.TokenIdentifierValue),
-                                                                              new FieldDefinition("token_nonce", "", TypeValue.U64TypeValue),
-                                                                              new FieldDefinition("amount", "", TypeValue.BigUintTypeValue)
-                                                                          }),
-                                                                          "getDayRewards",
-                                                                          null,
-                                                                          NumericValue.U32Value(day));
+var dayRewards = await SmartContract.QuerySmartContract<VariadicValue>(provider,
+                                                                       smartContractAddress,
+                                                                       new TypeValue[] { TypeValue.VariadicValue(TypeValue.StructValue("EsdtTokenPayment", new FieldDefinition[3]
+                                                                       {
+                                                                           new FieldDefinition("token_identifier", "", TypeValue.TokenIdentifierValue),
+                                                                           new FieldDefinition("token_nonce", "", TypeValue.U64TypeValue),
+                                                                           new FieldDefinition("amount", "", TypeValue.BigUintTypeValue)
+                                                                       })),
+                                                                       "getDayRewards",
+                                                                       null,
+                                                                       NumericValue.U32Value(day));
 foreach(var esdt in dayRewards)
     Console.WriteLine($"{esdt.Fields[0].Value} {esdt.Fields[1].Value} {esdt.Fields[2].Value}");
 // You can map the StructValue from response to you custom class object for easier usage, if you need
