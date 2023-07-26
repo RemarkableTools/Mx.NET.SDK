@@ -9,6 +9,7 @@ using Mx.NET.SDK.Provider.Dtos.Gateway.Blocks;
 using Mx.NET.SDK.Provider.Dtos.Gateway.ESDTs;
 using Mx.NET.SDK.Provider.Dtos.Gateway.Network;
 using Mx.NET.SDK.Provider.Dtos.Gateway.Transactions;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -19,9 +20,9 @@ namespace Mx.NET.SDK.Provider
     public class GatewayProvider : IGatewayProvider
     {
         private readonly HttpClient _httpGatewayClient;
-        public readonly GatewayNetworkConfiguration NetworkConfiguration;
+        public GatewayNetworkConfiguration NetworkConfiguration { get; }
 
-        public GatewayProvider(GatewayNetworkConfiguration configuration)
+        public GatewayProvider(GatewayNetworkConfiguration configuration, Dictionary<string, string> extraRequestHeaders = null)
         {
             NetworkConfiguration = configuration;
 
@@ -29,10 +30,15 @@ namespace Mx.NET.SDK.Provider
             {
                 BaseAddress = configuration.GatewayUri
             };
+            if (extraRequestHeaders != null)
+            {
+                foreach (var header in extraRequestHeaders)
+                    _httpGatewayClient.DefaultRequestHeaders.Add(header.Key, header.Value);
+            }
         }
 
         #region generic
-        public async Task<TR> Get<TR>(string requestUri)
+        public async virtual Task<TR> Get<TR>(string requestUri)
         {
             var uri = requestUri.StartsWith("/") ? requestUri.Substring(1) : requestUri;
             var response = await _httpGatewayClient.GetAsync($"{uri}");
@@ -46,7 +52,7 @@ namespace Mx.NET.SDK.Provider
             return result.Data;
         }
 
-        public async Task<TR> Post<TR>(string requestUri, object requestContent)
+        public async virtual Task<TR> Post<TR>(string requestUri, object requestContent)
         {
             var uri = requestUri.StartsWith("/") ? requestUri.Substring(1) : requestUri;
             var raw = JsonWrapper.Serialize(requestContent);

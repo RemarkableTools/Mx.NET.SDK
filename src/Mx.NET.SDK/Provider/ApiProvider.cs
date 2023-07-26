@@ -24,9 +24,9 @@ namespace Mx.NET.SDK.Provider
     public class ApiProvider : IApiProvider
     {
         private readonly HttpClient _httpAPIClient;
-        public readonly ApiNetworkConfiguration NetworkConfiguration;
+        public ApiNetworkConfiguration NetworkConfiguration { get; }
 
-        public ApiProvider(ApiNetworkConfiguration configuration)
+        public ApiProvider(ApiNetworkConfiguration configuration, Dictionary<string, string> extraRequestHeaders = null)
         {
             NetworkConfiguration = configuration;
 
@@ -34,11 +34,16 @@ namespace Mx.NET.SDK.Provider
             {
                 BaseAddress = configuration.APIUri
             };
+            if (extraRequestHeaders != null)
+            {
+                foreach (var header in extraRequestHeaders)
+                    _httpAPIClient.DefaultRequestHeaders.Add(header.Key, header.Value);
+            }
         }
 
         #region generic
 
-        public async Task<TR> Get<TR>(string requestUri)
+        public async virtual Task<TR> Get<TR>(string requestUri)
         {
             var uri = requestUri.StartsWith("/") ? requestUri.Substring(1) : requestUri;
             var response = await _httpAPIClient.GetAsync($"{uri}");
@@ -50,7 +55,7 @@ namespace Mx.NET.SDK.Provider
             return result;
         }
 
-        public async Task<TR> Post<TR>(string requestUri, object requestContent)
+        public async virtual Task<TR> Post<TR>(string requestUri, object requestContent)
         {
             var uri = requestUri.StartsWith("/") ? requestUri.Substring(1) : requestUri;
             var raw = JsonWrapper.Serialize(requestContent);
