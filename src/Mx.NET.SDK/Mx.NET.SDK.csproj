@@ -11,7 +11,7 @@
     <RepositoryUrl>https://github.com/RemarkableTools/Mx.NET.SDK</RepositoryUrl>
     <RepositoryType>GitHub</RepositoryType>
     <Company>Remarkable Tools</Company>
-    <Version>1.2.1</Version>
+    <Version>2.0.0</Version>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Title>RemarkableTools.Mx</Title>
     <PackageReadmeFile>README.md</PackageReadmeFile>
@@ -28,7 +28,12 @@
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0|AnyCPU'">
     <WarningLevel>5</WarningLevel>
   </PropertyGroup>
+
   <ItemGroup>
+    <None Include="README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
     <None Include="..\..\LICENSE.txt">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
@@ -59,9 +64,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="README.md">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
+    <Folder Include="Provider\Dtos\Gateway\Nodes\" />
   </ItemGroup>
 </Project>

@@ -1,5 +1,5 @@
 ﻿using Mx.NET.SDK.Core.Domain.Values;
-using Mx.NET.SDK.Provider.Dtos.Gateway.Address;
+using Mx.NET.SDK.Provider.Dtos.Gateway.Addresses;
 
 namespace Mx.NET.SDK.Domain.Data.Common
 {
@@ -57,7 +57,7 @@ namespace Mx.NET.SDK.Domain.Data.Common
 
             return new ActiveGuardian()
             {
-                ActivationEpoch = activeGuardian.ActivationEpoch,
+                ActivationEpoch = activeGuardian.ActivationEpoch ?? 0,
                 Address = Address.FromBech32(activeGuardian.Address),
                 ServiceUID = activeGuardian.ServiceUID
             };
@@ -78,7 +78,7 @@ namespace Mx.NET.SDK.Domain.Data.Common
 
             return new PendingGuardian()
             {
-                ActivationEpoch = pendingGuardian.ActivationEpoch,
+                ActivationEpoch = pendingGuardian.ActivationEpoch ?? 0,
                 Address = Address.FromBech32(pendingGuardian.Address),
                 ServiceUID = pendingGuardian.ServiceUID
             };

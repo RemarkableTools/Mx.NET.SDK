@@ -2,8 +2,9 @@
 using Mx.NET.SDK.Configuration;
 using Mx.NET.SDK.Domain.Data.Network;
 
-var provider = new MultiversxProvider(new MultiversxNetworkConfiguration(Network.DevNet));
-var networkConfig = await NetworkConfig.GetFromNetwork(provider);
+//var gwProvider = new GatewayProvider(new GatewayNetworkConfiguration(Network.DevNet));
+var apiProvider = new ApiProvider(new ApiNetworkConfiguration(Network.DevNet));
+var networkConfig = await NetworkConfig.GetFromNetwork(apiProvider);
 
 
 

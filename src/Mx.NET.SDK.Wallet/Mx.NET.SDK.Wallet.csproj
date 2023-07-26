@@ -11,7 +11,7 @@
     <RepositoryUrl>https://github.com/RemarkableTools/Mx.NET.SDK/tree/main/src/Mx.NET.SDK.Wallet</RepositoryUrl>
     <RepositoryType>GitHub</RepositoryType>
     <Company>Remarkable Tools</Company>
-    <Version>1.0.3</Version>
+    <Version>2.0.0</Version>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     <Title>RemarkableTools.Mx.Wallet</Title>
@@ -27,6 +27,10 @@
     <WarningLevel>5</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <None Include="README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
     <None Include="..\..\LICENSE.txt">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
@@ -44,13 +48,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Mx.NET.SDK.Core\Mx.NET.SDK.Core.csproj" />
-    <ProjectReference Include="..\Mx.NET.SDK\Mx.NET.SDK.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Include="README.md">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-  </ItemGroup>
 </Project>
