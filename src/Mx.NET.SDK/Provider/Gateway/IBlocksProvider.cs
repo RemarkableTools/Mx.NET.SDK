@@ -17,8 +17,8 @@ namespace Mx.NET.SDK.Provider.Gateway
         /// <returns><see cref="BlockDto"/></returns>
         Task<BlockDto> GetBlockByHash(string hash, long shard, bool withTxs = false);
 
-        Task<InternalBlockDto> GetInternalBlockNonce(long nonce);
-        Task<InternalBlockDto> GetInternalBlockHash(string hash);
+        Task<InternalBlockDto> GetInternalBlockByNonce(long nonce);
+        Task<InternalBlockDto> GetInternalBlockByHash(string hash);
 
     }
 }

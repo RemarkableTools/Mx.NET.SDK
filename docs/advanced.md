@@ -12,9 +12,9 @@ The following examples depend on:
 ## 1. Token Transfer
 
 #### In the following example we will create a [`Token Transaction Request`](https://github.com/RemarkableTools/Mx.NET.SDK/blob/master/src/Mx.NET.SDK/TransactionsManager/TokenTransactionRequest.cs), sign it and send it to the network
-Get the [`MultiversxProvider`](https://github.com/RemarkableTools/Mx.NET.SDK/blob/master/src/Mx.NET.SDK/Configuration/MultiversxNetworkConfiguration.cs) instance
+Get the [`ApiProvider`](https://github.com/RemarkableTools/Mx.NET.SDK/blob/master/src/Mx.NET.SDK/Configuration/ApiNetworkConfiguration.cs) instance
 ```csharp
-var provider = new MultiversxProvider(new MultiversxNetworkConfiguration(Network.DevNet));
+var provider = new ApiProvider(new ApiNetworkConfiguration(Network.DevNet));
 ```
 Get a valid [`NetworkConfig`](https://github.com/RemarkableTools/Mx.NET.SDK/blob/master/src/Mx.NET.SDK/Domain/Data/Network/NetworkConfig.cs) instance
 ```csharp
@@ -46,7 +46,8 @@ var transactionRequest = TokenTransactionRequest.TokenTransfer(
 ```
 Use the [`Wallet Methods`](https://github.com/RemarkableTools/Mx.NET.SDK/blob/master/src/Mx.NET.SDK.Wallet/WalletMethods.cs) to sign the transaction
 ```csharp
-var signedTransaction = signer.SignTransaction(transactionRequest);
+var signature = signer.SignTransaction(transactionRequest.SerializeForSigning());
+var signedTransaction = transactionRequest.ApplySignature(signature);
 ```
 POST the transaction to MultiversX API
 ```csharp
@@ -82,7 +83,8 @@ try
         ESDTAmount.Zero(),
         "add",
         NumericValue.BigUintValue(10));
-    var signedTransaction = signer.SignTransaction(transactionRequest);
+    var signature = signer.SignTransaction(transactionRequest.SerializeForSigning());
+    var signedTransaction = transactionRequest.ApplySignature(signature);
     var response = await provider.SendTransaction(signedTransaction);
     var transaction = Transaction.From(response.TxHash);
     await transaction.AwaitExecuted(provider);
@@ -93,7 +95,7 @@ catch (Exception ex)
     Console.WriteLine(ex.Message);
 }
 ```
-#### Query smart contract
+#### Query smart contract (no ABI available)
 ```csharp
 var smartContractAddress = Address.FromBech32("CONTRACT_BECH32_ADDRESS");
 var outputType = TypeValue.BigUintTypeValue;
@@ -127,4 +129,17 @@ var dayRewards = await SmartContract.QueryArraySmartContract<StructValue>(provid
 foreach(var esdt in dayRewards)
     Console.WriteLine($"{esdt.Fields[0].Value} {esdt.Fields[1].Value} {esdt.Fields[2].Value}");
 // You can map the StructValue from response to you custom class object for easier usage, if you need
+```
+
+#### Query smart contract (ABI available)
+##### More examples [here](https://github.com/RemarkableTools/Mx.NET.SDK/tree/main/tests/MS%20Testing/TypeValueTesting)
+```csharp
+var abi = AbiDefinition.FromFilePath("abi.json");
+var addresses = await SmartContract.QuerySmartContractWithAbiDefinition<VariadicValue>(
+                provider,
+                smartContractAddress,
+                abi,
+                "getVariadicManagedAddress");
+
+var addressesList = addresses.ToObject<List<Address>>();
 ```

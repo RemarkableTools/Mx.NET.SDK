@@ -2,7 +2,7 @@
 
 #### In the following example we will get an account from network and get all its tokens
 ```csharp
-var provider = new MultiversxProvider(new MultiversxNetworkConfiguration(Network.DevNet));
+var provider = new ApiProvider(new ApiNetworkConfiguration(Network.DevNet));
 
 var bech32Address = "BECH32_ADDRESS";
 var account = Account.From(await provider.GetAccount(bech32Address));

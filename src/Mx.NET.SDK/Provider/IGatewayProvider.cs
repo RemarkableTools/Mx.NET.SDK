@@ -1,9 +1,6 @@
-﻿using Mx.NET.SDK.Provider.Generic;
-
-namespace Mx.NET.SDK.Provider
+﻿namespace Mx.NET.SDK.Provider
 {
     public interface IGatewayProvider :
-        IGenericGatewayProvider,
         Gateway.IGenericProvider,
         Gateway.IAddressesProvider,
         Gateway.ITransactionsProvider,

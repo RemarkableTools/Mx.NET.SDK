@@ -1,10 +1,4 @@
-﻿
-using Mx.NET.SDK.Provider.Dtos.Gateway.Addresses;
-using Mx.NET.SDK.Provider.Dtos.Gateway.Blocks;
-using Mx.NET.SDK.Provider.Dtos.Gateway.ESDTs;
-using Mx.NET.SDK.Provider.Dtos.Gateway.Network;
-using Mx.NET.SDK.Provider.Dtos.Gateway.Query;
-using Mx.NET.SDK.Provider.Dtos.Gateway.Transactions;
+﻿using Mx.NET.SDK.Provider.Dtos.Gateway.ESDTs;
 using System.Threading.Tasks;
 
 namespace Mx.NET.SDK.Provider.Gateway

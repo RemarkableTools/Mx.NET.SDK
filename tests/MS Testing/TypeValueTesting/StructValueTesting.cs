@@ -1,4 +1,4 @@
-﻿using MSTesting.Models;
+﻿using MSTesting.TypeValueTesting.Models;
 using Mx.NET.SDK.Core.Domain.Values;
 
 namespace MSTesting.TypeValueTesting

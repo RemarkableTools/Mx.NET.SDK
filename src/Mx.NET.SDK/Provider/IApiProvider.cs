@@ -1,9 +1,6 @@
-﻿using Mx.NET.SDK.Provider.Generic;
-
-namespace Mx.NET.SDK.Provider
+﻿namespace Mx.NET.SDK.Provider
 {
     public interface IApiProvider :
-        IGenericApiProvider,
         API.IGenericProvider,
         API.IAccountsProvider,
         API.IBlocksProvider,
@@ -13,6 +10,7 @@ namespace Mx.NET.SDK.Provider
         API.ITokensProvider,
         API.ITransactionsProvider,
         API.IUsernamesProvider,
+        API.IQueryProvider,
         API.IxExchangeProvider
     { }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Mx.NET.SDK.Core.Domain.Codec;
-using Mx.NET.SDK.Domain.Data.Account;
+using Mx.NET.SDK.Domain.Data.Accounts;
 using Mx.NET.SDK.Domain.Data.Network;
 using Mx.NET.SDK.Domain.Exceptions;
 using Mx.NET.SDK.Core.Domain.Helper;
@@ -10,9 +10,9 @@ using Mx.NET.SDK.Core.Domain;
 using Mx.NET.SDK.Core.Domain.SmartContracts;
 using static Mx.NET.SDK.Core.Domain.Constants.Constants;
 using System.Globalization;
-using Mx.NET.SDK.Provider.Dtos.Gateway.Transactions;
 using static Mx.NET.SDK.Core.Domain.Values.TypeValue;
 using System.Text;
+using Mx.NET.SDK.Provider.Dtos.Common.Transactions;
 
 namespace Mx.NET.SDK.Domain
 {
@@ -146,12 +146,12 @@ namespace Mx.NET.SDK.Domain
             if (args.Any())
             {
                 data = args.Aggregate(data,
-                                      (c, arg) => 
-                                      { 
+                                      (c, arg) =>
+                                      {
                                           var hex = Converter.ToHexString(binaryCoder.EncodeTopLevel(arg));
                                           //In case of OptionalValue, if there is no value we shouldn't put the parameter.
                                           var hexFormat = arg.Type.BinaryType == BinaryTypes.Optional && string.IsNullOrEmpty(hex) ? string.Empty : $"@{hex}";
-                                          return c + hexFormat; 
+                                          return c + hexFormat;
                                       });
             }
 
@@ -211,6 +211,20 @@ namespace Mx.NET.SDK.Domain
             var transactionRequest = GetTransactionRequest();
             var data = JsonWrapper.Serialize(transactionRequest);
             return Encoding.UTF8.GetBytes(data);
+        }
+
+        public TransactionRequestDto ApplySignature(string signature)
+        {
+            var transactionRequest = GetTransactionRequest();
+            transactionRequest.Signature = signature;
+            return transactionRequest;
+        }
+
+        public TransactionRequestDto ApplyGuardianSignature(string guardianSignature)
+        {
+            var transactionRequest = GetTransactionRequest();
+            transactionRequest.GuardianSignature = guardianSignature;
+            return transactionRequest;
         }
     }
 }
