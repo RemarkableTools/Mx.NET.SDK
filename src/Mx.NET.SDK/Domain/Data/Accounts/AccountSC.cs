@@ -3,11 +3,9 @@ using System.Numerics;
 using System.Threading.Tasks;
 using Mx.NET.SDK.Domain.Data.Common;
 using Mx.NET.SDK.Core.Domain.Values;
-using Mx.NET.SDK.Provider.Dtos.API.Accounts;
 using Mx.NET.SDK.Core.Domain;
 using Mx.NET.SDK.Domain.Helper;
 using Mx.NET.SDK.Core.Domain.Helper;
-using Mx.NET.SDK.Provider.API;
 using Mx.NET.SDK.Provider;
 using Mx.NET.SDK.Provider.Dtos.Gateway.Addresses;
 

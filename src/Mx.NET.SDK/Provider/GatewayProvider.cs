@@ -1,12 +1,13 @@
 ﻿using Mx.NET.SDK.Configuration;
 using Mx.NET.SDK.Core.Domain.Helper;
 using Mx.NET.SDK.Domain.Exceptions;
+using Mx.NET.SDK.Provider.Dtos.Common.QueryVm;
+using Mx.NET.SDK.Provider.Dtos.Common.Transactions;
 using Mx.NET.SDK.Provider.Dtos.Gateway;
 using Mx.NET.SDK.Provider.Dtos.Gateway.Addresses;
 using Mx.NET.SDK.Provider.Dtos.Gateway.Blocks;
 using Mx.NET.SDK.Provider.Dtos.Gateway.ESDTs;
 using Mx.NET.SDK.Provider.Dtos.Gateway.Network;
-using Mx.NET.SDK.Provider.Dtos.Gateway.Query;
 using Mx.NET.SDK.Provider.Dtos.Gateway.Transactions;
 using System.Net;
 using System.Net.Http;
@@ -119,9 +120,14 @@ namespace Mx.NET.SDK.Provider
             return await Post<TransactionCostResponseDto>("transaction/cost", transactionRequestDto);
         }
 
-        public async Task<TransactionDto> GetTransaction(string txHash)
+        public async Task<TransactionDto> GetTransaction(string txHash, bool withResults = false)
         {
-            return await Get<TransactionDto>($"transaction/{txHash}?withResults=true");
+            return await GetTransaction<TransactionDto>(txHash, withResults);
+        }
+
+        public async Task<Transaction> GetTransaction<Transaction>(string txHash, bool withResults = false)
+        {
+            return await Get<Transaction>($"transaction/{txHash}?withResults={withResults}");
         }
 
         #endregion
@@ -162,12 +168,12 @@ namespace Mx.NET.SDK.Provider
             return await Get<BlockDto>($"/block/{shard}/by-hash/{hash}?withTxs={withTxs}");
         }
 
-        public async Task<InternalBlockDto> GetInternalBlockNonce(long nonce)
+        public async Task<InternalBlockDto> GetInternalBlockByNonce(long nonce)
         {
             return await Get<InternalBlockDto>($"/internal/json/shardblock/by-nonce/{nonce}");
         }
 
-        public async Task<InternalBlockDto> GetInternalBlockHash(string hash)
+        public async Task<InternalBlockDto> GetInternalBlockByHash(string hash)
         {
             return await Get<InternalBlockDto>($"/internal/json/shardblock/by-hash/{hash}");
         }
@@ -176,9 +182,9 @@ namespace Mx.NET.SDK.Provider
 
         #region queryVM
 
-        public async Task<QueryVmDto> QueryVm(QueryVmRequestDto queryVmRequestDto)
+        public async Task<QueryVmResponseDataDto> QueryVm(QueryVmRequestDto queryVmRequestDto)
         {
-            return await Post<QueryVmDto>("vm-values/query", queryVmRequestDto);
+            return await Post<QueryVmResponseDataDto>("vm-values/query", queryVmRequestDto);
         }
 
         #endregion

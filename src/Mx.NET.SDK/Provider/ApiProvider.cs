@@ -16,7 +16,8 @@ using Mx.NET.SDK.Provider.Dtos.API.Common;
 using Mx.NET.SDK.Provider.Dtos.API.Tokens;
 using Mx.NET.SDK.Provider.Dtos.API.Blocks;
 using Mx.NET.SDK.Provider.Dtos.API.Transactions;
-using Mx.NET.SDK.Provider.Dtos.API.Query;
+using Mx.NET.SDK.Provider.Dtos.Common.QueryVm;
+using Mx.NET.SDK.Provider.Dtos.Common.Transactions;
 
 namespace Mx.NET.SDK.Provider
 {
@@ -501,6 +502,15 @@ namespace Mx.NET.SDK.Provider
             return await Get<Transaction[]>($"transactions?from={from}&size={size}{args}");
         }
 
+        public async Task<TransactionResponseDto> SendTransaction(TransactionRequestDto transactionRequest)
+        {
+            return await Post<TransactionResponseDto>("transactions", transactionRequest);
+        }
+
+        public async Task<MultipleTransactionsResponseDto> SendTransactions(TransactionRequestDto[] transactionsRequest)
+        {
+            return await Post<MultipleTransactionsResponseDto>("transaction/send-multiple", transactionsRequest);
+        }
 
         public async Task<string> GetTransactionsCount(Dictionary<string, string> parameters = null)
         {
@@ -511,7 +521,7 @@ namespace Mx.NET.SDK.Provider
             return await Get<string>($"transactions/count{args}");
         }
 
-        public async Task<TransactionDto> GetMvxTransaction(string txHash)
+        public async Task<TransactionDto> GetTransaction(string txHash)
         {
             return await GetTransaction<TransactionDto>(txHash);
         }
@@ -534,9 +544,9 @@ namespace Mx.NET.SDK.Provider
 
         #region query
 
-        public async Task<QueryResponseDto> Query(QueryRequestDto queryRequestDto)
+        public async Task<QueryVmResponseDto> QueryVm(QueryVmRequestDto queryRequestDto)
         {
-            return await Post<QueryResponseDto>("query", queryRequestDto);
+            return await Post<QueryVmResponseDto>("query", queryRequestDto);
         }
 
         #endregion

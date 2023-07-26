@@ -18,7 +18,7 @@ namespace MSTesting.TypeValueTesting
     public abstract class TypeValueBaseTesting
     {
         private static Wallet _wallet;
-        private static IApiProvider _provider;
+        private static IApiProvider _apiProvider;
         private static Address? _scAddress;
         private static WalletSigner _walletSigner;
         private static AbiDefinition _abi;
@@ -29,7 +29,7 @@ namespace MSTesting.TypeValueTesting
         public static async Task<TOut> GetValueForSmartContract<T, TOut>(string methodName) where T : IBinaryType
         {
             var value = await SmartContract.QuerySmartContractWithAbiDefinition<T>(
-                _provider,
+                _apiProvider,
                 _scAddress,
                 _abi,
                 methodName);
@@ -44,9 +44,9 @@ namespace MSTesting.TypeValueTesting
 
             var signature = _walletSigner.SignTransaction(insertRequest.SerializeForSigning());
             var signedTransaction = insertRequest.ApplySignature(signature);
-            var response = await _provider.SendTransaction(signedTransaction);
+            var response = await _apiProvider.SendTransaction(signedTransaction);
             var transaction = Transaction.From(response.TxHash);
-            await transaction.AwaitExecuted(_provider);
+            await transaction.AwaitExecuted(_apiProvider);
             _account.IncrementNonce();
             return transaction;
         }
@@ -72,22 +72,22 @@ namespace MSTesting.TypeValueTesting
             {
                 _isInitialized = true;
                 _wallet = Wallet.FromPemFile("./walletKey.pem");
-                _provider = new ApiProvider(new MultiversxNetworkConfiguration(Network.DevNet));
-                _networkConfig = await NetworkConfig.GetFromNetwork(_provider);
+                _apiProvider = new ApiProvider(new ApiNetworkConfiguration(Network.DevNet));
+                _networkConfig = await NetworkConfig.GetFromNetwork(_apiProvider);
                 _walletSigner = _wallet.GetSigner();
                 _account = new Account(_wallet.GetAddress());
-                _abi = AbiDefinition.FromFilePath("../../../TypeValueContract/typevalue.abi.json");
-                await _account.Sync(_provider);
+                _abi = AbiDefinition.FromFilePath("../../../TypeValueTesting/TypeValueContract/typevalue.abi.json");
+                await _account.Sync(_apiProvider);
 
-                var code = CodeArtifact.FromFilePath("../../../TypeValueContract/typevalue.wasm");
+                var code = CodeArtifact.FromFilePath("../../../TypeValueTesting/TypeValueContract/typevalue.wasm");
                 var codeMetaData = new CodeMetadata(true, true, false);
                 var contractRequest = SmartContractTransactionRequest.Deploy(_networkConfig, _account, code, codeMetaData);
                 var signature = _walletSigner.SignTransaction(contractRequest.SerializeForSigning());
                 var signedTransaction = contractRequest.ApplySignature(signature);
-                var response = await _provider.SendTransaction(signedTransaction);
+                var response = await _apiProvider.SendTransaction(signedTransaction);
                 var transaction = Transaction.From(response.TxHash);
                 _scAddress = SmartContract.ComputeAddress(contractRequest);
-                await transaction.AwaitExecuted(_provider);
+                await transaction.AwaitExecuted(_apiProvider);
                 _account.IncrementNonce();
             }
         }

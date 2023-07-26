@@ -1,6 +1,6 @@
-﻿namespace Mx.NET.SDK.Provider.Dtos.API.Query
+﻿namespace Mx.NET.SDK.Provider.Dtos.Common.QueryVm
 {
-    public class QueryRequestDto
+    public class QueryVmRequestDto
     {
         /// <summary>
         /// The Addresses (bech32) of the Smart Contract.

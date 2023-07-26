@@ -7,12 +7,11 @@ using Mx.NET.SDK.Core.Domain.Abi;
 using Mx.NET.SDK.Core.Domain.Codec;
 using Mx.NET.SDK.Core.Domain.Helper;
 using Mx.NET.SDK.Core.Domain.Values;
-using Mx.NET.SDK.Provider.Dtos.Gateway.Query;
+using Mx.NET.SDK.Provider.Dtos.Common.QueryVm;
 using Org.BouncyCastle.Crypto.Digests;
 using static Mx.NET.SDK.Core.Domain.Constants.Constants;
 using Mx.NET.SDK.Domain.Exceptions;
 using Mx.NET.SDK.Provider;
-using Mx.NET.SDK.Provider.Dtos.API.Query;
 
 namespace Mx.NET.SDK.Domain.SmartContracts
 {
@@ -140,69 +139,7 @@ namespace Mx.NET.SDK.Domain.SmartContracts
                 throw new APIException(data.ReturnMessage);
             }
 
-            return GetResponse<T>(outputTypes, data.ReturnData);
-
-            //var buffers = data.ReturnData.Select(d => Convert.FromBase64String(d)).ToArray();
-            //var outputValues = new List<IBinaryType>();
-            //var bufferIndex = 0;
-            //int numBuffers = buffers.Length;
-
-            //foreach (var outputType in outputTypes)
-            //{
-            //    var value = ReadValue(outputType);
-            //    outputValues.Add(value);
-            //}
-
-            //IBinaryType ReadValue(TypeValue typeValue)
-            //{
-            //    if (typeValue.BinaryType == TypeValue.BinaryTypes.Optional)
-            //    {
-            //        IBinaryType value = ReadValue(typeValue.InnerType);
-            //        return OptionalValue.NewProvided(value);
-            //    }
-            //    else if (typeValue.BinaryType == TypeValue.BinaryTypes.Variadic)
-            //    {
-            //        var values = new List<IBinaryType>();
-
-            //        while (!HasReachedTheEnd())
-            //            values.Add(ReadValue(typeValue.InnerType));
-            //        return new VariadicValue(typeValue, typeValue.InnerType, values.ToArray());
-            //    }
-            //    else if (typeValue.BinaryType == TypeValue.BinaryTypes.Multi)
-            //    {
-            //        var values = new Dictionary<TypeValue, IBinaryType>();
-
-            //        foreach (var type in typeValue.MultiTypes)
-            //            values.Add(type, ReadValue(type));
-            //        return new MultiValue(typeValue, values);
-            //    }
-            //    {
-            //        var value = DecodeNextBuffer(typeValue);
-            //        return value;
-            //    }
-            //}
-
-            //IBinaryType DecodeNextBuffer(TypeValue typeValue)
-            //{
-            //    if (HasReachedTheEnd())
-            //    {
-            //        return null;
-            //    }
-
-            //    var buffer = buffers[bufferIndex++];
-            //    var decodedValue = BinaryCoder.DecodeTopLevel(buffer, typeValue);
-            //    return decodedValue;
-            //}
-
-            //bool HasReachedTheEnd()
-            //{
-            //    return bufferIndex >= numBuffers;
-            //}
-
-            //if (outputValues.Count == 1)
-            //    return (T)outputValues[0];
-            //else
-            //    return (T)(IBinaryType)MultiValue.From(outputValues.ToArray());
+            return GetResults<T>(outputTypes, data.ReturnData);
         }
 
         /// <summary>
@@ -227,82 +164,15 @@ namespace Mx.NET.SDK.Domain.SmartContracts
                            .Select(typeValue => Converter.ToHexString(BinaryCoder.EncodeTopLevel(typeValue)))
                            .ToArray();
 
-            var query = new QueryRequestDto { FuncName = endpoint, Args = arguments, ScAddress = address.Bech32, Caller = caller?.Bech32 };
+            var query = new QueryVmRequestDto { FuncName = endpoint, Args = arguments, ScAddress = address.Bech32, Caller = caller?.Bech32 };
 
-            var response = await provider.Query(query);
+            var response = await provider.QueryVm(query);
             var data = response;
 
-            if (data.ReturnData is null)
-            {
-                throw new APIException("Return data is null");
-            }
-
-            return GetResponse<T>(outputTypes, data.ReturnData);
-
-            //var buffers = data.ReturnData.Select(d => Convert.FromBase64String(d)).ToArray();
-            //var outputValues = new List<IBinaryType>();
-            //var bufferIndex = 0;
-            //int numBuffers = buffers.Length;
-
-            //foreach (var outputType in outputTypes)
-            //{
-            //    var value = ReadValue(outputType);
-            //    outputValues.Add(value);
-            //}
-
-            //IBinaryType ReadValue(TypeValue typeValue)
-            //{
-            //    if (typeValue.BinaryType == TypeValue.BinaryTypes.Optional)
-            //    {
-            //        IBinaryType value = ReadValue(typeValue.InnerType);
-            //        return OptionalValue.NewProvided(value);
-            //    }
-            //    else if (typeValue.BinaryType == TypeValue.BinaryTypes.Variadic)
-            //    {
-            //        var values = new List<IBinaryType>();
-
-            //        while (!HasReachedTheEnd())
-            //            values.Add(ReadValue(typeValue.InnerType));
-            //        return new VariadicValue(typeValue, typeValue.InnerType, values.ToArray());
-            //    }
-            //    else if (typeValue.BinaryType == TypeValue.BinaryTypes.Multi)
-            //    {
-            //        var values = new Dictionary<TypeValue, IBinaryType>();
-
-            //        foreach (var type in typeValue.MultiTypes)
-            //            values.Add(type, ReadValue(type));
-            //        return new MultiValue(typeValue, values);
-            //    }
-            //    {
-            //        var value = DecodeNextBuffer(typeValue);
-            //        return value;
-            //    }
-            //}
-
-            //IBinaryType DecodeNextBuffer(TypeValue typeValue)
-            //{
-            //    if (HasReachedTheEnd())
-            //    {
-            //        return null;
-            //    }
-
-            //    var buffer = buffers[bufferIndex++];
-            //    var decodedValue = BinaryCoder.DecodeTopLevel(buffer, typeValue);
-            //    return decodedValue;
-            //}
-
-            //bool HasReachedTheEnd()
-            //{
-            //    return bufferIndex >= numBuffers;
-            //}
-
-            //if (outputValues.Count == 1)
-            //    return (T)outputValues[0];
-            //else
-            //    return (T)(IBinaryType)MultiValue.From(outputValues.ToArray());
+            return GetResults<T>(outputTypes, data.ReturnData ?? Array.Empty<string>());
         }
 
-        public static T GetResponse<T>(
+        public static T GetResults<T>(
             TypeValue[] outputTypes,
             string[] data)
         {

@@ -172,7 +172,7 @@ namespace Mx.NET.SDK.Domain.Data.NFTs
                 Creator = Address.FromBech32(nft.Creator),
                 Royalties = nft.Royalties,
                 Uris = nft.URIs.Select(u => new UriBuilder(Encoding.UTF8.GetString(Convert.FromBase64String(u))).Uri)
-                                                        .ToArray(),
+                               .ToArray(),
                 Url = new Uri(nft.URL),
                 Media = nft.Media,
                 IsWhitelistedStorage = nft.IsWhitelistedStorage,

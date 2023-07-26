@@ -1,4 +1,5 @@
 ﻿using Mx.NET.SDK.Provider.Dtos.API.Transactions;
+using Mx.NET.SDK.Provider.Dtos.Common.Transactions;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -25,6 +26,20 @@ namespace Mx.NET.SDK.Provider.API
         Task<Transaction[]> GetTransactions<Transaction>(int size = 100, int from = 0, Dictionary<string, string> parameters = null);
 
         /// <summary>
+        /// Send a signed Transaction to the Blockchain.
+        /// </summary>
+        /// <param name="transactionRequest">The transaction payload</param>
+        /// <returns>TxHash</returns>
+        Task<TransactionResponseDto> SendTransaction(TransactionRequestDto transactionRequest);
+
+        /// <summary>
+        /// Send a bulk of Transactions to the Blockchain.
+        /// </summary>
+        /// <param name="transactionsRequest">Array of transactions payload</param>
+        /// <returns><see cref="MultipleTransactionsResponseDto"/></returns>
+        Task<MultipleTransactionsResponseDto> SendTransactions(TransactionRequestDto[] transactionsRequest);
+
+        /// <summary>
         /// Returns the counter of transactions from blockchain.
         /// </summary>
         /// <param name="parameters">Parameters for query</param>
@@ -36,7 +51,7 @@ namespace Mx.NET.SDK.Provider.API
         /// </summary>
         /// <param name="txHash">The transaction hash</param>
         /// <returns><see cref="TransactionDto"/></returns>
-        Task<TransactionDto> GetMvxTransaction(string txHash);
+        Task<TransactionDto> GetTransaction(string txHash);
 
         /// <summary>
         /// This endpoint allows one to query the details of a Transaction.

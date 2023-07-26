@@ -1,4 +1,4 @@
-﻿using Mx.NET.SDK.Provider.Dtos.Gateway.Query;
+﻿using Mx.NET.SDK.Provider.Dtos.Common.QueryVm;
 using System.Threading.Tasks;
 
 namespace Mx.NET.SDK.Provider.API

@@ -10,9 +10,9 @@ using Mx.NET.SDK.Core.Domain;
 using Mx.NET.SDK.Core.Domain.SmartContracts;
 using static Mx.NET.SDK.Core.Domain.Constants.Constants;
 using System.Globalization;
-using Mx.NET.SDK.Provider.Dtos.Gateway.Transactions;
 using static Mx.NET.SDK.Core.Domain.Values.TypeValue;
 using System.Text;
+using Mx.NET.SDK.Provider.Dtos.Common.Transactions;
 
 namespace Mx.NET.SDK.Domain
 {

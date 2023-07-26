@@ -238,7 +238,7 @@ namespace Mx.NET.SDK.Domain.Data.Transactions
         /// <returns></returns>
         public async Task Sync(IApiProvider provider)
         {
-            var transaction = await provider.GetMvxTransaction(TxHash);
+            var transaction = await provider.GetTransaction(TxHash);
 
             GasLimit = new GasLimit(transaction.GasLimit);
             GasPrice = transaction.GasPrice;
