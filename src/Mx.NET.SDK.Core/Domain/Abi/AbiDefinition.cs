@@ -12,6 +12,7 @@ namespace Mx.NET.SDK.Core.Domain.Abi
     {
         public string Name { get; set; }
         public Abi.Endpoint[] Endpoints { get; set; }
+        public Abi.Event[] Events { get; set; }
         public Dictionary<string, Abi.CustomTypes> Types { get; set; }
 
         public EndpointDefinition GetEndpointDefinition(string endpoint)
@@ -26,6 +27,17 @@ namespace Mx.NET.SDK.Core.Domain.Abi
                 data.Outputs.Select(i => new FieldDefinition("", "", GetTypeValue(i.Type))).ToList();
 
             return new EndpointDefinition(endpoint, inputs.ToArray(), outputs.ToArray());
+        }
+
+        public EventDefinition GetEventDefinition(string identifier)
+        {
+            var data = Events.ToList().SingleOrDefault(s => s.Identifier == identifier) ?? throw new Exception("Event is not defined in ABI");
+
+            var inputs = data.Inputs is null ?
+                new List<FieldDefinition>() :
+                data.Inputs.Select(i => new FieldDefinition(i.Name, "", GetTypeValue(i.Type))).ToList();
+
+            return new EventDefinition(identifier, inputs.ToArray());
         }
 
         private TypeValue GetTypeValue(string rustType)
