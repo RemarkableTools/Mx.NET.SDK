@@ -26,7 +26,7 @@ namespace Mx.NET.SDK.Core.Domain.Codec
                 var payload = data.Slice(BytesSizeOfU32, BytesSizeOfU32 + sizeInBytes);
                 var bigNumber = Converter.ToBigInteger(payload, !type.HasSign(), isBigEndian: true);
 
-                return (new NumericValue(type, bigNumber), sizeInBytes + payload.Length);
+                return (new NumericValue(type, bigNumber), BytesSizeOfU32 + payload.Length);
             }
         }
 
