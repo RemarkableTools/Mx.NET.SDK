@@ -91,9 +91,10 @@ namespace Mx.NET.SDK.Core.Domain.Abi
                 var innerTypeValue = GetTypeValue(innerType);
                 return TypeValue.ListValue(innerTypeValue);
             }
+
             if (array.IsMatch(rustType))
             {
-                var innerType = list.Match(rustType).Groups[1].Value;
+                var innerType = array.Match(rustType).Groups[1].Value;
                 var innerTypeValue = GetTypeValue(innerType);
                 return TypeValue.ArrayValue(innerTypeValue);
             }
