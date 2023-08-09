@@ -40,28 +40,28 @@ namespace Mx.NET.SDK.Core.Domain.Abi
             return new EventDefinition(identifier, inputs.ToArray());
         }
 
-        private TypeValue GetTypeValue(string rustType)
+        private TypeValue GetTypeValue(string type)
         {
             var pattern = new Regex("^(.*?)<(.*)>$");
-            if (pattern.IsMatch(rustType))
+            if (pattern.IsMatch(type))
             {
-                var type = pattern.Match(rustType).Groups[1].Value;
-                var innerType = pattern.Match(rustType).Groups[2].Value;
+                var parentType = pattern.Match(type).Groups[1].Value;
+                var innerType = pattern.Match(type).Groups[2].Value;
 
                 var innerTypes = pattern.IsMatch(innerType) ? new[] { innerType } : innerType.Split(',').Where(s => !string.IsNullOrEmpty(s));
                 var innerTypeValues = innerTypes.Select(GetTypeValue).ToArray();
-                var typeFromLearnedTypes = TypeValue.FromLearnedType(type, innerTypeValues);
+                var typeFromLearnedTypes = TypeValue.FromLearnedType(parentType, innerTypeValues);
                 if (typeFromLearnedTypes != null)
                     return typeFromLearnedTypes;
             }
 
-            var typeFromBaseRustType = TypeValue.FromRustType(rustType);
+            var typeFromBaseRustType = TypeValue.FromRustType(type);
             if (typeFromBaseRustType != null)
                 return typeFromBaseRustType;
 
-            if (Types.Keys.Contains(rustType))
+            if (Types.Keys.Contains(type))
             {
-                var typeFromStruct = Types[rustType];
+                var typeFromStruct = Types[type];
                 if (typeFromStruct.Type == "enum")
                 {
                     return TypeValue.EnumValue(typeFromStruct.Type,
