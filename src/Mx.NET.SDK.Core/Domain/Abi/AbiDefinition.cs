@@ -42,61 +42,17 @@ namespace Mx.NET.SDK.Core.Domain.Abi
 
         private TypeValue GetTypeValue(string rustType)
         {
-            var optional = new Regex("^optional<(.*)>$");
-            var option = new Regex("^Option<(.*)>$");
-            var multi = new Regex("^multi<(.*)>$");
-            var tuple = new Regex("^tuple<(.*)>$");
-            var variadic = new Regex("^variadic<(.*)>$");
-            var list = new Regex("^List<(.*)>$");
-            var array = new Regex("^Array<(.*)>$");
-
-            if (optional.IsMatch(rustType))
+            var pattern = new Regex("^(.*?)<(.*)>$");
+            if (pattern.IsMatch(rustType))
             {
-                var innerType = optional.Match(rustType).Groups[1].Value;
-                var innerTypeValue = GetTypeValue(innerType);
-                return TypeValue.OptionalValue(innerTypeValue);
-            }
+                var type = pattern.Match(rustType).Groups[1].Value;
+                var innerType = pattern.Match(rustType).Groups[2].Value;
 
-            if (option.IsMatch(rustType))
-            {
-                var innerType = option.Match(rustType).Groups[1].Value;
-                var innerTypeValue = GetTypeValue(innerType);
-                return TypeValue.OptionValue(innerTypeValue);
-            }
-
-            if (multi.IsMatch(rustType))
-            {
-                var innerTypes = multi.Match(rustType).Groups[1].Value.Split(',').Where(s => !string.IsNullOrEmpty(s));
+                var innerTypes = pattern.IsMatch(innerType) ? new[] { innerType } : innerType.Split(',').Where(s => !string.IsNullOrEmpty(s));
                 var innerTypeValues = innerTypes.Select(GetTypeValue).ToArray();
-                return TypeValue.MultiValue(innerTypeValues);
-            }
-
-            if (tuple.IsMatch(rustType))
-            {
-                var innerTypes = tuple.Match(rustType).Groups[1].Value.Split(',').Where(s => !string.IsNullOrEmpty(s));
-                var innerTypeValues = innerTypes.Select(GetTypeValue).ToArray();
-                return TypeValue.TupleValue(innerTypeValues);
-            }
-
-            if (variadic.IsMatch(rustType))
-            {
-                var innerType = variadic.Match(rustType).Groups[1].Value;
-                var innerTypeValue = GetTypeValue(innerType);
-                return TypeValue.VariadicValue(innerTypeValue);
-            }
-
-            if (list.IsMatch(rustType))
-            {
-                var innerType = list.Match(rustType).Groups[1].Value;
-                var innerTypeValue = GetTypeValue(innerType);
-                return TypeValue.ListValue(innerTypeValue);
-            }
-
-            if (array.IsMatch(rustType))
-            {
-                var innerType = array.Match(rustType).Groups[1].Value;
-                var innerTypeValue = GetTypeValue(innerType);
-                return TypeValue.ArrayValue(innerTypeValue);
+                var typeFromLearnedTypes = TypeValue.FromLearnedType(type, innerTypeValues);
+                if (typeFromLearnedTypes != null)
+                    return typeFromLearnedTypes;
             }
 
             var typeFromBaseRustType = TypeValue.FromRustType(rustType);

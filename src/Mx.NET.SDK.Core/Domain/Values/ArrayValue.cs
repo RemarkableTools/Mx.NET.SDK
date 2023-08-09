@@ -1,5 +1,4 @@
 ﻿using Mx.NET.SDK.Core.Domain.Helper;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
@@ -18,7 +17,7 @@ namespace Mx.NET.SDK.Core.Domain.Values
 
         public static ArrayValue From(TypeValue type, params IBinaryType[] values)
         {
-            return new ArrayValue(TypeValue.ArrayValue(type), type.InnerType, values);
+            return new ArrayValue(TypeValue.ArrayValue(type, values.Length), type.InnerType, values);
         }
 
         public override string ToString()
