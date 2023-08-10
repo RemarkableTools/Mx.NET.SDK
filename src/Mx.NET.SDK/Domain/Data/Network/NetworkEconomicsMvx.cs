@@ -1,5 +1,6 @@
 ﻿using Mx.NET.SDK.Provider.API;
 using Mx.NET.SDK.Provider.Dtos.API.Network;
+using System.Numerics;
 using System.Threading.Tasks;
 
 namespace Mx.NET.SDK.Domain.Data.Network
@@ -14,7 +15,7 @@ namespace Mx.NET.SDK.Domain.Data.Network
         public double Apr { get; set; }
         public double TotalUpApr { get; set; }
         public double BaseApr { get; set; }
-        public long TokenMarketCap { get; set; }
+        public BigInteger TokenMarketCap { get; set; }
 
         private NetworkEconomicsMvx(NetworkEconomicsDto economics)
         {
