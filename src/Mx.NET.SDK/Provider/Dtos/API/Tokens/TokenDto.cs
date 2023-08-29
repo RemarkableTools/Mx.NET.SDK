@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using Mx.NET.SDK.Provider.Dtos.API.Common;
+using System.Numerics;
 
 namespace Mx.NET.SDK.Provider.Dtos.API.Tokens
 {
@@ -21,6 +22,7 @@ namespace Mx.NET.SDK.Provider.Dtos.API.Tokens
         public bool CanMint { get; set; }
         public bool CanBurn { get; set; }
         public bool CanChangeOwner { get; set; }
+        public bool CanAddSpecialRoles { get; set; }
         public bool CanPause { get; set; }
         public bool CanFreeze { get; set; }
         public bool CanWipe { get; set; }
@@ -28,5 +30,6 @@ namespace Mx.NET.SDK.Provider.Dtos.API.Tokens
         public string MarketCap { get; set; }
         public string Supply { get; set; }
         public string CirculatingSupply { get; set; }
+        public TokenRolesDto[] Roles { get; set; }
     }
 }

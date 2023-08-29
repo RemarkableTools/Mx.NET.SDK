@@ -97,7 +97,8 @@ namespace Mx.NET.SDK.Domain.Data.Accounts
                                                   token.CanChangeOwner,
                                                   token.CanPause,
                                                   token.CanFreeze,
-                                                  token.CanWipe),
+                                                  token.CanWipe,
+                                                  token.CanAddSpecialRoles),
                 Role = TokenAccountRole.From(token.Role)
             };
         }

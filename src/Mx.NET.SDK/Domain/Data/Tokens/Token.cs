@@ -5,6 +5,7 @@ using Mx.NET.SDK.Core.Domain.Helper;
 using Mx.NET.SDK.Core.Domain.Values;
 using Mx.NET.SDK.Provider.Dtos.API.Tokens;
 using Mx.NET.SDK.Core.Domain;
+using Mx.NET.SDK.Domain.Data.Common;
 
 namespace Mx.NET.SDK.Domain.Data.Tokens
 {
@@ -100,6 +101,8 @@ namespace Mx.NET.SDK.Domain.Data.Tokens
         /// </summary>
         public string CirculatingSupply { get; private set; }
 
+        public TokenRoles[] Roles { get; private set; }
+
         private Token() { }
 
         /// <summary>
@@ -131,11 +134,13 @@ namespace Mx.NET.SDK.Domain.Data.Tokens
                                                   token.CanMint,
                                                   token.CanBurn,
                                                   token.CanUpgrade,
-                                                  token.CanChangeOwner),
+                                                  token.CanChangeOwner,
+                                                  token.CanAddSpecialRoles),
                 Price = token.Price,
                 MarketCap = token.MarketCap,
                 Supply = token.Supply,
-                CirculatingSupply = token.CirculatingSupply
+                CirculatingSupply = token.CirculatingSupply,
+                Roles = TokenRoles.From(token.Roles)
             };
         }
 
@@ -168,11 +173,13 @@ namespace Mx.NET.SDK.Domain.Data.Tokens
                                                   token.CanMint,
                                                   token.CanBurn,
                                                   token.CanUpgrade,
-                                                  token.CanChangeOwner),
+                                                  token.CanChangeOwner,
+                                                  token.CanAddSpecialRoles),
                 Price = token.Price,
                 MarketCap = token.MarketCap,
                 Supply = token.Supply,
-                CirculatingSupply = token.CirculatingSupply
+                CirculatingSupply = token.CirculatingSupply,
+                Roles = TokenRoles.From(token.Roles)
             }).ToArray();
         }
 

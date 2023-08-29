@@ -4,11 +4,12 @@ using Mx.NET.SDK.Provider.Dtos.API.Common;
 namespace Mx.NET.SDK.Domain.Data.Common
 {
     /// <summary>
-    /// /accounts/{address}/roles/tokens | /{token} endpoints
+    /// /accounts/{address}/roles/tokens endpoint
     /// </summary>
     public class TokenAccountRole
     {
-        public TokenManagerProperties ManagerProperties { get; private set; }
+        public bool CanLocalMint { get; private set; }
+        public bool CanLocalBurn { get; private set; }
         public string[] Roles { get; private set; }
 
         private TokenAccountRole() { }
@@ -19,8 +20,9 @@ namespace Mx.NET.SDK.Domain.Data.Common
 
             return new TokenAccountRole()
             {
-                ManagerProperties = TokenManagerProperties.From(role.CanLocalMint,
-                                                                role.CanLocalBurn),
+                CanLocalMint = role.CanLocalMint,
+                CanLocalBurn = role.CanLocalBurn,
+                Roles = role.Roles
             };
         }
     }
