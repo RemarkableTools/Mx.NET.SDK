@@ -4,6 +4,7 @@ using Mx.NET.SDK.Domain.Data.Properties;
 using Mx.NET.SDK.Core.Domain.Helper;
 using Mx.NET.SDK.Core.Domain.Values;
 using Mx.NET.SDK.Provider.Dtos.API.Accounts;
+using System.Linq;
 
 namespace Mx.NET.SDK.Domain.Data.Accounts
 {
@@ -75,7 +76,7 @@ namespace Mx.NET.SDK.Domain.Data.Accounts
         private AccountTokenRole() { }
 
         /// <summary>
-        /// EsdtToken from API
+        /// Creates a new AccountTokenRole from data
         /// </summary>
         /// <param name="token">Token Data Object from API</param>
         /// <returns>EsdtToken object</returns>
@@ -101,6 +102,35 @@ namespace Mx.NET.SDK.Domain.Data.Accounts
                                                   token.CanAddSpecialRoles),
                 Role = TokenAccountRole.From(token.Role)
             };
+        }
+
+        /// <summary>
+        /// Creates a new array of AccountTokenRole from data
+        /// </summary>
+        /// <param name="tokens">Array of Token Data Object from API</param>
+        /// <returns>EsdtToken object</returns>
+        public static AccountTokenRole[] From(AccountTokenRoleDto[] tokens)
+        {
+            return tokens.Select(token => new AccountTokenRole()
+            {
+                Type = token.Type,
+                Identifier = ESDTIdentifierValue.From(token.Identifier),
+                Name = token.Name,
+                Ticker = token.Ticker ?? token.Identifier.GetTicker(),
+                Owner = Address.FromBech32(token.Owner),
+                Decimals = token.Decimals,
+                IsPaused = token.IsPaused,
+                Assets = token.Assets,
+                Properties = TokenProperties.From(token.CanUpgrade,
+                                                  token.CanMint,
+                                                  token.CanBurn,
+                                                  token.CanChangeOwner,
+                                                  token.CanPause,
+                                                  token.CanFreeze,
+                                                  token.CanWipe,
+                                                  token.CanAddSpecialRoles),
+                Role = TokenAccountRole.From(token.Role)
+            }).ToArray();
         }
     }
 }
