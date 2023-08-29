@@ -7,11 +7,11 @@
     <Authors>Remarkable Tools</Authors>
     <Product />
     <PackageTags>RemarkableTools;MultiversX;MxDotNet</PackageTags>
-    <PackageProjectUrl></PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/RemarkableTools/Mx.NET.SDK</PackageProjectUrl>
     <RepositoryUrl>https://github.com/RemarkableTools/Mx.NET.SDK</RepositoryUrl>
     <RepositoryType>GitHub</RepositoryType>
     <Company>Remarkable Tools</Company>
-    <Version>2.0.6</Version>
+    <Version>2.0.7</Version>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Title>RemarkableTools.Mx</Title>
     <PackageReadmeFile>README.md</PackageReadmeFile>
