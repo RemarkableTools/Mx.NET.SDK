@@ -27,5 +27,14 @@
     {
         public bool CanLocalMint { get; set; }
         public bool CanLocalBurn { get; set; }
+        public string[] Roles { get; set; }
+    }
+
+    public class TokenRolesDto
+    {
+        public bool CanLocalMint { get; set; }
+        public bool CanLocalBurn { get; set; }
+        public string[] Roles { get; set; }
+        public string Address { get; set; }
     }
 }

@@ -22,7 +22,7 @@ namespace Mx.NET.SDK.Provider.Dtos.API.Accounts
         public bool CanBurn { get; set; }
         public bool CanChangeOwner { get; set; }
         public bool CanUpgrade { get; set; }
-        public bool? CanAddSpecialRoles { get; set; }
+        public bool CanAddSpecialRoles { get; set; }
         public TokenAccountRoleDto Role { get; set; }
     }
 }
