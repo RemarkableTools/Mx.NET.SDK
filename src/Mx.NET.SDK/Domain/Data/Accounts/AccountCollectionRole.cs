@@ -4,6 +4,7 @@ using Mx.NET.SDK.Domain.Data.Properties;
 using Mx.NET.SDK.Core.Domain.Values;
 using Mx.NET.SDK.Provider.Dtos.API.Accounts;
 using Mx.NET.SDK.Domain.Helper;
+using System.Linq;
 
 namespace Mx.NET.SDK.Domain.Data.Accounts
 {
@@ -95,6 +96,34 @@ namespace Mx.NET.SDK.Domain.Data.Accounts
                 Role = CollectionAccountRole.From(collection.Role),
                 ScamInfo = ScamInfo.From(collection.ScamInfo)
             };
+        }
+
+        /// <summary>
+        /// Creates a new AccountCollection object from data
+        /// </summary>
+        /// <param name="collection">AccountCollection Data Object from API</param>
+        /// <returns></returns>
+        public static AccountCollectionRole[] From(AccountCollectionRoleDto[] collections)
+        {
+            return collections.Select(collection => new AccountCollectionRole()
+            {
+                CollectionIdentifier = ESDTIdentifierValue.From(collection.Collection),
+                Type = collection.Type,
+                Name = collection.Name,
+                Ticker = collection.Ticker,
+                Owner = Address.From(collection.Owner),
+                CreationDate = collection.Timestamp.ToDateTime(),
+                Properties = CollectionProperties.From(collection.CanFreeze,
+                                                       collection.CanWipe,
+                                                       collection.CanPause,
+                                                       collection.CanTransferNFTCreateRole,
+                                                       collection.CanChangeOwner,
+                                                       collection.CanUpgrade,
+                                                       collection.CanAddSpecialRoles),
+                Decimals = collection.Decimals,
+                Role = CollectionAccountRole.From(collection.Role),
+                ScamInfo = ScamInfo.From(collection.ScamInfo)
+            }).ToArray();
         }
     }
 }
