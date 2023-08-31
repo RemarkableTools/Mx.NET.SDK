@@ -723,7 +723,7 @@ namespace Mx.NET.SDK.TransactionsManager
             Account account,
             ESDTIdentifierValue collectionIdentifier,
             ulong nftNonce,
-            Uri[] uris)
+            params Uri[] uris)
         {
             var urisValue = uris.Select(u => (IBinaryType)BytesValue.FromUtf8(u.AbsoluteUri)).ToArray();
 
