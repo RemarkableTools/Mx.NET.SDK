@@ -196,11 +196,7 @@ namespace Mx.NET.SDK.Domain.SmartContracts
                 }
                 else if (typeValue.BinaryType == TypeValue.BinaryTypes.Variadic)
                 {
-                    var values = new List<IBinaryType>();
-
-                    while (!HasReachedTheEnd())
-                        values.Add(ReadValue(typeValue.InnerType));
-                    return new VariadicValue(typeValue, typeValue.InnerType, values.ToArray());
+                    return ReadVariadicValue(typeValue);
                 }
                 else if (typeValue.BinaryType == TypeValue.BinaryTypes.Multi)
                 {
@@ -210,10 +206,29 @@ namespace Mx.NET.SDK.Domain.SmartContracts
                         values.Add(type, ReadValue(type));
                     return new MultiValue(typeValue, values);
                 }
+                else
                 {
                     var value = DecodeNextBuffer(typeValue);
                     return value;
                 }
+            }
+
+            IBinaryType ReadVariadicValue(TypeValue typeValue)
+            {
+                var values = new List<IBinaryType>();
+
+                if (typeValue.IsCounted())
+                {
+                    var count = ReadValue(TypeValue.U32TypeValue).ToObject<uint>();
+                    for (var i = 0; i < count; i++)
+                        values.Add(ReadValue(typeValue.InnerType));
+                }
+                else
+                {
+                    while (!HasReachedTheEnd())
+                        values.Add(ReadValue(typeValue.InnerType));
+                }
+                return new VariadicValue(typeValue, typeValue.InnerType, values.ToArray());
             }
 
             IBinaryType DecodeNextBuffer(TypeValue typeValue)
