@@ -29,6 +29,11 @@ namespace Mx.NET.SDK.Configuration
                     ExplorerUri = new Uri("https://devnet-explorer.multiversx.com/");
                     WebWalletUri = new Uri("https://devnet-wallet.multiversx.com/");
                     break;
+                case Network.DevNet2:
+                    APIUri = new Uri("https://devnet2-api.multiversx.com/");
+                    ExplorerUri = new Uri("https://devnet2-explorer.multiversx.com/");
+                    WebWalletUri = new Uri("https://devnet2-wallet.multiversx.com/");
+                    break;
                 case Network.TestNet:
                     APIUri = new Uri("https://testnet-api.multiversx.com/");
                     ExplorerUri = new Uri("https://testnet-explorer.multiversx.com/");
@@ -59,6 +64,10 @@ namespace Mx.NET.SDK.Configuration
                 case Network.DevNet:
                     ExplorerUri = new Uri("https://devnet-explorer.multiversx.com/");
                     WebWalletUri = new Uri("https://devnet-wallet.multiversx.com/");
+                    break;
+                case Network.DevNet2:
+                    ExplorerUri = new Uri("https://devnet2-explorer.multiversx.com/");
+                    WebWalletUri = new Uri("https://devnet2-wallet.multiversx.com/");
                     break;
                 case Network.TestNet:
                     ExplorerUri = new Uri("https://testnet-explorer.multiversx.com/");

@@ -67,6 +67,11 @@ namespace Mx.NET.SDK.Core.Domain.Values
             return !HasFixedSize();
         }
 
+        public bool IsCounted()
+        {
+            return Length == 1 && InnerType.BinaryType == BinaryTypes.Variadic;
+        }
+
         public static class BinaryTypes
         {
             public const string Boolean = nameof(Boolean);
@@ -92,6 +97,7 @@ namespace Mx.NET.SDK.Core.Domain.Values
             public const string VarArgs = "VarArgs";
             public const string MultiResultVec = "MultiResultVec";
             public const string Variadic = "variadic";
+            public const string CountedVariadic = "counted-variadic";
             public const string OptionalArg = "OptionalArg";
             public const string Optional = "optional";
             public const string OptionalResult = "OptionalResult";
@@ -169,7 +175,7 @@ namespace Mx.NET.SDK.Core.Domain.Values
         public static TypeValue OptionalValue(TypeValue innerType = null) => new TypeValue(BinaryTypes.Optional, innerType);
         public static TypeValue MultiValue(TypeValue[] multiTypes) => new TypeValue(BinaryTypes.Multi, multiTypes);
         public static TypeValue TupleValue(TypeValue[] tupleTypes) => new TypeValue(BinaryTypes.Tuple, tupleTypes);
-        public static TypeValue VariadicValue(TypeValue innerType) => new TypeValue(BinaryTypes.Variadic, innerType);
+        public static TypeValue VariadicValue(TypeValue innerType, bool isCounted = false) => new TypeValue(BinaryTypes.Variadic, innerType, isCounted == false ? 0 : 1);
         public static TypeValue ListValue(TypeValue innerType) => new TypeValue(BinaryTypes.List, innerType);
         public static TypeValue ArrayValue(TypeValue innerType, int length) => new TypeValue(BinaryTypes.Array, innerType, length);
 
@@ -192,6 +198,8 @@ namespace Mx.NET.SDK.Core.Domain.Values
                 case LearnedTypes.MultiResultVec:
                 case LearnedTypes.Variadic:
                     return VariadicValue(types[0]);
+                case LearnedTypes.CountedVariadic:
+                    return VariadicValue(types[0], true);
 
                 case LearnedTypes.OptionalArg:
                 case LearnedTypes.Optional:

@@ -176,7 +176,7 @@ namespace Mx.NET.SDK.Domain
             var gasPrice = networkConfig.MinGasPrice;
             var transactionGas = dataGas * gasPrice;
             if (dataGas == GasLimit.Value)
-                return ESDTAmount.From(transactionGas);
+                return ESDTAmount.From($"{transactionGas}");
 
             var remainingGas = GasLimit.Value - dataGas;
             var gasPriceModifier = networkConfig.GasPriceModifier;
