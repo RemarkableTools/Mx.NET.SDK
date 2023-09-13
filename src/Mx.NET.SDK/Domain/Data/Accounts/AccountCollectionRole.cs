@@ -5,6 +5,7 @@ using Mx.NET.SDK.Core.Domain.Values;
 using Mx.NET.SDK.Provider.Dtos.API.Accounts;
 using Mx.NET.SDK.Domain.Helper;
 using System.Linq;
+using Mx.NET.SDK.Core.Domain;
 
 namespace Mx.NET.SDK.Domain.Data.Accounts
 {
@@ -124,6 +125,15 @@ namespace Mx.NET.SDK.Domain.Data.Accounts
                 Role = CollectionAccountRole.From(collection.Role),
                 ScamInfo = ScamInfo.From(collection.ScamInfo)
             }).ToArray();
+        }
+
+        /// <summary>
+        /// Get the ESDT object from Token
+        /// </summary>
+        /// <returns></returns>
+        public ESDT GetESDT()
+        {
+            return ESDT.TOKEN(Name, CollectionIdentifier.Value, Decimals);
         }
     }
 }
