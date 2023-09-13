@@ -754,14 +754,14 @@ namespace Mx.NET.SDK.TransactionsManager
         /// <param name="account">Sender Account</param>
         /// <param name="collectionIdentifier">Collection identifier</param>
         /// <param name="sftNonce">SFT nonce</param>
-        /// <param name="quantity">Quantity to add</param>
+        /// <param name="quantityToAdd">Quantity to add</param>
         /// <returns></returns>
         public static TransactionRequest SFTAddQuantity(
             NetworkConfig networkConfig,
             Account account,
             ESDTIdentifierValue collectionIdentifier,
             ulong sftNonce,
-            BigInteger quantity)
+            ESDTAmount quantityToAdd)
         {
 
             var transaction = TransactionRequest.CreateCallSmartContractTransactionRequest(networkConfig,
@@ -771,7 +771,7 @@ namespace Mx.NET.SDK.TransactionsManager
                                                                                            ESDT_NFT_ADD_QUANTITY,
                                                                                            collectionIdentifier,
                                                                                            NumericValue.U64Value(sftNonce),
-                                                                                           NumericValue.BigUintValue(quantity));
+                                                                                           NumericValue.BigUintValue(quantityToAdd.Value));
 
             transaction.SetGasLimit(new GasLimit(500000));
 
@@ -786,14 +786,14 @@ namespace Mx.NET.SDK.TransactionsManager
         /// <param name="account">Sender Account</param>
         /// <param name="collectionIdentifier">Collection identifier</param>
         /// <param name="nftNonce">NFT nonce</param>
-        /// <param name="quantity">Quantity to burn</param>
+        /// <param name="quantityToBurn">Quantity to burn</param>
         /// <returns></returns>
         public static TransactionRequest NFTBurn(
             NetworkConfig networkConfig,
             Account account,
             ESDTIdentifierValue collectionIdentifier,
             ulong nftNonce,
-            BigInteger quantity)
+            ESDTAmount quantityToBurn)
         {
 
             var transaction = TransactionRequest.CreateCallSmartContractTransactionRequest(networkConfig,
@@ -803,7 +803,7 @@ namespace Mx.NET.SDK.TransactionsManager
                                                                                            ESDT_NFT_BURN,
                                                                                            collectionIdentifier,
                                                                                            NumericValue.U64Value(nftNonce),
-                                                                                           NumericValue.BigUintValue(quantity));
+                                                                                           NumericValue.BigUintValue(quantityToBurn.Value));
 
             transaction.SetGasLimit(new GasLimit(60000000));
 

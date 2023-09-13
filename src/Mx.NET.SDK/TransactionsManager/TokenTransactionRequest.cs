@@ -382,13 +382,13 @@ namespace Mx.NET.SDK.TransactionsManager
         /// <param name="networkConfig">MultiversX Network Configuration</param>
         /// <param name="account">Sender Account</param>
         /// <param name="tokenIdentifier">Token identifier</param>
-        /// <param name="supplyToBurn">The ESDT supply to burn locally</param>
+        /// <param name="amountToBurn">The ESDT amount to burn locally</param>
         /// <returns></returns>
         public static TransactionRequest LocalBurn(
             NetworkConfig networkConfig,
             Account account,
             ESDTIdentifierValue tokenIdentifier,
-            ESDTAmount supplyToBurn)
+            ESDTAmount amountToBurn)
         {
             var transaction = TransactionRequest.CreateCallSmartContractTransactionRequest(networkConfig,
                                                                                            account,
@@ -396,7 +396,7 @@ namespace Mx.NET.SDK.TransactionsManager
                                                                                            ESDTAmount.Zero(),
                                                                                            ESDT_LOCAL_BURN,
                                                                                            tokenIdentifier,
-                                                                                           NumericValue.BigUintValue(supplyToBurn.Value));
+                                                                                           NumericValue.BigUintValue(amountToBurn.Value));
 
             transaction.SetGasLimit(new GasLimit(500000));
 
