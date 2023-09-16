@@ -559,8 +559,7 @@ namespace Mx.NET.SDK.TransactionsManager
             };
             arguments.AddRange(rolesValue);
 
-            var transaction = TransactionRequest.CreateCallSmartContractTransactionRequest(
-                                                                                           networkConfig,
+            var transaction = TransactionRequest.CreateCallSmartContractTransactionRequest(networkConfig,
                                                                                            account,
                                                                                            SYSTEM_SMART_CONTRACT_ADDRESS,
                                                                                            ESDTAmount.Zero(),
@@ -598,8 +597,7 @@ namespace Mx.NET.SDK.TransactionsManager
             };
             arguments.AddRange(rolesValue);
 
-            var transaction = TransactionRequest.CreateCallSmartContractTransactionRequest(
-                                                                                           networkConfig,
+            var transaction = TransactionRequest.CreateCallSmartContractTransactionRequest(networkConfig,
                                                                                            account,
                                                                                            SYSTEM_SMART_CONTRACT_ADDRESS,
                                                                                            ESDTAmount.Zero(),
