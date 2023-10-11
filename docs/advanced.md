@@ -14,7 +14,7 @@ The following examples depend on:
 #### In the following example we will create a [`Token Transaction Request`](https://github.com/RemarkableTools/Mx.NET.SDK/blob/master/src/Mx.NET.SDK/TransactionsManager/TokenTransactionRequest.cs), sign it and send it to the network
 Get the [`ApiProvider`](https://github.com/RemarkableTools/Mx.NET.SDK/blob/master/src/Mx.NET.SDK/Configuration/ApiNetworkConfiguration.cs) instance
 ```csharp
-var provider = new ApiProvider(new ApiNetworkConfiguration(Network.DevNet));
+IApiProvider provider = new ApiProvider(new ApiNetworkConfiguration(Network.DevNet));
 ```
 Get a valid [`NetworkConfig`](https://github.com/RemarkableTools/Mx.NET.SDK/blob/master/src/Mx.NET.SDK/Domain/Data/Network/NetworkConfig.cs) instance
 ```csharp
