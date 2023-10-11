@@ -8,9 +8,19 @@ The library is a tool to query the MultiversX API or MultiversX Gateway and retr
 ### Quick start guide
 Define the network provider which can be MainNet/DevNet/TestNet
 ```csharp
-var provider = new ApiProvider(new ApiNetworkConfiguration(Network.DevNet));
+IApiProvider provider = new ApiProvider(new ApiNetworkConfiguration(Network.DevNet));
 //OR
-//var provider = new GatewayProvider(new GatewayNetworkConfiguration(Network.DevNet));
+//IGatewayProvider provider = new GatewayProvider(new GatewayNetworkConfiguration(Network.DevNet));
+```
+Or use your own network provider URL or Headers
+```csharp
+IApiProvider customProvider1 = new ApiProvider(new ApiNetworkConfiguration(Network.DevNet, new Uri("https://your-custom-devnet-uri.com")));
+//OR
+IApiProvider customProvider2 = new ApiProvider(new ApiNetworkConfiguration(Network.DevNet, new Uri("https://your-custom-devnet-uri.com")),
+                                      new Dictionary<string, string>()
+                                      {
+                                          {"headerKey", "headerValue" }
+                                      });
 ```
 With this provider you can query the MultiversX API data like in the following examples:
 ```csharp
@@ -22,6 +32,20 @@ var transaction = Transaction.From(await provider.GetTransaction("0a94708e9653b7
 var nft = NFT.From(await provider.GetNFT("OGAVNGR-1ec41f-01"));
 var token = Token.From(await provider.GetToken("MEX-455c57"));
 ```
+Other examples:
+```csharp
+var amount1 = ESDTAmount.ESDT("1000", ESDT.TOKEN("ABC", "ABC-123456", 18)); //18 decimals are added at the end
+Console.WriteLine(amount1.ToCurrencyString()); // 1000 ABC
+
+var amount2 = ESDTAmount.From("1000", ESDT.TOKEN("ABC", "ABC-123456", 18)); //'From' means you need to add the decimals
+Console.WriteLine(amount2.ToCurrencyString()); // 0.000000000000001 ABC
+```
+Use the following classes to create transactions:
+- **Mx.NET.SDK.TransactionsManager.EGLDTransactionRequest** `EGLD operations`
+- **Mx.NET.SDK.TransactionsManager.TokenTransactionRequest** `Token operations`
+- **Mx.NET.SDK.TransactionsManager.ESDTTransactionRequest** `NFT/SFT/MetaESDT operations`
+- **Mx.NET.SDK.TransactionsManager.SmartContractTransactionRequest** `Smart Contract operations`
+- **Mx.NET.SDK.TransactionsManager.CommonTransactionRequest** `Other common operations`
 
 ---
 
