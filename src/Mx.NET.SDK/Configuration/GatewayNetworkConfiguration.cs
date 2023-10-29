@@ -8,6 +8,7 @@ namespace Mx.NET.SDK.Configuration
         public Uri GatewayUri { get; }
         public Uri ExplorerUri { get; set; }
         public Uri WebWalletUri { get; set; }
+        public Uri XAliasWalletUri { get; set; }
 
         /// <summary>
         /// Default MultiversX Gateway network configuration
@@ -24,21 +25,25 @@ namespace Mx.NET.SDK.Configuration
                     GatewayUri = new Uri("https://gateway.multiversx.com/");
                     ExplorerUri = new Uri("https://explorer.multiversx.com/");
                     WebWalletUri = new Uri("https://wallet.multiversx.com/");
+                    XAliasWalletUri = new Uri("https://xalias.com/");
                     break;
                 case Network.DevNet:
                     GatewayUri = new Uri("https://devnet-gateway.multiversx.com/");
                     ExplorerUri = new Uri("https://devnet-explorer.multiversx.com/");
                     WebWalletUri = new Uri("https://devnet-wallet.multiversx.com/");
+                    XAliasWalletUri = new Uri("https://devnet.xalias.com/");
                     break;
                 case Network.DevNet2:
                     GatewayUri = new Uri("https://devnet2-gateway.multiversx.com/");
                     ExplorerUri = new Uri("https://devnet2-explorer.multiversx.com/");
                     WebWalletUri = new Uri("https://devnet2-wallet.multiversx.com/");
+                    XAliasWalletUri = new Uri("https://devnet2.xalias.com/");
                     break;
                 case Network.TestNet:
                     GatewayUri = new Uri("https://testnet-gateway.multiversx.com/");
                     ExplorerUri = new Uri("https://testnet-explorer.multiversx.com/");
                     WebWalletUri = new Uri("https://testnet-wallet.multiversx.com/");
+                    XAliasWalletUri = new Uri("https://testnet.xalias.com/");
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(network), network, null);
@@ -61,18 +66,22 @@ namespace Mx.NET.SDK.Configuration
                 case Network.MainNet:
                     ExplorerUri = new Uri("https://explorer.multiversx.com/");
                     WebWalletUri = new Uri("https://wallet.multiversx.com/");
+                    XAliasWalletUri = new Uri("https://xalias.com/");
                     break;
                 case Network.DevNet:
                     ExplorerUri = new Uri("https://devnet-explorer.multiversx.com/");
                     WebWalletUri = new Uri("https://devnet-wallet.multiversx.com/");
+                    XAliasWalletUri = new Uri("https://devnet.xalias.com/");
                     break;
                 case Network.DevNet2:
                     ExplorerUri = new Uri("https://devnet2-explorer.multiversx.com/");
                     WebWalletUri = new Uri("https://devnet2-wallet.multiversx.com/");
+                    XAliasWalletUri = new Uri("https://devnet2.xalias.com/");
                     break;
                 case Network.TestNet:
                     ExplorerUri = new Uri("https://testnet-explorer.multiversx.com/");
                     WebWalletUri = new Uri("https://testnet-wallet.multiversx.com/");
+                    XAliasWalletUri = new Uri("https://testnet.xalias.com/");
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(network), network, null);
