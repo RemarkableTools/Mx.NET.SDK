@@ -33,11 +33,11 @@ namespace Mx.NET.SDK.Configuration
                     WebWalletUri = new Uri("https://devnet-wallet.multiversx.com/");
                     XAliasWalletUri = new Uri("https://devnet.xalias.com/");
                     break;
-                case Network.DevNet2:
-                    GatewayUri = new Uri("https://devnet2-gateway.multiversx.com/");
-                    ExplorerUri = new Uri("https://devnet2-explorer.multiversx.com/");
-                    WebWalletUri = new Uri("https://devnet2-wallet.multiversx.com/");
-                    XAliasWalletUri = new Uri("https://devnet2.xalias.com/");
+                case Network.OldDevNet:
+                    GatewayUri = new Uri("https://devnet-old-gateway.multiversx.com/");
+                    ExplorerUri = new Uri("https://devnet-old-explorer.multiversx.com/");
+                    WebWalletUri = new Uri("https://devnet-old-wallet.multiversx.com/");
+                    XAliasWalletUri = new Uri("https://devnet-old.xalias.com/");
                     break;
                 case Network.TestNet:
                     GatewayUri = new Uri("https://testnet-gateway.multiversx.com/");
@@ -73,10 +73,10 @@ namespace Mx.NET.SDK.Configuration
                     WebWalletUri = new Uri("https://devnet-wallet.multiversx.com/");
                     XAliasWalletUri = new Uri("https://devnet.xalias.com/");
                     break;
-                case Network.DevNet2:
-                    ExplorerUri = new Uri("https://devnet2-explorer.multiversx.com/");
-                    WebWalletUri = new Uri("https://devnet2-wallet.multiversx.com/");
-                    XAliasWalletUri = new Uri("https://devnet2.xalias.com/");
+                case Network.OldDevNet:
+                    ExplorerUri = new Uri("https://devnet-old-explorer.multiversx.com/");
+                    WebWalletUri = new Uri("https://devnet-old-wallet.multiversx.com/");
+                    XAliasWalletUri = new Uri("https://devnet-old.xalias.com/");
                     break;
                 case Network.TestNet:
                     ExplorerUri = new Uri("https://testnet-explorer.multiversx.com/");

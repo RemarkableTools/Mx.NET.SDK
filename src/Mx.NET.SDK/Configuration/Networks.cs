@@ -6,6 +6,6 @@
         MainNet,
         TestNet,
         DevNet,
-        DevNet2
+        OldDevNet
     }
 }
