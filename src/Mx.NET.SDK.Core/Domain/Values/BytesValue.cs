@@ -5,8 +5,7 @@ namespace Mx.NET.SDK.Core.Domain.Values
 {
     public class BytesValue : BaseBinaryValue
     {
-        public BytesValue(byte[] data, TypeValue type)
-            : base(type)
+        public BytesValue(byte[] data, TypeValue type) : base(type)
         {
             Buffer = data;
         }

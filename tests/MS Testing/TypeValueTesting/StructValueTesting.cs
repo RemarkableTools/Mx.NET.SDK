@@ -17,10 +17,10 @@ namespace MSTesting.TypeValueTesting
                 new FieldDefinition("long_value", "", TypeValue.U64TypeValue),
             };
 
-            var fields = new StructField[2]
+            var fields = new Field[2]
             {
-                new StructField("name", BytesValue.FromUtf8("test")),
-                new StructField("long_value", NumericValue.U64Value(522))
+                new Field("name", BytesValue.FromUtf8("test")),
+                new Field("long_value", NumericValue.U64Value(522))
 
             };
 
@@ -55,11 +55,11 @@ namespace MSTesting.TypeValueTesting
                 new FieldDefinition("list_bool", "", TypeValue.ListValue(TypeValue.BooleanValue)),
             };
 
-            var fields = new StructField[3]
+            var fields = new Field[3]
             {
-                new StructField("name", BytesValue.FromUtf8("test")),
-                new StructField("long_value", NumericValue.U64Value(522)),
-                new StructField("list_bool", ListValue.From(TypeValue.BooleanValue, new IBinaryType[]{ BooleanValue.From(true), BooleanValue.From(false), BooleanValue.From(true)})),
+                new Field("name", BytesValue.FromUtf8("test")),
+                new Field("long_value", NumericValue.U64Value(522)),
+                new Field("list_bool", ListValue.From(TypeValue.BooleanValue, new IBinaryType[]{ BooleanValue.From(true), BooleanValue.From(false), BooleanValue.From(true)})),
 
             };
 
@@ -98,19 +98,19 @@ namespace MSTesting.TypeValueTesting
                 new FieldDefinition("list_bool", "", TypeValue.ListValue(TypeValue.BooleanValue)),
             };
 
-            var myStruct1Fields = new StructField[3]
+            var myStruct1Fields = new Field[3]
             {
-                new StructField("name", BytesValue.FromUtf8("test")),
-                new StructField("long_value", NumericValue.U64Value(522)),
-                new StructField("list_bool", ListValue.From(TypeValue.BooleanValue, new IBinaryType[]{ BooleanValue.From(true), BooleanValue.From(false), BooleanValue.From(true)})),
+                new Field("name", BytesValue.FromUtf8("test")),
+                new Field("long_value", NumericValue.U64Value(522)),
+                new Field("list_bool", ListValue.From(TypeValue.BooleanValue, new IBinaryType[]{ BooleanValue.From(true), BooleanValue.From(false), BooleanValue.From(true)})),
 
             };
 
-            var myStruct2Fields = new StructField[3]
+            var myStruct2Fields = new Field[3]
             {
-                new StructField("name", BytesValue.FromUtf8("struct2")),
-                new StructField("long_value", NumericValue.U64Value(9866475528)),
-                new StructField("list_bool", ListValue.From(TypeValue.BooleanValue, new IBinaryType[]{ BooleanValue.From(false), BooleanValue.From(false), BooleanValue.From(true)})),
+                new Field("name", BytesValue.FromUtf8("struct2")),
+                new Field("long_value", NumericValue.U64Value(9866475528)),
+                new Field("list_bool", ListValue.From(TypeValue.BooleanValue, new IBinaryType[]{ BooleanValue.From(false), BooleanValue.From(false), BooleanValue.From(true)})),
 
             };
 

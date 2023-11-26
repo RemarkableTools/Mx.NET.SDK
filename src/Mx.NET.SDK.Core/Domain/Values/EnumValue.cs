@@ -1,19 +1,24 @@
 ﻿using Mx.NET.SDK.Core.Domain.Helper;
+using System.Linq;
 
 namespace Mx.NET.SDK.Core.Domain.Values
 {
     public class EnumValue : BaseBinaryValue
     {
-        public EnumField Variant { get; }
+        public string Name { get; }
+        public int Discriminant { get; }
+        public Field[] Fields { get; }
 
-        public EnumValue(TypeValue enumType, EnumField variant) : base(enumType)
+        public EnumValue(TypeValue enumType, VariantDefinition variant, Field[] fields) : base(enumType)
         {
-            Variant = variant;
+            Name = variant.Name;
+            Discriminant = variant.Discriminant;
+            Fields = fields;
         }
 
         public override string ToString()
         {
-            return Variant.Name;
+            return Discriminant.ToString();
         }
 
         public override T ToObject<T>()
@@ -23,7 +28,7 @@ namespace Mx.NET.SDK.Core.Domain.Values
 
         public override string ToJson()
         {
-            return JsonUnqtWrapper.Serialize(Variant.Discriminant.ToJson());
+            return JsonUnqtWrapper.Serialize((Name, Fields.Select(f => f.Value.ToJson())));
         }
     }
 }
