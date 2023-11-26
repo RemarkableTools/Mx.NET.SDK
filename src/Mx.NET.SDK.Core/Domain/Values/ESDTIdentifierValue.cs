@@ -5,15 +5,14 @@ namespace Mx.NET.SDK.Core.Domain.Values
 {
     public class ESDTIdentifierValue : BaseBinaryValue
     {
+        public string Value { get; }
+        public byte[] Buffer { get; }
+
         public ESDTIdentifierValue(byte[] data, TypeValue type) : base(type)
         {
             Buffer = data;
             Value = Encoding.UTF8.GetString(data);
         }
-
-        public string Value { get; }
-
-        public byte[] Buffer { get; }
 
         public static ESDTIdentifierValue From(byte[] data)
         {

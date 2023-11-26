@@ -67,7 +67,10 @@ namespace Mx.NET.SDK.Core.Domain.Abi
                     return TypeValue.EnumValue(typeFromStruct.Type,
                                                typeFromStruct.Variants?
                                                     .ToList()
-                                                    .Select(c => new FieldDefinition(c.Name, "", GetTypeValue(TypeValue.FromRustType("Enum").RustType)))
+                                                    .Select(v => new VariantDefinition(v.Name, "", v.Discriminant, v.Fields?
+                                                                                                                       .ToList()
+                                                                                                                       .Select(f=> new FieldDefinition(f.Name, "", GetTypeValue(f.Type)))
+                                                                                                                       .ToArray()))
                                                     .ToArray());
                 }
                 else if (typeFromStruct.Type == "struct")
@@ -75,7 +78,7 @@ namespace Mx.NET.SDK.Core.Domain.Abi
                     return TypeValue.StructValue(typeFromStruct.Type,
                                                  typeFromStruct.Fields?
                                                     .ToList()
-                                                    .Select(c => new FieldDefinition(c.Name, "", GetTypeValue(c.Type)))
+                                                    .Select(f => new FieldDefinition(f.Name, "", GetTypeValue(f.Type)))
                                                     .ToArray());
 
                 }

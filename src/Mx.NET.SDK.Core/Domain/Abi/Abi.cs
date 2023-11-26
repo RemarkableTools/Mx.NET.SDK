@@ -30,6 +30,7 @@ namespace Mx.NET.SDK.Core.Domain.Abi
         {
             public string Name { get; set; }
             public int Discriminant { get; set; }
+            public Field[] Fields { get; set; }
         }
 
         public class Endpoint

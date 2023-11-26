@@ -1,14 +1,14 @@
 ﻿namespace Mx.NET.SDK.Core.Domain.Values
 {
-    public class StructField
+    public class Field
     {
-        public IBinaryType Value { get; }
         public string Name { get; }
+        public IBinaryType Value { get; }
 
-        public StructField(string name, IBinaryType value)
+        public Field(string name, IBinaryType value)
         {
-            Value = value;
             Name = name;
+            Value = value;
         }
 
         public override string ToString()

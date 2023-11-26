@@ -8,15 +8,15 @@ namespace Mx.NET.SDK.Core.Domain.Values
 {
     public class StructValue : BaseBinaryValue
     {
-        public StructField[] Fields { get; }
+        public Field[] Fields { get; }
 
-        public StructValue(TypeValue structType, StructField[] fields) : base(structType)
+        public StructValue(TypeValue structType, Field[] fields) : base(structType)
         {
             Fields = fields;
             CheckTyping();
         }
 
-        public StructField GetStructField(string name)
+        public Field GetStructField(string name)
         {
             var field = Fields.SingleOrDefault(f => f.Name == name);
             return field;
