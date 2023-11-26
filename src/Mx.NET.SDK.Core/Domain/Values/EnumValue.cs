@@ -28,7 +28,7 @@ namespace Mx.NET.SDK.Core.Domain.Values
 
         public override string ToJson()
         {
-            return JsonUnqtWrapper.Serialize((Name, Fields.Select(f => f.Value.ToJson())));
+            return JsonUnqtWrapper.Serialize((Name, Fields?.Select(f => f.Value.ToJson())));
         }
     }
 }
