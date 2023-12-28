@@ -1,4 +1,5 @@
 ﻿using Mx.NET.SDK.Core.Domain.Helper;
+using System;
 using System.Linq;
 
 namespace Mx.NET.SDK.Core.Domain.Values

@@ -18,8 +18,6 @@ namespace Mx.NET.SDK.Provider.Dtos.API.Accounts
         public bool CanFreeze { get; set; }
         public bool CanWipe { get; set; }
         public bool CanPause { get; set; }
-        public bool CanMint { get; set; }
-        public bool CanBurn { get; set; }
         public bool CanChangeOwner { get; set; }
         public bool CanUpgrade { get; set; }
         public bool CanAddSpecialRoles { get; set; }

@@ -19,8 +19,6 @@ namespace Mx.NET.SDK.Provider.Dtos.API.Tokens
         public BigInteger Transactions { get; set; } = BigInteger.MinusOne;
         public BigInteger Accounts { get; set; } = BigInteger.MinusOne;
         public bool CanUpgrade { get; set; }
-        public bool CanMint { get; set; }
-        public bool CanBurn { get; set; }
         public bool CanChangeOwner { get; set; }
         public bool CanAddSpecialRoles { get; set; }
         public bool CanPause { get; set; }
