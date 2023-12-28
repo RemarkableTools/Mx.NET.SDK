@@ -323,10 +323,6 @@ namespace Mx.NET.SDK.TransactionsManager
                 arguments.Add(BytesValue.FromUtf8(properties.CanWipe.ToString().ToLower()));
                 arguments.Add(BytesValue.FromUtf8(ESDTTokenProperties.CanPause));
                 arguments.Add(BytesValue.FromUtf8(properties.CanPause.ToString().ToLower()));
-                arguments.Add(BytesValue.FromUtf8(ESDTTokenProperties.CanMint));
-                arguments.Add(BytesValue.FromUtf8(properties.CanMint.ToString().ToLower()));
-                arguments.Add(BytesValue.FromUtf8(ESDTTokenProperties.CanBurn));
-                arguments.Add(BytesValue.FromUtf8(properties.CanBurn.ToString().ToLower()));
                 arguments.Add(BytesValue.FromUtf8(ESDTTokenProperties.CanChangeOwner));
                 arguments.Add(BytesValue.FromUtf8(properties.CanChangeOwner.ToString().ToLower()));
                 arguments.Add(BytesValue.FromUtf8(ESDTTokenProperties.CanUpgrade));
@@ -686,10 +682,6 @@ namespace Mx.NET.SDK.TransactionsManager
                 BytesValue.FromUtf8(properties.CanWipe.ToString().ToLower()),
                 BytesValue.FromUtf8(ESDTTokenProperties.CanPause),
                 BytesValue.FromUtf8(properties.CanPause.ToString().ToLower()),
-                BytesValue.FromUtf8(ESDTTokenProperties.CanMint),
-                BytesValue.FromUtf8(properties.CanMint.ToString().ToLower()),
-                BytesValue.FromUtf8(ESDTTokenProperties.CanBurn),
-                BytesValue.FromUtf8(properties.CanBurn.ToString().ToLower()),
                 BytesValue.FromUtf8(ESDTTokenProperties.CanChangeOwner),
                 BytesValue.FromUtf8(properties.CanChangeOwner.ToString().ToLower()),
                 BytesValue.FromUtf8(ESDTTokenProperties.CanUpgrade),

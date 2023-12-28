@@ -39,8 +39,6 @@
             public const string CanFreeze = "canFreeze";
             public const string CanWipe = "canWipe";
             public const string CanPause = "canPause";
-            public const string CanMint = "canMint";
-            public const string CanBurn = "canBurn";
             public const string CanChangeOwner = "canChangeOwner";
             public const string CanUpgrade = "canUpgrade";
             public const string CanAddSpecialRoles = "canAddSpecialRoles";
