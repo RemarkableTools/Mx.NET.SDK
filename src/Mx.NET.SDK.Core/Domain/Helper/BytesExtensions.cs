@@ -6,6 +6,9 @@ namespace Mx.NET.SDK.Core.Domain.Helper
     {
         public static byte[] Slice(this byte[] source, int start, int? optEnd = null)
         {
+            if(source.Length == 0)
+                return Array.Empty<byte>();
+
             var end = optEnd.GetValueOrDefault(source.Length);
             var len = end - start;
 
