@@ -1,5 +1,4 @@
 ﻿using Mx.NET.SDK.Core.Domain.Helper;
-using System;
 using System.Linq;
 
 namespace Mx.NET.SDK.Core.Domain.Values
@@ -20,6 +19,11 @@ namespace Mx.NET.SDK.Core.Domain.Values
         public override string ToString()
         {
             return Discriminant.ToString();
+        }
+
+        public T ToEnum<T>()
+        {
+            return JsonWrapper.Deserialize<T>(ToString());
         }
 
         public override T ToObject<T>()

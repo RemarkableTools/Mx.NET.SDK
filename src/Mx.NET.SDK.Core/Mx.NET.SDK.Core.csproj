@@ -11,14 +11,14 @@
     <RepositoryUrl>https://github.com/RemarkableTools/Mx.NET.SDK/tree/main/src/Mx.NET.SDK.Core</RepositoryUrl>
     <RepositoryType>GitHub</RepositoryType>
     <Company>Remarkable Tools</Company>
-    <Version>2.0.5</Version>
+    <Version>2.0.6</Version>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Title>RemarkableTools.Mx.Core</Title>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackAsTool>False</PackAsTool>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
-    <Copyright>Copyright © Remarkable Tools 2023</Copyright>
+    <Copyright>Copyright © Remarkable Tools 2024</Copyright>
     <PackageIcon>RemarkableToolsPackage.jpg</PackageIcon>
     <PackageReleaseNotes>SDK updates and improvements</PackageReleaseNotes>
   </PropertyGroup>
@@ -44,7 +44,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Portable.BouncyCastle" Version="1.9.0" />
     <PackageReference Include="System.ValueTuple" Version="4.5.0" />
   </ItemGroup>
