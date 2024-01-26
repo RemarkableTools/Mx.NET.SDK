@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System.Linq;
 
 namespace Mx.NET.SDK.Core.Domain.Values
 {
@@ -37,7 +38,10 @@ namespace Mx.NET.SDK.Core.Domain.Values
         {
             BinaryType = binaryType;
             RustType = rustType;
-            _variantDefinitions = variantDefinitions;
+            if (variantDefinitions.All(v => v.Discriminant == default))
+                _variantDefinitions = variantDefinitions.Select((v, index) => new VariantDefinition(v.Name, v.Description, index, v.Fields)).ToArray();
+            else
+                _variantDefinitions = variantDefinitions;
         }
 
         public TypeValue(string binaryType, TypeValue innerType = null, int? length = null)

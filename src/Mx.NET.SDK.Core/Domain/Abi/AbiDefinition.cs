@@ -62,25 +62,24 @@ namespace Mx.NET.SDK.Core.Domain.Abi
             if (Types.Keys.Contains(type))
             {
                 var typeFromStruct = Types[type];
-                if (typeFromStruct.Type == "enum")
+                if (typeFromStruct.Type == "enum" || typeFromStruct.Type == "explicit-enum")
                 {
                     return TypeValue.EnumValue(typeFromStruct.Type,
-                                               typeFromStruct.Variants?
-                                                    .ToList()
-                                                    .Select(v => new VariantDefinition(v.Name, "", v.Discriminant, v.Fields?
-                                                                                                                       .ToList()
-                                                                                                                       .Select(f=> new FieldDefinition(f.Name, "", GetTypeValue(f.Type)))
-                                                                                                                       .ToArray()))
-                                                    .ToArray());
+                                               typeFromStruct.Variants?.ToList()
+                                                                       .Select(v => new VariantDefinition(v.Name,
+                                                                                                          "",
+                                                                                                          v.Discriminant,
+                                                                                                          v.Fields?.ToList()
+                                                                                                                   .Select(f => new FieldDefinition(f.Name, "", GetTypeValue(f.Type)))
+                                                                                                                   .ToArray()))
+                                                                       .ToArray());
                 }
                 else if (typeFromStruct.Type == "struct")
                 {
                     return TypeValue.StructValue(typeFromStruct.Type,
-                                                 typeFromStruct.Fields?
-                                                    .ToList()
-                                                    .Select(f => new FieldDefinition(f.Name, "", GetTypeValue(f.Type)))
-                                                    .ToArray());
-
+                                                 typeFromStruct.Fields?.ToList()
+                                                                       .Select(f => new FieldDefinition(f.Name, "", GetTypeValue(f.Type)))
+                                                                       .ToArray());
                 }
             }
 
