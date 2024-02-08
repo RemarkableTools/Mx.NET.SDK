@@ -3,6 +3,7 @@ using Mx.NET.SDK.Core.Domain;
 using Mx.NET.SDK.Core.Domain.Values;
 using Mx.NET.SDK.Provider.Dtos.API.Accounts;
 using Mx.NET.SDK.Domain.Helper;
+using System.Linq;
 
 namespace Mx.NET.SDK.Domain.Data.Accounts
 {
@@ -16,7 +17,7 @@ namespace Mx.NET.SDK.Domain.Data.Accounts
         /// <summary>
         /// Account EGLD Balance
         /// </summary>
-        public ESDTAmount Balance { get; set; }
+        public string Balance { get; set; }
 
         /// <summary>
         /// History moment
@@ -40,11 +41,23 @@ namespace Mx.NET.SDK.Domain.Data.Accounts
             return new AccountHistoryToken()
             {
                 Address = Address.FromBech32(accountHistoryToken.Address),
-                Balance = ESDTAmount.From(accountHistoryToken.Balance),
+                Balance = accountHistoryToken.Balance,
                 HistoryTime = accountHistoryToken.Timestamp.ToDateTime(),
                 IsSender = accountHistoryToken.IsSender,
                 Token = accountHistoryToken.Token
             };
+        }
+
+        public static AccountHistoryToken[] From(AccountHistoryTokenDto[] accountHistoriesToken)
+        {
+            return accountHistoriesToken.Select(accountHistoryToken => new AccountHistoryToken()
+            {
+                Address = Address.FromBech32(accountHistoryToken.Address),
+                Balance = accountHistoryToken.Balance,
+                HistoryTime = accountHistoryToken.Timestamp.ToDateTime(),
+                IsSender = accountHistoryToken.IsSender,
+                Token = accountHistoryToken.Token
+            }).ToArray();
         }
     }
 }

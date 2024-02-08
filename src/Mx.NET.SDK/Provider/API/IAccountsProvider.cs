@@ -229,7 +229,7 @@ namespace Mx.NET.SDK.Provider.API
         /// <param name="size">Number of items to retrieve (max 10000)</param>
         /// <param name="from">Number of items to skip for the result set</param>
         /// <returns><see cref="AccountHistoryDto"/></returns>
-        Task<AccountHistoryDto[]> GetAccountHistory(string address, int size = 100, int from = 0);
+        Task<AccountHistoryDto[]> GetAccountHistory(string address, int size = 100, int from = 0, Dictionary<string, string> parameters = null);
 
         /// <summary>
         /// Returns account Token balance history
@@ -239,6 +239,6 @@ namespace Mx.NET.SDK.Provider.API
         /// <param name="size">Number of items to retrieve (max 10000)</param>
         /// <param name="from">Number of items to skip for the result set</param>
         /// <returns><see cref="AccountHistoryTokenDto"/></returns>
-        Task<AccountHistoryTokenDto[]> GetAccountHistoryToken(string address, string tokenIdentifier, int size = 100, int from = 0);
+        Task<AccountHistoryTokenDto[]> GetAccountHistoryToken(string address, string tokenIdentifier, int size = 100, int from = 0, Dictionary<string, string> parameters = null);
     }
 }
