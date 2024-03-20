@@ -72,7 +72,7 @@ namespace MSTesting.TypeValueTesting
             {
                 _isInitialized = true;
                 _wallet = Wallet.FromPemFile("./walletKey.pem");
-                _apiProvider = new ApiProvider(new ApiNetworkConfiguration(Network.DevNet));
+                _apiProvider = new ApiProvider(new ApiNetworkConfiguration(Network.TestNet));
                 _networkConfig = await NetworkConfig.GetFromNetwork(_apiProvider);
                 _walletSigner = _wallet.GetSigner();
                 _account = new Account(_wallet.GetAddress());
