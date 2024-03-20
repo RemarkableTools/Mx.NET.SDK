@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <Description>⚡ MultiversX .NET SDK: Core components for Mx.NET.SDK</Description>
-    <TargetFrameworks>netstandard2.0;netcoreapp3.1;net461;net47;net5.0;net6.0;net7.0</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;netcoreapp3.1;net461;net47;net5.0;net6.0;net7.0;net8.0</TargetFrameworks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageId>RemarkableTools.Mx.Core</PackageId>
     <Authors>Remarkable Tools</Authors>
@@ -11,7 +11,7 @@
     <RepositoryUrl>https://github.com/RemarkableTools/Mx.NET.SDK/tree/main/src/Mx.NET.SDK.Core</RepositoryUrl>
     <RepositoryType>GitHub</RepositoryType>
     <Company>Remarkable Tools</Company>
-    <Version>2.0.6</Version>
+    <Version>2.1.0</Version>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Title>RemarkableTools.Mx.Core</Title>
     <PackageReadmeFile>README.md</PackageReadmeFile>
