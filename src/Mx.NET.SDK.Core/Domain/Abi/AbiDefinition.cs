@@ -68,19 +68,19 @@ namespace Mx.NET.SDK.Core.Domain.Abi
                 case "enum":
                 case "explicit-enum":
                     return TypeValue.EnumValue(typeFromStruct.Type,
-                        typeFromStruct.Variants?
-                            .ToList()
-                            .Select(v => new VariantDefinition(v.Name, "", v.Discriminant, v.Fields?
-                                .ToList()
-                                .Select(f=> new FieldDefinition(f.Name, "", GetTypeValue(f.Type)))
-                                .ToArray()))
-                            .ToArray());
+                                               typeFromStruct.Variants?.ToList()
+                                                                       .Select(v => new VariantDefinition(v.Name,
+                                                                                                          "",
+                                                                                                          v.Discriminant,
+                                                                                                          v.Fields?.ToList()
+                                                                                                                   .Select(f => new FieldDefinition(f.Name, "", GetTypeValue(f.Type)))
+                                                                                                                   .ToArray()))
+                                                                       .ToArray());
                 case "struct":
                     return TypeValue.StructValue(typeFromStruct.Type,
-                        typeFromStruct.Fields?
-                            .ToList()
-                            .Select(f => new FieldDefinition(f.Name, "", GetTypeValue(f.Type)))
-                            .ToArray());
+                                                 typeFromStruct.Fields?.ToList()
+                                                                       .Select(f => new FieldDefinition(f.Name, "", GetTypeValue(f.Type)))
+                                                                       .ToArray());
                 default:
                     return null;
             }

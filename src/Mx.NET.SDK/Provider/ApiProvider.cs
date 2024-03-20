@@ -240,16 +240,22 @@ namespace Mx.NET.SDK.Provider
             return await Get<string>($"accounts/{address}/contracts/count");
         }
 
-        public async Task<AccountHistoryDto[]> GetAccountHistory(string address, int size = 100, int from = 0)
+        public async Task<AccountHistoryDto[]> GetAccountHistory(string address, int size = 100, int from = 0, Dictionary<string, string> parameters = null)
         {
             size = size > 10000 ? 10000 : size;
-            return await Get<AccountHistoryDto[]>($"accounts/{address}/history?from={from}&size={size}");
+            string args = "";
+            if (parameters != null)
+                args = $"&{string.Join("&", parameters.Select(e => $"{e.Key}={e.Value}"))}";
+            return await Get<AccountHistoryDto[]>($"accounts/{address}/history?from={from}&size={size}{args}");
         }
 
-        public async Task<AccountHistoryTokenDto[]> GetAccountHistoryToken(string address, string tokenIdentifier, int size = 100, int from = 0)
+        public async Task<AccountHistoryTokenDto[]> GetAccountHistoryToken(string address, string tokenIdentifier, int size = 100, int from = 0, Dictionary<string, string> parameters = null)
         {
             size = size > 10000 ? 10000 : size;
-            return await Get<AccountHistoryTokenDto[]>($"accounts/{address}/history/{tokenIdentifier}?from={from}&size={size}");
+            string args = "";
+            if (parameters != null)
+                args = $"&{string.Join("&", parameters.Select(e => $"{e.Key}={e.Value}"))}";
+            return await Get<AccountHistoryTokenDto[]>($"accounts/{address}/history/{tokenIdentifier}?from={from}&size={size}{args}");
         }
 
         #endregion

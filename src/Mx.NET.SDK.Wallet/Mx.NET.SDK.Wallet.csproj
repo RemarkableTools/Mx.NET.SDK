@@ -15,7 +15,7 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     <Title>RemarkableTools.Mx.Wallet</Title>
-    <Copyright>Copyright © Remarkable Tools 2023</Copyright>
+    <Copyright>Copyright © Remarkable Tools 2024</Copyright>
     <PackageIcon>RemarkableToolsPackage.jpg</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageReleaseNotes>SDK updates and improvements</PackageReleaseNotes>

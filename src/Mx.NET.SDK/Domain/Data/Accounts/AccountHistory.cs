@@ -3,6 +3,7 @@ using Mx.NET.SDK.Core.Domain;
 using Mx.NET.SDK.Core.Domain.Values;
 using Mx.NET.SDK.Provider.Dtos.API.Accounts;
 using Mx.NET.SDK.Domain.Helper;
+using System.Linq;
 
 namespace Mx.NET.SDK.Domain.Data.Accounts
 {
@@ -39,6 +40,16 @@ namespace Mx.NET.SDK.Domain.Data.Accounts
                 HistoryTime = accountHistory.Timestamp.ToDateTime(),
                 IsSender = accountHistory.IsSender,
             };
+        }
+        public static AccountHistory[] From(AccountHistoryDto[] accountHistories)
+        {
+            return accountHistories.Select(accountHistory => new AccountHistory()
+            {
+                Address = Address.FromBech32(accountHistory.Address),
+                Balance = ESDTAmount.From(accountHistory.Balance),
+                HistoryTime = accountHistory.Timestamp.ToDateTime(),
+                IsSender = accountHistory.IsSender,
+            }).ToArray();
         }
     }
 }

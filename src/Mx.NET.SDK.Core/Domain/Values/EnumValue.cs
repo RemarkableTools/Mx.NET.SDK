@@ -23,9 +23,9 @@ namespace Mx.NET.SDK.Core.Domain.Values
 
         public T ToEnum<T>()
         {
-            return JsonWrapper.Deserialize<T>(Discriminant.ToString());
+            return JsonWrapper.Deserialize<T>(ToString());
         }
-        
+
         public override T ToObject<T>()
         {
             return JsonWrapper.Deserialize<T>(ToJson());
