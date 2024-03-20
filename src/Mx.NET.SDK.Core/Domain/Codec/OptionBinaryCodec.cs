@@ -63,7 +63,7 @@ namespace Mx.NET.SDK.Core.Domain.Codec
             if (optionValue.IsSet())
                 return EncodeNested(value);
 
-            return new byte[] { };
+            return new byte[] { 0x00 };
         }
     }
 }
