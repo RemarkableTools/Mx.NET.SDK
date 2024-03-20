@@ -128,6 +128,7 @@ namespace Mx.NET.SDK.Core.Domain.Values
             public const string Array20 = "array20";
             public const string Array32 = "array32";
             public const string Array46 = "array46";
+            public const string Array48 = "array48";
             public const string Array64 = "array64";
             public const string Array128 = "array128";
             public const string Array256 = "array256";
@@ -244,6 +245,8 @@ namespace Mx.NET.SDK.Core.Domain.Values
                     return ArrayValue(types[0], 32);
                 case LearnedTypes.Array46:
                     return ArrayValue(types[0], 46);
+                case LearnedTypes.Array48:
+                    return ArrayValue(types[0], 48);
                 case LearnedTypes.Array64:
                     return ArrayValue(types[0], 64);
                 case LearnedTypes.Array128:
