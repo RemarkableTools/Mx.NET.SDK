@@ -51,7 +51,7 @@ namespace Mx.NET.SDK.Domain.Data.Blocks
         /// <summary>
         /// Block shard
         /// </summary>
-        public int Shard { get; private set; }
+        public long Shard { get; private set; }
 
         /// <summary>
         /// Block size
