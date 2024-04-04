@@ -10,7 +10,7 @@
         public ProposerIdentityDto ProposerIdentity { get; set; }
         public string PubKeyBitmap { get; set; }
         public ulong? Round { get; set; }
-        public int? Shard { get; set; }
+        public long? Shard { get; set; }
         public int? Size { get; set; }
         public int? SizeTxs { get; set; }
         public string StateRootHash { get; set; }
