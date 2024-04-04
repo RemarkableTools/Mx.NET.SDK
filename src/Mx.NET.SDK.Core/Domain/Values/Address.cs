@@ -69,6 +69,9 @@ namespace Mx.NET.SDK.Core.Domain.Values
         /// <returns>Address</returns>
         public static Address FromHex(string hex)
         {
+            if (string.IsNullOrEmpty(hex))
+                return null;
+
             try
             {
                 var bech32 = Bech32Engine.Encode(Hrp, Converter.FromHexString(hex));
@@ -87,6 +90,9 @@ namespace Mx.NET.SDK.Core.Domain.Values
         /// <returns>Address</returns>
         public static Address FromBech32(string bech32)
         {
+            if (string.IsNullOrEmpty(bech32))
+                return null;
+
             try
             {
                 Bech32Engine.Decode(bech32, out _, out var data);
