@@ -87,7 +87,7 @@ namespace Mx.NET.SDK.Domain.Data.Accounts
         /// <summary>
         /// NFT/SFT balance
         /// </summary>
-        public string Balance { get; private set; }
+        public ESDTAmount Balance { get; private set; }
 
         /// <summary>
         /// NFT/SFT ticker
@@ -135,7 +135,8 @@ namespace Mx.NET.SDK.Domain.Data.Accounts
                 IsWhitelistedStorage = nft.IsWhitelistedStorage,
                 Tags = nft.Tags,
                 Metadata = nft.Metadata,
-                Balance = nft.Balance,
+                Balance = ESDTAmount.ESDT(nft.Balance,
+                                          ESDT.NFT(nft.Name, nft.Identifier)),
                 Ticker = nft.Ticker ?? nft.Identifier.GetTicker(),
                 ScamInfo = ScamInfo.From(nft.ScamInfo),
                 IsNSFW = nft.IsNSFW,
@@ -167,7 +168,8 @@ namespace Mx.NET.SDK.Domain.Data.Accounts
                 IsWhitelistedStorage = nft.IsWhitelistedStorage,
                 Tags = nft.Tags,
                 Metadata = nft.Metadata,
-                Balance = nft.Balance,
+                Balance = ESDTAmount.ESDT(nft.Balance,
+                                          ESDT.NFT(nft.Name, nft.Identifier)),
                 Ticker = nft.Ticker ?? nft.Identifier.GetTicker(),
                 ScamInfo = ScamInfo.From(nft.ScamInfo),
                 IsNSFW = nft.IsNSFW,
