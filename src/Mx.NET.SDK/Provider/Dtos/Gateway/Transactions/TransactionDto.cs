@@ -4,7 +4,7 @@
     {
         public string Type { get; set; }
         public string Hash { get; set; }
-        public long Nonce { get; set; }
+        public ulong Nonce { get; set; }
         public long Round { get; set; }
         public long Epoch { get; set; }
         public string Value { get; set; }
@@ -15,8 +15,8 @@
         public long GasUsed { get; set; }
         public string Data { get; set; }
         public string Signature { get; set; }
-        public long SourceShard { get; set; }
-        public long DestinationShard { get; set; }
+        public uint SourceShard { get; set; }
+        public uint DestinationShard { get; set; }
         public long BlockNonce { get; set; }
         public string BlockHash { get; set; }
         public long NotarizedAtSourceInMetaNonce { get; set; }
@@ -46,7 +46,7 @@
     public class SmartContractResultDto
     {
         public string Hash { get; set; }
-        public long Nonce { get; set; }
+        public ulong Nonce { get; set; }
         public long Value { get; set; }
         public string Receiver { get; set; }
         public string Sender { get; set; }
