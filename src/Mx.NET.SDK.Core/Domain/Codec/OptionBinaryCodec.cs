@@ -59,11 +59,7 @@ namespace Mx.NET.SDK.Core.Domain.Codec
 
         public byte[] EncodeTopLevel(IBinaryType value)
         {
-            var optionValue = value.ValueOf<OptionValue>();
-            if (optionValue.IsSet())
-                return EncodeNested(value);
-
-            return new byte[] { 0x00 };
+            return EncodeNested(value);
         }
     }
 }
