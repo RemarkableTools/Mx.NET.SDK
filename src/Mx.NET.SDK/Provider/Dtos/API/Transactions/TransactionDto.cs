@@ -9,14 +9,14 @@ namespace Mx.NET.SDK.Provider.Dtos.API.Transactions
         public long GasPrice { get; set; }
         public long GasUsed { get; set; }
         public string MiniBlockHash { get; set; }
-        public long Nonce { get; set; }
+        public ulong Nonce { get; set; }
         public string Receiver { get; set; }
         public AssetsDto ReceiverAssets { get; set; }
-        public long ReceiverShard { get; set; }
+        public uint ReceiverShard { get; set; }
         public long Round { get; set; }
         public string Sender { get; set; }
         public AssetsDto SenderAssets { get; set; }
-        public long SenderShard { get; set; }
+        public uint SenderShard { get; set; }
         public string Signature { get; set; }
         public string Status { get; set; }
         public string Value { get; set; }
@@ -65,7 +65,7 @@ namespace Mx.NET.SDK.Provider.Dtos.API.Transactions
     {
         public string Hash { get; set; }
         public long Timestamp { get; set; }
-        public long Nonce { get; set; }
+        public ulong Nonce { get; set; }
         public long GasLimit { get; set; }
         public long GasPrice { get; set; }
         public string Value { get; set; }

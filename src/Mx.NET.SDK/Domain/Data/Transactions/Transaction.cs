@@ -43,7 +43,7 @@ namespace Mx.NET.SDK.Domain.Data.Transactions
         /// <summary>
         /// Sender nonce 
         /// </summary>
-        public long Nonce { get; private set; }
+        public ulong Nonce { get; private set; }
 
         /// <summary>
         /// Receiver address
@@ -58,7 +58,7 @@ namespace Mx.NET.SDK.Domain.Data.Transactions
         /// <summary>
         /// Receiver shard
         /// </summary>
-        public long ReceiverShard { get; private set; }
+        public uint ReceiverShard { get; private set; }
 
         /// <summary>
         /// Transaction round
@@ -78,7 +78,7 @@ namespace Mx.NET.SDK.Domain.Data.Transactions
         /// <summary>
         /// Sender shard
         /// </summary>
-        public long SenderShard { get; private set; }
+        public uint SenderShard { get; private set; }
 
         /// <summary>
         /// Transaction signature

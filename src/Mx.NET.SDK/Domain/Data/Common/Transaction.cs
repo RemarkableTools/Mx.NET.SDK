@@ -94,7 +94,7 @@ namespace Mx.NET.SDK.Domain.Data.Common
     {
         public string Hash { get; private set; }
         public DateTime ResultDate { get; private set; }
-        public long Nonce { get; private set; }
+        public ulong Nonce { get; private set; }
         public GasLimit GasLimit { get; private set; }
         public long GasPrice { get; private set; }
         public ESDTAmount Value { get; private set; }
