@@ -11,29 +11,29 @@ namespace Mx.NET.SDK.Core.Domain
         const int DEFAULT_MESSAGE_VERSION = 1;
         const string SDK_DOTNET_SIGNER = "sdk-dotnet";
 
-        public string Data { get; set; } = string.Empty;
-        public string Signature { get; set; } = string.Empty;
+        public byte[] Data { get; set; }
+        public byte[] Signature { get; set; }
         public Address Address { get; set; }
         public int Version { get; set; } = DEFAULT_MESSAGE_VERSION;
         public string Signer { get; set; } = SDK_DOTNET_SIGNER;
 
         public Message() { }
 
-        public Message(string message)
+        public Message(byte[] data)
         {
-            Data = message;
+            Data = data;
         }
 
-        public Message(string message, string signature)
+        public Message(byte[] data, byte[] signature)
         {
-            Data = message;
+            Data = data;
             Signature = signature;
         }
 
         public byte[] SerializeForSigning()
         {
             var messageSize = Encoding.UTF8.GetBytes($"{Data.Length}");
-            var message = messageSize.Concat(Encoding.UTF8.GetBytes(Data)).ToArray();
+            var message = messageSize.Concat(Data).ToArray();
             var messagePrefix = Encoding.UTF8.GetBytes(MESSAGE_PREFIX);
             var bytesToHash = messagePrefix.Concat(message).ToArray();
 
@@ -48,7 +48,7 @@ namespace Mx.NET.SDK.Core.Domain
 
         public byte[] SerializeForSigningRaw()
         {
-            return Encoding.UTF8.GetBytes(Data);
+            return Data;
         }
     }
 }
