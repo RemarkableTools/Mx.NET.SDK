@@ -23,6 +23,18 @@ namespace Mx.NET.SDK.Wallet.Wallet
             return new WalletVerifier(address.PublicKey());
         }
 
+        public bool Verify(Message message)
+        {
+            return _publicKey.Verify(message.SerializeForSigning(),
+                                     message.Signature);
+        }
+
+        public bool VerifyRaw(Message message)
+        {
+            return _publicKey.Verify(message.SerializeForSigningRaw(),
+                                     message.Signature);
+        }
+
         public bool Verify(SignableMessage message)
         {
             return _publicKey.Verify(message.SerializeForSigning(),
