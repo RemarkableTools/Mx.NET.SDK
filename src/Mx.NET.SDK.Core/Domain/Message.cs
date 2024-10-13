@@ -19,13 +19,9 @@ namespace Mx.NET.SDK.Core.Domain
 
         public Message() { }
 
-        public Message(byte[] data)
+        public Message(string address, byte[] data, byte[] signature)
         {
-            Data = data;
-        }
-
-        public Message(byte[] data, byte[] signature)
-        {
+            Address = Address.FromBech32(address);
             Data = data;
             Signature = signature;
         }
