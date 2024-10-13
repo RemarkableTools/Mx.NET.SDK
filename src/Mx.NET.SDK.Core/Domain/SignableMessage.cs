@@ -1,10 +1,12 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Text;
 using Mx.NET.SDK.Core.Domain.Values;
 using Org.BouncyCastle.Crypto.Digests;
 
 namespace Mx.NET.SDK.Core.Domain
 {
+    [Obsolete("This class is deprecated, use Message instead.")]
     public class SignableMessage
     {
         const string MESSAGE_PREFIX = "\u0017Elrond Signed Message:\n";
