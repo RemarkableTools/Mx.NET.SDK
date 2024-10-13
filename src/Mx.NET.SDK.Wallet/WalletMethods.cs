@@ -50,6 +50,21 @@ namespace Mx.NET.SDK.Wallet
         /// <summary>
         /// Verify a signed message
         /// </summary>
+        /// <param name="message">Message object</param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
+        public static bool VerifyMessage(this Message message)
+        {
+            if (message.Address is null)
+                throw new Exception("Address is not initialized");
+
+            var verifier = WalletVerifier.FromAddress(message.Address);
+            return verifier.Verify(message);
+        }
+
+        /// <summary>
+        /// Verify a signed message
+        /// </summary>
         /// <param name="signableMessage">Signable Message object</param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
