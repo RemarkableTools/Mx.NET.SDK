@@ -8,7 +8,7 @@ namespace Mx.NET.SDK.Provider.Dtos.API.Accounts
         public string Address { get; set; }
         public string Balance { get; set; }
         public ulong Nonce { get; set; }
-        public long Shard { get; set; }
+        public uint Shard { get; set; }
         public dynamic Assets { get; set; } //JSON data
         public string Code { get; set; }
         public string CodeHash { get; set; }

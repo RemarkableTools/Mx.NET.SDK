@@ -98,14 +98,14 @@ catch (Exception ex)
 #### Query smart contract (no ABI available)
 ```csharp
 var smartContractAddress = Address.FromBech32("CONTRACT_BECH32_ADDRESS");
-var outputType = TypeValue.BigUintTypeValue;
+var outputTypes = new TypeValue[] { TypeValue.BigUintTypeValue };
 var queryResult = await SmartContract.QuerySmartContract<NumericValue>(provider,
                                                                        smartContractAddress,
-                                                                       outputType,
+                                                                       outputTypes,
                                                                        "getSum");
 Console.WriteLine(queryResult.Number);
 
-// query array from Smart Contract (random example)
+// query array from Smart Contract
 var queryArrayResult = await SmartContract.QuerySmartContract<VariadicValue>(provider,
                                                                              smartContractAddress,
                                                                              new TypeValue[] { TypeValue.VariadicValue(TypeValue.AddressValue) },
@@ -113,7 +113,7 @@ var queryArrayResult = await SmartContract.QuerySmartContract<VariadicValue>(pro
 foreach (var user in queryArrayResult)
     Console.WriteLine(user.Bech32);
 
-// more complex reading from Smart Contract storage (random example)
+// more complex reading from Smart Contract storage
 uint day = 1;
 var dayRewards = await SmartContract.QuerySmartContract<VariadicValue>(provider,
                                                                        smartContractAddress,
@@ -122,19 +122,33 @@ var dayRewards = await SmartContract.QuerySmartContract<VariadicValue>(provider,
                                                                            new FieldDefinition("token_identifier", "", TypeValue.TokenIdentifierValue),
                                                                            new FieldDefinition("token_nonce", "", TypeValue.U64TypeValue),
                                                                            new FieldDefinition("amount", "", TypeValue.BigUintTypeValue)
-                                                                       })),
+                                                                       }))},
                                                                        "getDayRewards",
                                                                        null,
                                                                        NumericValue.U32Value(day));
 foreach(var esdt in dayRewards)
     Console.WriteLine($"{esdt.Fields[0].Value} {esdt.Fields[1].Value} {esdt.Fields[2].Value}");
 // You can map the StructValue from response to you custom class object for easier usage, if you need
+// e.g. var tokens = dayRewards.ToObject<List<Token>>(); //Token is a class with 3 properties [string Identifier, ulong Nonce, BigInteger Amount]
+
+//Enum example
+var enumResult = await SmartContract.QuerySmartContract<EnumValue>(provider,
+                                                                   smartContractAddress,
+                                                                   new TypeValue[] {TypeValue.EnumValue("enum", new VariantDefinition[]
+                                                                   {
+                                                                       new("InvalidPool", "", 0, null),
+                                                                       new("SimplePool", "", 1, null),
+                                                                       new("ComplexPool", "", 2, null)
+                                                                   })},
+                                                                   "getPoolType");
 ```
 
 #### Query smart contract (ABI available)
-##### More examples [here](https://github.com/RemarkableTools/Mx.NET.SDK/tree/main/tests/MS%20Testing/TypeValueTesting)
+##### More examples ca be found in the Testing Project [here](https://github.com/RemarkableTools/Mx.NET.SDK/tree/main/tests/MS%20Testing/TypeValueTesting)
 ```csharp
 var abi = AbiDefinition.FromFilePath("abi.json");
+
+//Variadic example
 var addresses = await SmartContract.QuerySmartContractWithAbiDefinition<VariadicValue>(
                 provider,
                 smartContractAddress,
@@ -142,4 +156,17 @@ var addresses = await SmartContract.QuerySmartContractWithAbiDefinition<Variadic
                 "getVariadicManagedAddress");
 
 var addressesList = addresses.ToObject<List<Address>>();
+
+//Enum example
+enum PoolType
+{
+    InvalidPool,
+    SimplePool,
+    ComplexPool
+}
+var enumResult = await SmartContract.QuerySmartContractWithAbiDefinition<EnumValue>(provider,
+                                                                                    smartContractAddress,
+                                                                                    abi,
+                                                                                    "getPoolType");
+var poolType = enumResult.ToEnum<PoolType>();
 ```

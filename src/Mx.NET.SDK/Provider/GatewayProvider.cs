@@ -150,7 +150,7 @@ namespace Mx.NET.SDK.Provider
             return await Get<NetworkEconomicsDataDto>("network/economics");
         }
 
-        public async Task<ShardStatusDto> GetShardStatus(long shard)
+        public async Task<ShardStatusDto> GetShardStatus(uint shard)
         {
             return await Get<ShardStatusDto>($"network/status/{shard}");
         }
@@ -164,17 +164,17 @@ namespace Mx.NET.SDK.Provider
 
         #region blocks
 
-        public async Task<BlockDto> GetBlockByNonce(long nonce, long shard, bool withTxs = false)
+        public async Task<BlockDto> GetBlockByNonce(ulong nonce, uint shard, bool withTxs = false)
         {
             return await Get<BlockDto>($"/block/by-nonce/{nonce}?withTxs={withTxs}&withResults=true");
         }
 
-        public async Task<BlockDto> GetBlockByHash(string hash, long shard, bool withTxs = false)
+        public async Task<BlockDto> GetBlockByHash(string hash, uint shard, bool withTxs = false)
         {
             return await Get<BlockDto>($"/block/{shard}/by-hash/{hash}?withTxs={withTxs}");
         }
 
-        public async Task<InternalBlockDto> GetInternalBlockByNonce(long nonce)
+        public async Task<InternalBlockDto> GetInternalBlockByNonce(ulong nonce)
         {
             return await Get<InternalBlockDto>($"/internal/json/shardblock/by-nonce/{nonce}");
         }

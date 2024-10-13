@@ -9,12 +9,12 @@ namespace Mx.NET.SDK.Provider.Dtos.Gateway.Blocks
 
     public class BlockDto
     {
-        public long Nonce { get; set; }
+        public ulong Nonce { get; set; }
         public long Round { get; set; }
         public string Hash { get; set; }
         public string PrevBlockHash { get; set; }
         public long Epoch { get; set; }
-        public long Shard { get; set; }
+        public uint Shard { get; set; }
         public long NumTxs { get; set; }
         public MiniBlockDto[] MiniBlocks { get; set; }
     }
@@ -23,8 +23,8 @@ namespace Mx.NET.SDK.Provider.Dtos.Gateway.Blocks
     {
         public string Hash { get; set; }
         public string Type { get; set; }
-        public long SourceShard { get; set; }
-        public long DestinationShard { get; set; }
+        public uint SourceShard { get; set; }
+        public uint DestinationShard { get; set; }
         public TransactionDto[] Transactions { get; set; }
     }
 
@@ -49,13 +49,13 @@ namespace Mx.NET.SDK.Provider.Dtos.Gateway.Blocks
 
     public class InternalBlockHeaderDto
     {
-        public long Nonce { get; set; }
+        public ulong Nonce { get; set; }
         public long Round { get; set; }
         public string RandSeed { get; set; }
         public string PrevRandSeed { get; set; }
         public string PrevHash { get; set; }
         public long Epoch { get; set; }
-        public long ShardID { get; set; }
+        public uint ShardID { get; set; }
 
     }
 }

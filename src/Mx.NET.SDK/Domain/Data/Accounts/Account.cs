@@ -33,7 +33,7 @@ namespace Mx.NET.SDK.Domain.Data.Accounts
         /// <summary>
         /// Account shard
         /// </summary>
-        public long Shard { get; private set; }
+        public uint Shard { get; private set; }
 
         /// <summary>
         /// Account assets
