@@ -10,6 +10,20 @@ namespace Mx.NET.SDK.Configuration
         public Uri WebWalletUri { get; set; }
         public Uri XAliasWalletUri { get; set; }
 
+        public ApiNetworkConfiguration(
+            Network network,
+            Uri apiUri,
+            Uri explorerUri,
+            Uri webWalletUri,
+            Uri xAliasWalletUri)
+        {
+            Network = network;
+            APIUri = apiUri;
+            ExplorerUri = explorerUri;
+            WebWalletUri = webWalletUri;
+            XAliasWalletUri = xAliasWalletUri;
+        }
+
         /// <summary>
         /// Default MultiversX API network configuration
         /// </summary>
@@ -31,12 +45,6 @@ namespace Mx.NET.SDK.Configuration
                     ExplorerUri = new Uri("https://devnet-explorer.multiversx.com/");
                     WebWalletUri = new Uri("https://devnet-wallet.multiversx.com/");
                     XAliasWalletUri = new Uri("https://devnet.xalias.com/");
-                    break;
-                case Network.OldDevNet:
-                    APIUri = new Uri("https://devnet-old-gateway.multiversx.com/");
-                    ExplorerUri = new Uri("https://devnet-old-explorer.multiversx.com/");
-                    WebWalletUri = new Uri("https://devnet-old-wallet.multiversx.com/");
-                    XAliasWalletUri = new Uri("https://devnet-old.xalias.com/");
                     break;
                 case Network.TestNet:
                     APIUri = new Uri("https://testnet-api.multiversx.com/");
@@ -71,11 +79,6 @@ namespace Mx.NET.SDK.Configuration
                     ExplorerUri = new Uri("https://devnet-explorer.multiversx.com/");
                     WebWalletUri = new Uri("https://devnet-wallet.multiversx.com/");
                     XAliasWalletUri = new Uri("https://devnet.xalias.com/");
-                    break;
-                case Network.OldDevNet:
-                    ExplorerUri = new Uri("https://devnet-old-explorer.multiversx.com/");
-                    WebWalletUri = new Uri("https://devnet-old-wallet.multiversx.com/");
-                    XAliasWalletUri = new Uri("https://devnet-old.xalias.com/");
                     break;
                 case Network.TestNet:
                     ExplorerUri = new Uri("https://testnet-explorer.multiversx.com/");
