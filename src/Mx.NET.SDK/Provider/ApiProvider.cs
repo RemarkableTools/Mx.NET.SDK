@@ -15,6 +15,7 @@ using Mx.NET.SDK.Provider.Dtos.API.xExchange;
 using Mx.NET.SDK.Provider.Dtos.API.Common;
 using Mx.NET.SDK.Provider.Dtos.API.Tokens;
 using Mx.NET.SDK.Provider.Dtos.API.Blocks;
+using Mx.NET.SDK.Provider.Dtos.API.Pool;
 using Mx.NET.SDK.Provider.Dtos.API.Transactions;
 using Mx.NET.SDK.Provider.Dtos.Common.QueryVm;
 using Mx.NET.SDK.Provider.Dtos.Common.Transactions;
@@ -541,6 +542,44 @@ namespace Mx.NET.SDK.Provider
         public async Task<Transaction> GetTransaction<Transaction>(string txHash)
         {
             return await Get<Transaction>($"transactions/{txHash}");
+        }
+
+        #endregion
+
+        #region Pool
+
+        public async Task<PoolTransactionDto[]> GetPool(int size = 100, int from = 0, Dictionary<string, string> parameters = null)
+        {
+            return await GetPool<PoolTransactionDto>(size, from, parameters);
+        }
+
+        public async Task<PoolTransaction[]> GetPool<PoolTransaction>(int size = 100, int from = 0, Dictionary<string, string> parameters = null)
+        {
+            size = size > 10000 ? 10000 : size;
+            string args = "";
+            if (parameters != null)
+                args = $"&{string.Join("&", parameters.Select(e => $"{e.Key}={e.Value}"))}";
+
+            return await Get<PoolTransaction[]>($"pool?from={from}&size={size}{args}");
+        }
+
+        public async Task<string> GetPoolCount(Dictionary<string, string> parameters = null)
+        {
+            string args = "";
+            if (parameters != null)
+                args = $"?{string.Join("&", parameters.Select(e => $"{e.Key}={e.Value}"))}";
+
+            return await Get<string>($"pool/count{args}");
+        }
+
+        public async Task<PoolTransactionDto> GetPoolTransaction(string txHash)
+        {
+            return await GetPoolTransaction<PoolTransactionDto>(txHash);
+        }
+
+        public async Task<PoolTransaction> GetPoolTransaction<PoolTransaction>(string txHash)
+        {
+            return await Get<PoolTransaction>($"pool/{txHash}");
         }
 
         #endregion

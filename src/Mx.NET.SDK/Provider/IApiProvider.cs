@@ -11,6 +11,7 @@ namespace Mx.NET.SDK.Provider
         API.INftsProvider,
         API.ITokensProvider,
         API.ITransactionsProvider,
+        API.IPoolProvider,
         API.IUsernamesProvider,
         API.IQueryProvider,
         API.IxExchangeProvider
