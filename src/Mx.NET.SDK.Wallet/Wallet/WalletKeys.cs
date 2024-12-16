@@ -102,7 +102,7 @@ namespace Mx.NET.SDK.Wallet.Wallet
             return Address.FromBytes(_publicKey);
         }
 
-        public int GetShard()
+        public uint GetShard()
         {
             int startingIndex = _publicKey.Length - 1;
             byte[] usedBuffer = new byte[_publicKey.Length - startingIndex];
@@ -124,7 +124,7 @@ namespace Mx.NET.SDK.Wallet.Wallet
                 shard = addr & maskLow;
             }
 
-            return shard;
+            return (uint)shard;
         }
 
         public bool Verify(byte[] data, byte[] signature)
